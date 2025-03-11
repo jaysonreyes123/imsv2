@@ -24,7 +24,8 @@ class DropdownResource extends JsonResource
         else{
             return [
                 "id" => $this->id ?? "",
-                "label" => $this->label ?? ""
+                "label" => $this->label ?? "",
+                "parent_id" => $this->parent_id ?? ""
             ];
         }
     }

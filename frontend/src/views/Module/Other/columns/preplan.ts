@@ -1,6 +1,6 @@
 export const preplan_column = [
     {
-        label:"Preplan Name",
+        label:"Pre-Plan Name",
         field:"preplan_name",
         search:1
     },

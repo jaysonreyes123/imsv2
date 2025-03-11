@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <Breadcrum :title="module_detail.label" :subtitle="this.$route.params.module =='reports' ? report_store.form.option : '' ">
+        <Breadcrum :title="module_detail.label" :subtitle="this.$route.params.module =='reports' ? report_store.form.option : entityname ">
             <template #button>
                 <div class="flex gap-x-2">
                     <div v-if="this.$route.params.module != 'reports'">
@@ -105,9 +105,11 @@ import Summary from "./summary/index.vue";
 import { ref } from "vue";
 import { useReportStore } from "@/stores/report";
 import { useRelatedStore } from "@/stores/related";
+import { useModuleStore } from "@/stores/module";
 const selectedTab = ref(0);
 const report_store = useReportStore();
 const related_store = useRelatedStore();
+const module_store = useModuleStore();
 const buttons = [
     {
       label: "Detail",
@@ -144,6 +146,14 @@ export default {
         },
         module_detail(){
             return module_details(this.$route.params.module);
+        },
+        entityname(){
+            const parse = this.module_detail.entityname.split(",");
+            let entityname_ = [];
+            parse.map(item=>{
+                entityname_.push(module_store.form[item])
+            })
+            return entityname_.join(" ");
         }
     },
     data(){

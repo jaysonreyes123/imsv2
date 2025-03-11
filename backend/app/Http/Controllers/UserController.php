@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -184,6 +185,11 @@ class UserController extends Controller
                     $user_privileges_model->save();
                 }
             }
+        }
+        else if($action == 'change-password'){
+            $model = User::find($id);
+            $model->password = Hash::make($request->password);
+            $model->save();
         }
         return $this->user_details();
     }

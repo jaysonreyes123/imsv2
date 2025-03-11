@@ -37,6 +37,9 @@ export default {
         if(module_store.id != ""){
             module_store.edit();
         }
+        else{
+            module_store.temporary.id = "";
+        }
     },
     methods:{
         save(){

@@ -43,7 +43,7 @@ export const useUserStore = defineStore('user',{
                 this.loading = false;
             }
         },
-        async edit(){
+        async edit_profile(){
             try {
                 this.loading = true;
                 const response = await axiosIns.get("users/"+this.id);

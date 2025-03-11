@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\UserLogout;
 use App\Http\Constants\AuthConstants;
 use App\Http\Traits\HttpResponse;
+use App\Mail\AuthOtp;
 use App\Mail\ForgotPassword;
 use App\Models\LoginHistory;
 use App\Models\OtpToken;
@@ -36,8 +37,9 @@ class AuthController extends Controller
     }
     public function send_otp($email){
         try {
+            OtpToken::where("email",$email)->delete();
             $token = strtoupper(Str::random(6));
-            Mail::to($email)->send(new ForgotPassword($token,$email));
+            Mail::to($email)->send(new AuthOtp($token,$email));
             $model = new OtpToken;
             $model->email = $email;
             $model->token = $token;

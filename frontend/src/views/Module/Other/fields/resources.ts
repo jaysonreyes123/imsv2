@@ -11,11 +11,14 @@ export  const resouces_field = [
                 label:"Resource Category",
                 name:"resources_categories",
                 type:"dropdown",
+                option:"get"
             },
             {
                 label:"Resource Type",
                 name:"resources_types",
                 type:"dropdown",
+                option:"set",
+                target:"resources_categories"
             },
             {
                 label:"Quantity",

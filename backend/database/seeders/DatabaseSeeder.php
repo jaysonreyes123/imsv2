@@ -26,7 +26,14 @@ class DatabaseSeeder extends Seeder
             IncidentStatusSeeder::class,
             IncidentPrioritySeeder::class,
             ResponderTypeSeeder::class,
-            TaskStatusSeeder::class
+            TaskStatusSeeder::class,
+            ResourcesStatusSeeder::class,
+            ResourcesTypeSeeder::class,
+            ResourcesCategorySeeder::class,
+            RiskLevelSeeder::class,
+            ResponseLevelSeeder::class,
+            IncidentSeeder::class,
+            ResourcesSeeder::class
         ]);
     }
 }

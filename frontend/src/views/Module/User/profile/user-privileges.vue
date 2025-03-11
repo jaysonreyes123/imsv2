@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <Button v-if="auth_store.user_details.user_roles.id == 1" @click="edit" text="Edit" btnClass="btn btn-sm btn-outline-primary" icon="heroicons:pencil-square" />
+                <Button @click="edit" text="Edit" btnClass="btn btn-sm btn-outline-primary" icon="heroicons:pencil-square" />
             </div>
         </div>
     </div>

@@ -9,6 +9,7 @@ export const useDropdownStore = defineStore('dropdown',{
         return{
             dropdownloading:[] as dropdownState,
             dropdownlist:[] as dropdownState,
+            set_dropdownlist:[] as dropdownState
         }
     },
     actions:{
@@ -18,6 +19,9 @@ export const useDropdownStore = defineStore('dropdown',{
                 block.fields.map((field:any)=>{
                         if(field.type == 'dropdown' || field.type == 'multiselect'){
                             this.get_dropdown(field.name);
+                            if(field.option == "get"){
+                                this.set_dropdownlist[field.name] = [];
+                            }
                         }
                     })
                 })

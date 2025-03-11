@@ -17,8 +17,10 @@ export default{
   },
   mounted(){
   const auth_store = useAuthStore();
+
     this.user_logout.listen('.user-logout',(e)=>{
-      if(e.user_id == auth_store.user_details.id && e.remember_token != auth_store.user_details.remember_token){
+      setTimeout(()=>{
+        if(e.user_id == auth_store.user_details.id && e.remember_token != auth_store.user_details.remember_token){
         this.$swal.fire({
             title: 'You have been logged out',
             text: 'Your account has been logged in to another device. Please click okay to login again.',
@@ -30,6 +32,7 @@ export default{
             location.href="/auth/login";
         })
       }
+      },3000)
     });
   }
 }
@@ -41,7 +44,7 @@ export default{
 }
 .vs__dropdown-toggle{
     min-height: 40px !important;
-    @apply dark:bg-black-500 text-gray-800 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent
+    @apply rounded-lg dark:bg-black-500 text-gray-800 border border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 bg-transparent
 }
 .vs__selected{
   @apply dark:placeholder:text-white/30 dark:text-white/90

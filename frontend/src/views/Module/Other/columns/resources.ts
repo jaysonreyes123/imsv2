@@ -6,10 +6,10 @@ export const resources_column = [
     },
     {
         label:"Resource Type",
-        field:"resources_types"
+        field:"resources_types.label"
     },
     {
         label:"Resource Status",
-        field:"resources_statuses"
+        field:"resources_statuses.label"
     },
 ]

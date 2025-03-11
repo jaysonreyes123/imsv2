@@ -1,21 +1,36 @@
 export const preplan_fields = [
     {
-        title:"Incident Details",
+        title:"Resources Information",
         fields:[
             {
-                label:"Pre Plan Name",
+                label:"Pre-Plan Name",
                 name:"preplan_name",
                 type:"text",
             },
             {
-                label:"Incident Types",
+                label:"Incident Type",
                 name:"incident_types",
                 type:"dropdown",
             },
             {
-                label:"Classification",
-                name:"preplan_classifications",
+                label:"Location",
+                name:"location",
+                type:"text",
+            },
+            {
+                label:"Risk level",
+                name:"risk_levels",
                 type:"dropdown",
+            },
+            {
+                label:"Response Level",
+                name:"response_levels",
+                type:"dropdown",
+            },
+            {
+                label:"Potential Impact",
+                name:"potential_impact",
+                type:"text",
             },
         ]
     },
@@ -40,21 +55,46 @@ export const preplan_fields = [
         ]
     },
     {
-        title:"Roles and Responsibilities",
+        title:"Response Procedure",
         fields:[
             {
-                label:"Incident Manager",
-                name:"incident_manager",
+                label:"Incident Commander",
+                name:"incident_commander",
                 type:"text",
             },
             {
-                label:"Incident Responder",
-                name:"incident_responder",
+                label:"Liaison Officer",
+                name:"liaison_officer",
                 type:"text",
             },
             {
-                label:"Support Staff",
-                name:"support_staff",
+                label:"Safety Officer",
+                name:"safety_officer",
+                type:"text",
+            },
+            {
+                label:"Public Information Officer",
+                name:"public_information_officer",
+                type:"text",
+            },
+            {
+                label:"Operations Section Chief",
+                name:"operations_section_chief",
+                type:"text",
+            },
+            {
+                label:"Planing Section Chief",
+                name:"planing_section_chief",
+                type:"text",
+            },
+            {
+                label:"logistics Section Chief",
+                name:"logistics_section_chief",
+                type:"text",
+            },
+            {
+                label:"Finance/Admin Section Chief",
+                name:"finance_admin_section_chief",
                 type:"text",
             },
         ]

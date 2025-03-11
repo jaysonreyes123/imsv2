@@ -16,11 +16,14 @@ return new class extends Migration
 
             $table->string('resources_name')->nullable();
 
-            $table->string('resources_categories')->nullable();
+            $table->unsignedBigInteger("resources_categories")->nullable();
+            $table->foreign('resources_categories')->references('id')->on('resources_categories')->onDelete('cascade');
 
-            $table->string('resources_types')->nullable();
+            $table->unsignedBigInteger("resources_types")->nullable();
+            $table->foreign('resources_types')->references('id')->on('resources_types')->onDelete('cascade');
 
-            $table->string('resources_statuses')->nullable();
+            $table->unsignedBigInteger("resources_statuses")->nullable();
+            $table->foreign('resources_statuses')->references('id')->on('resources_statuses')->onDelete('cascade');
 
             $table->string('coordinates')->nullable();
 

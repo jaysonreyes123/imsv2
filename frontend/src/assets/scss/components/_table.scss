@@ -103,8 +103,8 @@ table.vgt-table {
   }
   
   .vgt-table input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 4px;
     @apply relative before:flex before:flex-col before:items-center before:justify-center   
     before:w-[18px] before:h-[18px] before:m-[-0.7px] before:bg-slate-100 dark:before:bg-slate-500  before:absolute

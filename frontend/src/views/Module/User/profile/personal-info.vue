@@ -38,7 +38,10 @@
                         </div> -->
                         </div>
                     </div>
-                    <Button @click="edit" text="Edit" btnClass="btn btn-sm btn-outline-primary" icon="heroicons:pencil-square" />
+                    <div class="gap-4 flex">
+                        <Button @click="edit" text="Edit Personal Information" btnClass="btn btn-sm btn-outline-primary" icon="heroicons:pencil-square" />
+                        <Button @click="changepassword" text="Change Password" btnClass="btn btn-sm btn-outline-primary" icon="heroicons:pencil-square" />
+                    </div>
             </div>
         </div>
     </div>
@@ -49,43 +52,77 @@
         @close="closeModal">
         <Loading v-model:active="user_store.loading"/>
         <div>
-            <div v-for="(field,i) in fields.fields.filter(f => f.name != 'password')">
-                <div class="fromGroup relative mb-4" v-if="field.type == 'dropdown' ">
-                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">{{ field.label }} <span class="text-red-500" v-if="field.required">*</span></label>
+            <div>
+                <div class="fromGroup relative mb-4">
+                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">First Name <span class="text-red-500">*</span></label>
+                    <Textinput  
+
+                        :classInput="user_store.errors.firstname ? '!border !border-red-500':''" 
+                        v-model="user_store.form.firstname"
+                        :placeholder="`Enter First Name`" />
+                        <label class="validation-label" v-if="user_store.errors.firstname !=''" >{{user_store.errors.firstname}}</label>
+                </div>
+                <div class="fromGroup relative mb-4">
+                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">Last Name <span class="text-red-500">*</span></label>
+                    <Textinput  
+
+                        :classInput="user_store.errors.lastname ? '!border !border-red-500':''" 
+                        v-model="user_store.form.lastname"
+                        :placeholder="`Enter First Name`" />
+                        <label class="validation-label" v-if="user_store.errors.lastname !=''" >{{user_store.errors.lastname}}</label>
+                </div>
+                <div class="fromGroup relative mb-4">
+                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">Email <span class="text-red-500">*</span></label>
+                    <Textinput  
+                        v-model="user_store.form.email"
+                        :isReadonly="true" 
+                        :placeholder="`Enter Email`" />
+                </div>
+
+                <div class="fromGroup relative mb-4" v-if="auth_store.user_details.user_roles.id == 1">
+                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">Role <span class="text-red-500">*</span></label>
                     <v-select 
-                        :loading="dropdown_store.dropdownloading[field.name]" 
-                        :class="user_store.errors[field.name] ? '!border !border-red-500':''" 
-                        :disabled="field.readonly == 1 ? true :false" 
+                        :loading="dropdown_store.dropdownloading['user_roles']" 
                         placeholder="Select an option"  
-                        :reduce="(option) => option.id" :options="dropdown_store.dropdownlist[field.name]"
-                        v-model="user_store.form[field.name]"/>   
-                        <label class="validation-label" v-if="user_store.errors[field.name] !=''" >{{user_store.errors[field.name]}}</label>
-                </div>
-                <div v-else-if="field.type == 'email'">
-                    <div class="fromGroup relative mb-4">
-                        <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">{{field.label}} <span class="text-red-500" v-if="field.required">*</span></label>
-                        <Textinput  
-                            :classInput="user_store.errors[field.name] ? '!border !border-red-500':''" 
-                            @input="emailvalidation($event,field.name,field.label)" 
-                            v-model="user_store.form[field.name]"
-                            :isReadonly="field.readonly == 1 ? true :false " 
-                            :placeholder="`Enter ${field.label}`" />
-                            <label class="validation-label" v-if="user_store.errors[field.name] !=''" >{{user_store.errors[field.name]}}</label>
-                    </div>
-                </div>
-                <div v-else class="fromGroup relative mb-4">
-                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">{{field.label}} <span class="text-red-500" v-if="field.required">*</span></label>
-                    <Textinput 
-                        type="text"
-                        :classInput="user_store.errors[field.name] ? '!border !border-red-500':''" 
-                        v-model="user_store.form[field.name]"
-                        :placeholder="`Enter ${field.label}`" />
-                    <label class="validation-label" v-if="user_store.errors[field.name] !=''" >{{user_store.errors[field.name]}}</label>
+                        :reduce="(option) => option.id" :options="dropdown_store.dropdownlist['user_roles']"
+                        v-model="user_store.form['user_roles']"/>   
                 </div>
             </div>
         </div>
         <template #footer>
             <Button @click="save_profile" text="Save changes" />
+        </template>
+    </Modal>
+    <Modal 
+        title="Change Password"
+        sizeClass="max-w-3xl"
+        :activeModal="modal_changepass"
+        @close="closeModal">
+        <Loading v-model:active="user_store.loading"/>
+        <div>
+            <div>
+                <div class="fromGroup relative mb-4">
+                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">New Password <span class="text-red-500">*</span></label>
+                    <Textinput  
+                        :classInput="user_store.errors.new_password ? '!border !border-red-500':''" 
+                        v-model="new_password"
+                        type="password"
+                        :placeholder="`Enter First Name`" />
+                        <label class="validation-label" v-if="user_store.errors.new_password !=''" >{{user_store.errors.new_password}}</label>
+                </div>
+                <div class="fromGroup relative mb-4">
+                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">Re-type Password</label>
+                    <Textinput  
+                        :classInput="user_store.errors.retype_password ? '!border !border-red-500':''" 
+                        v-model="retype_password"
+                        type="password"
+                        :placeholder="`Enter First Name`" />
+                        <label class="validation-label" v-if="user_store.errors.retype_password !=''" >{{user_store.errors.retype_password}}</label>
+                </div>
+            </div>
+        </div>
+        <template #footer>
+            <Button @click="save_changepassword" text="Save changes" />
         </template>
     </Modal>
 </template>
@@ -106,14 +143,48 @@ const dropdown_store = useDropdownStore();
 const auth_store = useAuthStore();
 const user_store = useUserStore();
 const modal = ref(false);
+const modal_changepass = ref(false);
 const fields = user_fields[0];
+const new_password = ref("")
+const retype_password = ref("");
 const closeModal = () =>{
     user_store.errors = [];
     modal.value = false;
+    new_password.value = "";
+    retype_password.value = "";
+    modal_changepass.value = false;
 }
 const edit = () =>{
     user_store.edit();
     modal.value = true;
+}
+const changepassword = () =>{
+    modal_changepass.value = true;
+}
+const save_changepassword = () =>{
+    let error = false;
+    if(new_password.value == ""){
+        error = true;
+        user_store.errors = Object.assign(user_store.errors,{new_password:"Password is required"});
+    }
+    else{
+        delete user_store.errors.new_password;
+    }
+
+    if(retype_password.value != new_password.value){
+        error = true;
+        user_store.errors = Object.assign(user_store.errors,{retype_password:"Password doesn't match"});
+    }
+    else{
+        delete user_store.errors.retype_password;
+    }
+
+
+    if(!error){
+        user_store.form.password = new_password.value;
+        save('change-password');
+    }
+
 }
 const save_profile = async () =>{
     const {required} = setForm([fields]);
@@ -127,7 +198,6 @@ const save_profile = async () =>{
     })
 
     const errors = Object.keys(user_store.errors).filter(f => f != 'password');
-    console.log(errors)
     if(errors.length == 0){
         save('personal-information')
     };

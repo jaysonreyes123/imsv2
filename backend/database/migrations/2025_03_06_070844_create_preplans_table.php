@@ -14,19 +14,28 @@ return new class extends Migration
         Schema::create('preplans', function (Blueprint $table) {
             $table->id();
             $table->string('preplan_name')->nullable();
-            
             $table->unsignedBigInteger('incident_types')->nullable();
             $table->foreign('incident_types')->references('id')->on('incident_types')->onDelete('cascade');
-
-            $table->text('preplan_classifications')->nullable();
+            
+            $table->string("location")->nullable();
+            $table->unsignedBigInteger('risk_levels')->nullable();
+            $table->foreign('risk_levels')->references('id')->on('risk_levels')->onDelete('cascade');
+            $table->unsignedBigInteger('response_levels')->nullable();
+            $table->foreign('response_levels')->references('id')->on('response_levels')->onDelete('cascade');
+            $table->string("potential_impact")->nullable();
 
             $table->text('initial_assessment')->nullable();
             $table->text('response_action')->nullable();
             $table->text('classification')->nullable();
 
-            $table->string('incident_manager')->nullable();
-            $table->string('incident_responder')->nullable();
-            $table->string('support_staff')->nullable();
+            $table->string('incident_commander')->nullable();
+            $table->string('liaison_officer')->nullable();
+            $table->string('safety_officer')->nullable();
+            $table->string('public_information_officer')->nullable();
+            $table->string('operations_section_chief')->nullable();
+            $table->string('planing_section_chief')->nullable();
+            $table->string('logistics_section_chief')->nullable();
+            $table->string('finance_admin_section_chief')->nullable();
 
             $table->string('tools_and_equipment')->nullable();
             $table->string('personnel')->nullable();

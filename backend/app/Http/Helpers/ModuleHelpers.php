@@ -116,7 +116,7 @@ class ModuleHelpers{
                 $model = Incident::with('incident_types','incident_priorities','incident_statuses');
                 break;
             case 'resources':
-                $model = Resource::query();
+                $model = Resource::with('resources_statuses','resources_types','resources_categories');
                 break;
             case 'media':
                 $model = Media::with('assigned_to');
@@ -125,7 +125,7 @@ class ModuleHelpers{
                 $model = Comment::query();
                 break;
             case 'preplans':
-                $model = Preplan::query();
+                $model = Preplan::with('risk_levels','response_levels');
                 break;
             case 'contacts':
                 $model = Contact::query();
