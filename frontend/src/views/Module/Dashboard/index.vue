@@ -109,8 +109,9 @@
             dashboard_store.logs_page.last = false;
             dashboard_store.logs_page.current = 1;
             dashboard_store.get_widget("incidents",'Total Incidents',0)
-            dashboard_store.get_widget("incidents",'Active Incidents',1,'incident_statuses','<>','Closed:Cancelled')
-            dashboard_store.get_widget("incidents",'Closed Incidents',2,'incident_statuses','=','Closed')
+            // dashboard_store.get_widget("incidents",'Active Incidents',1,'incident_statuses','<>','Closed:Cancelled')
+            dashboard_store.get_widget("incidents",'Active Incidents',1,'incident_statuses','<>',4)
+            dashboard_store.get_widget("incidents",'Closed Incidents',2,'incident_statuses','=',4)
             dashboard_store.system_logs();
             this.incident_trend_month();
             this.incident_status();

@@ -4,9 +4,10 @@
                 style="height:350px"
                 access-token="pk.eyJ1IjoiamF5c29ucmV5ZXMyNiIsImEiOiJjbGd1aDViYXUwZzM2M3BsamlpdWtjbzBsIn0.DmYf96Yhwg7vip5Qpzghnw"
                 map-style="mapbox://styles/mapbox/streets-v11"
-                :center="[121.02430283862415,14.554636747570202]"
+                :center="center"
                 :zoom="12"
                 @mb-click="clickMap"
+                @mb-created="(mapInstance) => map = mapInstance"
                 >
                 <MapboxMarker :lng-lat="coordinates_()" />
                 <MapboxGeocoder 
@@ -23,11 +24,12 @@
   import Card from "@/components/Card/index.vue";
   import 'mapbox-gl/dist/mapbox-gl.css';
   import '@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
+  import {ref} from "vue";
   export default { 
       props:{
         set_coordinates:{
             type:String,
-            default:""
+            default:[]
         }
       },
       components:{
@@ -40,7 +42,11 @@
         return{
             map:null,
             coordinates:[0,0],
+            center:[121.02430283862415,14.554636747570202]
         }
+      },
+      created(){
+        this.center =  this.set_coordinates == "" || this.set_coordinates == null ? this.center : this.coordinates_();
       },
       methods:{
         geolocate(event){

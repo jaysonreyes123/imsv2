@@ -151,7 +151,13 @@ export default {
             const parse = this.module_detail.entityname.split(",");
             let entityname_ = [];
             parse.map(item=>{
-                entityname_.push(module_store.form[item])
+                if(typeof module_store.form[item] == 'object' && module_store.form[item] !== null ){
+                    entityname_.push(module_store.form[item].label)
+                }
+                else{
+                    entityname_.push(module_store.form[item])
+                }
+
             })
             return entityname_.join(" ");
         }

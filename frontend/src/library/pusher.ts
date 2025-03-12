@@ -4,6 +4,6 @@ const echo = new Echo({
     broadcaster: 'pusher',
     key: '9e44dc07ce874ae1fd2a',
     cluster: 'ap1',
-    forceTLS: false,
+    forceTLS: true,
 });
 export default echo;

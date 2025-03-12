@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\UserLogout;
+use App\Listeners\UserLogoutFired;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 

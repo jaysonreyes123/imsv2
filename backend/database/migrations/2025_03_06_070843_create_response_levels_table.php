@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('response_levels', function (Blueprint $table) {
             $table->id();
             $table->string("label");
-            $table->tinyInteger('sequence')->default(1);
+            $table->integer('sequence')->default(1);
             $table->timestamps();
         });
     }

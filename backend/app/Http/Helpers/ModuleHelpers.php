@@ -108,7 +108,7 @@ class ModuleHelpers{
         }
         return $model;
     }  
-
+    // register relation dropdown to report traits
     public static function list($module){
         $model = null;
         switch ($module) {
@@ -128,13 +128,13 @@ class ModuleHelpers{
                 $model = Preplan::with('risk_levels','response_levels');
                 break;
             case 'contacts':
-                $model = Contact::query();
+                $model = Contact::with('caller_types');
                 break;
             case 'agencies':
                 $model = Agency::query();
                 break;
             case 'responders':
-                $model = Responder::with('responder_types');
+                $model = Responder::with('responder_types','statuses');
                 break;
             case 'call_logs':
                 $model = CallLog::query();

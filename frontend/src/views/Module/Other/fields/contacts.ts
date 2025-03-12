@@ -15,7 +15,7 @@ export const contact_fields = [
             {
                 label:"Mobile No",
                 name:"mobile",
-                type:"text",
+                type:"phone",
             },
             {
                 label:"landline No",

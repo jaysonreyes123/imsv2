@@ -17,11 +17,24 @@ export default{
   },
   mounted(){
   const auth_store = useAuthStore();
-
-    this.user_logout.listen('user-logout',(e)=>{
+  const remember_token = localStorage.getItem('remember_token');
+  if(remember_token){
+    if(remember_token != auth_store.user_details.remember_token){
+      this.logout();
+    }
+  }
+    this.user_logout.listen('.user-logout',(e)=>{
       setTimeout(()=>{
         if(e.user_id == auth_store.user_details.id && e.remember_token != auth_store.user_details.remember_token){
-        this.$swal.fire({
+        localStorage.setItem("remember_token",e.remember_token)
+        this.logout();
+      }
+      },3000)
+    });
+  },
+  methods:{
+    logout(){
+      this.$swal.fire({
             title: 'You have been logged out',
             text: 'Your account has been logged in to another device. Please click okay to login again.',
             icon: 'error',
@@ -29,11 +42,10 @@ export default{
             allowOutsideClick: false
         })
         .then(()=>{
+            localStorage.removeItem('remember_token')
             location.href="/auth/login";
         })
-      }
-      },3000)
-    });
+    }
   }
 }
 </script>

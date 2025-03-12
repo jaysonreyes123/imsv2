@@ -1,7 +1,8 @@
 import { useAuthStore } from "@/stores/auth"
 export default function auth({ next } : {next:any}){
     const auth_store = useAuthStore();
-    if(auth_store.authenticated){
+    const bearerToken = localStorage.getItem("token");
+    if(auth_store.authenticated && bearerToken){
         return next();
     }
     else{

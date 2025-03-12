@@ -21,7 +21,9 @@ return new class extends Migration
             $table->string('primary_email')->nullable();
             $table->date('date_of_birth')->nullable();
 
-            $table->text('caller_types')->nullable();
+            $table->unsignedBigInteger('caller_types')->nullable();
+            $table->foreign('caller_types')->references('id')->on('caller_types')->onDelete('cascade');
+
             $table->string('street_name')->nullable();
             $table->string('barangays')->nullable();
             $table->string('municipalities')->nullable();

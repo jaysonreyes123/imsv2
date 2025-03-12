@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('responder_types', function (Blueprint $table) {
             $table->id();
             $table->string('label');
+            $table->integer('sequence')->default(1);
             $table->timestamps();
         });
     }

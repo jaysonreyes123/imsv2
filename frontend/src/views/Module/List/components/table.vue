@@ -114,7 +114,7 @@ const list_store = useListStore();
 const isFilter = ref(false);
 const isSearch = ref(false);
 const search = ref("");
-const incident_status_color = ['#007bff','#20c997','#fd7e14','#ffc107','#28a745','#6c757d','#dc3545']
+const incident_status_color = ['#20c997','#fd7e14','#28a745','#6c757d','#ffc107']
 export default {
     emits:['changePage','checkbox:selected','row:selected','search',"desearch"],
     props:{

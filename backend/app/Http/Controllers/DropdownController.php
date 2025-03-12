@@ -38,7 +38,9 @@ class DropdownController extends Controller
                     $model->orderBy('label');
                 }
                 $model = $model->get();
-                Cache::add($field,$this->set_dropdown($field,$model));
+                if($field != 'users'){
+                    Cache::add($field,$this->set_dropdown($field,$model));
+                }
             }
            
         } catch (\Throwable $th) {

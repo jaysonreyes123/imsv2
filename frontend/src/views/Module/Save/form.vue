@@ -18,7 +18,7 @@
                             </div>
                         </div>
                         <div>
-                            <editMap :set_coordinates="store.form.coordinates" @updateCoordinate="updateCoordinates"  />
+                            <editMap :set_coordinates="store.form.coordinates"  @updateCoordinate="updateCoordinates"  />
                         </div>
                     </div>
                 </div>

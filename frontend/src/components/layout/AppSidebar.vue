@@ -31,10 +31,10 @@
         <img
           v-if="isExpanded || isHovered || isMobileOpen"
           class="hidden dark:block"
-          src="/images/logo/logo-dark.svg"
+          src="/src/assets/images/logo/favicon.ico"
           alt="Logo"
-          width="150"
-          height="40"
+          width="40"
+          height="30"
         />
         <img
           v-else

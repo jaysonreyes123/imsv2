@@ -31,7 +31,7 @@ class AuthController extends Controller
         $user->save();
         $user->tokens()->delete();
         // UserLogout::dispatch($user->id,$remember_token);
-        event(new UserLogout($user->id,$remember_token));
+        event(new UserLogout($user));
         $success = $user->createToken('ims')->plainTextToken;
         $this->login_history($user->id,1);
         return $this->response($success,AuthConstants::LOGIN);

@@ -51,7 +51,7 @@ class UserController extends Controller
         
         if($logs->save()){
             foreach($fields as $field => $value){
-                if(in_array($field,array('password','updated_at'))){
+                if(!in_array($field,$this->not_allow)){
                     if($value != "" || $value != null){
                         $logs_details = new ActivityDetail();
                         $logs_details->activity_log_id = $logs->id;

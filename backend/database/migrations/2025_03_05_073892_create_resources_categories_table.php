@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger("parent_id");
             $table->foreign('parent_id')->references('id')->on('resources_types')->onDelete('cascade');
             $table->string("label");
-            $table->tinyInteger('sequence')->default(1);
+            $table->integer('sequence')->default(1);
             $table->timestamps();
         });
     }

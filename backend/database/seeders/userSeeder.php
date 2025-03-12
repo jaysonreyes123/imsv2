@@ -37,8 +37,16 @@ class userSeeder extends Seeder
             ],
             [
                 'firstname' => 'Andrea',
-                'email' => 'andrea@gmail.com',
+                'email' => 'andrea@microbizone.com',
                 'password' => bcrypt('password'),
+                'user_roles' => 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'firstname' => 'Chloe',
+                'email' => 'chloe.microbizintern@gmail.com',
+                'password' => bcrypt('chloeintern#1'),
                 'user_roles' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()

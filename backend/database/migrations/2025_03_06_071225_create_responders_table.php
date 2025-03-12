@@ -24,7 +24,8 @@ return new class extends Migration
             $table->string('email_address')->nullable();
             $table->string('password')->nullable();
 
-            $table->string('responder_statuses')->nullable();
+            $table->unsignedBigInteger('statuses')->nullable();
+            $table->foreign('statuses')->references('id')->on('statuses')->onDelete('cascade');
 
 
             $table->string('assigned_to')->nullable();

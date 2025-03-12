@@ -22,14 +22,14 @@
                 }" 
                 :pagination-options="{
                     enabled: true,
-                    perPage:system_store.login_history.perpage
+                    perPage:system_store.login_history.per_page
                 }">
                 <template #pagination-bottom="props">
                     <div class="py-4 px-3 justify-center flex">
                         <Pagination 
                             :total="system_store.login_history.total" 
-                            :current="system_store.login_history.current"
-                            :per-page="system_store.login_history.perpage" 
+                            :current="system_store.login_history.current_page"
+                            :per-page="system_store.login_history.per_page" 
                             @pageChanged="pageChanged"
                         />
                     </div>
@@ -97,12 +97,16 @@ export default {
         dropdown_store.get_dropdown('users');
         system_store.login_history.selected = "all";
         system_store.login_history.logs = [];
-        system_store.login_history.current = 1;
+        system_store.login_history.current_page = 1;
         system_store.login_history_logs();
     },
     methods:{
         changeLoginHistory(event){
             system_store.login_history.selected = event.id;
+            system_store.login_history_logs();
+        },
+        pageChanged(page){
+            system_store.login_history.current_page = page;
             system_store.login_history_logs();
         }
     }

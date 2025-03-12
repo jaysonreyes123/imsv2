@@ -31,6 +31,7 @@ export const useAuthStore = defineStore('auth',{
     },
     actions: {
         verified(token:string){
+            console.log(token)
             localStorage.setItem("token",token);
             this.userDetails();
             const module_store = useModuleStore();
