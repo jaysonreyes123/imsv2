@@ -26,7 +26,7 @@ class DashboardController extends Controller
         return $this->response($model->count());
     }
     public function incident_status(){
-        $model = Incident::where("deleted",0)
+        $model = Incident::with('incident_statuses_')->where("deleted",0)
         ->whereNotNull('incident_statuses')
         ->select("incident_statuses",DB::raw("count(id) as count"))
         ->groupBy('incident_statuses')
@@ -39,7 +39,7 @@ class DashboardController extends Controller
         }
         else{
             foreach($model as $row){
-                $output['label'][] = $row->incident_statuses;
+                $output['label'][] = $row->incident_statuses_->label ?? "";
                 $output['count'][] = $row->count;
             }
         }

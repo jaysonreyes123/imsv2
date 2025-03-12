@@ -75,7 +75,7 @@
                 <div v-else>
                     <div v-if="item.name == 'detail' ">
                         <component v-if="this.$route.params.module=='users'" is="userDetail"></component>
-                        <component v-else-if="this.$route.params.module=='reports'" is="reportDetai"></component>
+                        <component v-else-if="this.$route.params.module=='reports'" is="reportDetail"></component>
                         <component  v-else :is="item.name" ></component>
                     </div>
                     <div v-else>

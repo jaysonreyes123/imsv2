@@ -18,7 +18,7 @@ export default{
   mounted(){
   const auth_store = useAuthStore();
 
-    this.user_logout.listen('.user-logout',(e)=>{
+    this.user_logout.listen('user-logout',(e)=>{
       setTimeout(()=>{
         if(e.user_id == auth_store.user_details.id && e.remember_token != auth_store.user_details.remember_token){
         this.$swal.fire({

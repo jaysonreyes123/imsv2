@@ -18,6 +18,9 @@ class Incident extends Model
     public function incident_statuses(){
         return $this->hasOne(IncidentStatus::class,'id','incident_statuses');
     }
+    public function incident_statuses_(){
+        return $this->hasOne(IncidentStatus::class,'id','incident_statuses');
+    }
     public function incident_priorities(){
         return $this->hasOne(IncidentPriority::class,'id','incident_priorities');
     }
