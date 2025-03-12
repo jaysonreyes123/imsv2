@@ -9,21 +9,21 @@ use Illuminate\Support\Facades\DB;
 trait ReportTraits
 {
     //
-    protected $relation = ["incident_types","incident_statuses"];
+    protected $relation = ["incident_types","incident_statuses","incident_priorities","resources_statuses","resources_types","resources_categories","risk_levels","response_levels","responder_types","tasks_statuses"];
     protected function report_column_chart($report_columns){
         $columns = [];
         $column_for_table = [];
-        $groupby = "";
+        $groupby = [];
         foreach($report_columns as $report_column){
             $column_for_table[] = array("label" => $report_column->label,"field" => $report_column->column);
             $columns[] = DB::raw("count($report_column->column) as count");
             if(in_array($report_column->column,$this->relation)){
                 $columns[] = $report_column->column.".label as label";
-                $groupby = $report_column->column.".label";
+                $groupby[] = $report_column->column.".label";
             }
             else{
                 $columns[] = $report_column->module.".".$report_column->column." as label";
-                $groupby = $report_column->column;
+                $groupby[] = $report_column->column;
             }
         }
         return [$columns,$column_for_table,$groupby];

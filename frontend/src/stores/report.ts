@@ -102,8 +102,9 @@ export const useReportStore = defineStore('report', {
                     })
                 }
                 else{
+                    console.log(this.form.chart.group_by)
                     this.form.chart.type = data.report_charts.chart;
-                    this.form.chart.group_by = data.report_charts.groupby;
+                    this.form.chart.group_by = [];
                     this.form.chart.dataset = data.report_charts.dataset;
                 }
                 data.report_conditions.map((item:any)=>{

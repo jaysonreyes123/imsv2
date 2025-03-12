@@ -3,8 +3,8 @@
         <Card title="" class="shadow-sm">
         <div class="flex justify-end">
             <div class="relative w-[400px] mr-2">
-                <form @submit.prevent="search_function">
                 <span
+                    @click="search_function"
                     v-if="!isSearch"
                     class="absolute right-0 top-1/2 inline-flex -translate-y-1/2 cursor-pointer items-center gap-1 border-l border-gray-200 py-3 pl-3.5 pr-3 text-sm font-medium text-gray-700 dark:border-gray-800 dark:text-gray-400"
                 >
@@ -23,7 +23,6 @@
                 v-model="search"
                 class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent py-3 pl-4 pr-[50px] text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
                 />
-            </form>
             </div>
             <Button
                 v-if="!isFilter && filter "
@@ -213,6 +212,7 @@ export default {
             isFilter.value = false;
         },
         search_function(){
+            console.log("123");
             this.$emit("search",search.value);
             isSearch.value = true;
         },

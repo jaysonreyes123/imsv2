@@ -1,6 +1,6 @@
 import axios from 'axios';
 const axiosIns = axios.create({
-    baseURL:'https://imsv2.microbizone.com/imsv2/backend/api/'
+    baseURL:'http://127.0.0.1:8000/api/'
 });
 
 axiosIns.interceptors.request.use(config => { 
