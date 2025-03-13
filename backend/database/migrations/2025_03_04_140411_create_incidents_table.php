@@ -47,7 +47,7 @@ return new class extends Migration
 
             $table->string('incident_resolution')->nullable();
 
-            $table->json('responder_types');
+            $table->json('responder_types')->nullable();
             $table->string('assigned_by')->nullable();
 
 
