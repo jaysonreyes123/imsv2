@@ -52,9 +52,9 @@ class DashboardController extends Controller
         $model = Incident::whereDate('created_at',">=",$date)
         ->whereDate("created_at","<=",$current_date)
         ->where("deleted",0)
-        ->select(DB::raw("DATE(created_at) as date"),DB::raw("count(id) as count"))
-        ->groupBy('date')
-        ->orderBy('date')
+        ->select(DB::raw("count(id) as count"),DB::raw("DATE_FORMAT(created_at,'%M %Y') as month"))
+        ->groupBy('month')
+        ->orderBy('month')
         ->get();
         $output = [];
         if($model->count() == 0){
@@ -63,7 +63,7 @@ class DashboardController extends Controller
         }
         else{
             foreach($model as $row){
-                $output['label'][] = Carbon::parse($row->date)->format("F");
+                $output['label'][] = $row->month;
                 $output['count'][] = $row->count;
             }
         }

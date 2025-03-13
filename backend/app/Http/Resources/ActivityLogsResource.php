@@ -44,7 +44,7 @@ class ActivityLogsResource extends JsonResource
         return [
             'status' => $this->status,
             'action' => $this->status($this->status),
-            'whodid' => $this->whodid_->firstname,
+            'whodid' => $this->whodid_->firstname." ".$this->whodid_->lastname,
             'created_at' => $this->created_at,
             'fields' => $fields
         ];

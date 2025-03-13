@@ -139,11 +139,11 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
-        $model = User::with('user_roles','user_privileges')->find($id);
+        $model = User::with('user_roles','user_privileges','roles')->find($id);
         return $this->response(new ModuleResource($model));
     }
     public function edit(string $id){
-        $model = User::with('user_roles','user_privileges')->find($id);
+        $model = User::with('user_roles','user_privileges','roles')->find($id);
         return $this->response($model);
     }
 

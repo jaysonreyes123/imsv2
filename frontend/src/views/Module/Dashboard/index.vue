@@ -1,20 +1,18 @@
 <template lang="">
     <div>
-       <div class="grid md:grid-cols-6 sm:grid-cols-2 grid-cols-1 gap-3">
+       <div class="grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
             <div
                 v-for="(item, i) in dashboard_store.widgets"
                 :key="i"
                 >
                 <SkeletonTable v-if="item.loading" :count="0"/>
                 <div class="rounded-md p-4 shadow-md text-center bg-white dark:bg-slate-800" v-else>
-                    <span
-                    class="block text-sm text-slate-600 font-medium dark:text-white mb-1"
-                    >{{ item.title }}</span
-                    >
-                    <span
-                        class="block mb- text-2xl text-slate-900 dark:text-white font-medium"
-                        >{{ item.count }}</span
-                    >
+                    <span class="block text-sm text-slate-600 font-medium dark:text-white mb-1">
+                        {{ item.title }}
+                    </span>
+                    <span class="block mb- text-2xl text-slate-900 dark:text-white font-medium">
+                        {{ item.count }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -54,9 +52,9 @@
                         <li
                             v-for="(item, i) in dashboard_store.logs"
                             :key="i"
-                            class="mt-5 flex justify-between items-center"
+                            class="mt-4 flex justify-between items-center"
                         >
-                            <div class="text-xs">
+                            <div class="text-[10px]">
                                 <b>{{item.whodid}}</b> {{item.action}}
                                 <span v-if="item.status == 4 || item.status == 5 ">
                                     {{item.related_entityname}} 
@@ -66,7 +64,7 @@
                                     {{item.entityname}}
                                 </span>
                             </div>
-                            <div class="text-xs">
+                            <div class="text-[9px]">
                                 {{item.timestamp}}
                             </div>
                         </li>
@@ -190,7 +188,6 @@
                         xaxis: {
                             categories: [],
                         },
-                        colors: ["#4669FA"],
                     },
                 }
             },

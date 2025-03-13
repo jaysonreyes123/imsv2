@@ -5,6 +5,7 @@ import { get_fields, setForm, setFormWithData } from "@/views/Module/Other/field
 import { system_generated } from "@/views/Module/Other/fields/system_generate";
 import { module_details_by_id } from "@/views/Module/Other/module_details";
 import { defineStore } from "pinia";
+import { useDropdownStore } from "./dropdown";
 interface formState{
     [index:string] : any
 }
@@ -73,6 +74,7 @@ export const useUserStore = defineStore('user',{
                 this.form.lastname = data.lastname;
                 this.form.email = data.email;
                 this.form.user_roles = data.user_roles.label;
+                this.form.roles = data.roles.label;
                 this.form.user_roles_edit = data.user_roles.id;
                 data.user_privileges.map((item:any)=>{
                     const module_details:any = module_details_by_id(item.module);
@@ -88,6 +90,7 @@ export const useUserStore = defineStore('user',{
         },
         async edit(){
             try {
+                const dropdown_store = useDropdownStore();
                 this.loading = true;
                 const response = await axiosIns.get("users/edit/"+this.id);
                 const data = response.data.data;
@@ -95,10 +98,12 @@ export const useUserStore = defineStore('user',{
                 this.form.lastname = data.lastname;
                 this.form.email = data.email;
                 this.form.user_roles = data.user_roles.id;
+                this.form.roles = data.roles.id;
                 data.user_privileges.map((item:any)=>{
                     const module_details:any = module_details_by_id(item.module);
                     this.form[`user_privileges.${module_details.name}`] = !!item.status;
                 })
+                dropdown_store.set_dropdownlist['roles'] =  dropdown_store.dropdownlist['roles'].filter((option:any) => option.parent_id == data.user_roles.id );
                 this.loading = false;
             } catch (error) {
                 

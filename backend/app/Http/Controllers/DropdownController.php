@@ -23,6 +23,7 @@ class DropdownController extends Controller
             else{
                 $model = DB::table($field);
                 if($field == 'users'){
+                    $model = DB::table($field)->where('deleted',0);
                     $model->orderBy('firstname');
                 }
                 else if(

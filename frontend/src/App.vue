@@ -36,7 +36,7 @@ export default{
     logout(){
       this.$swal.fire({
             title: 'You have been logged out',
-            text: 'Your account has been logged in to another device. Please click okay to login again.',
+            text: 'Your account has been logged in another device. Please click okay to login again.',
             icon: 'error',
             confirmButtonText: 'Okay',
             allowOutsideClick: false

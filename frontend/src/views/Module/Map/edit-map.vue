@@ -1,7 +1,7 @@
 <template>
     <div class="shadow-lg">
         <MapboxMap
-                style="height:350px"
+                style="height:600px"
                 access-token="pk.eyJ1IjoiamF5c29ucmV5ZXMyNiIsImEiOiJjbGd1aDViYXUwZzM2M3BsamlpdWtjbzBsIn0.DmYf96Yhwg7vip5Qpzghnw"
                 map-style="mapbox://styles/mapbox/streets-v11"
                 :center="center"
@@ -9,7 +9,7 @@
                 @mb-click="clickMap"
                 @mb-created="(mapInstance) => map = mapInstance"
                 >
-                <MapboxMarker :lng-lat="coordinates_()" />
+                <MapboxMarker v-if="coordinates_()[0] != 121.02430283862415" :lng-lat="coordinates_()" />
                 <MapboxGeocoder 
                 countries="PH"
                 @mb-result="geolocate"
@@ -25,6 +25,7 @@
   import 'mapbox-gl/dist/mapbox-gl.css';
   import '@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
   import {ref} from "vue";
+  const center = ref([])
   export default { 
       props:{
         set_coordinates:{
@@ -42,11 +43,26 @@
         return{
             map:null,
             coordinates:[0,0],
-            center:[121.02430283862415,14.554636747570202]
+            center
         }
       },
       created(){
-        this.center =  this.set_coordinates == "" || this.set_coordinates == null ? this.center : this.coordinates_();
+        if(this.set_coordinates == "" || this.set_coordinates == null){
+
+            center.value = [121.02430283862415,14.554636747570202]
+        }
+        else{
+            center.value = this.coordinates_();
+        }
+        
+      },
+      mounted(){
+            this.$watch(
+                ()=>this.coordinates_(),
+                (new_coordinates) => {
+                    center.value = new_coordinates;
+                }
+            );
       },
       methods:{
         geolocate(event){
@@ -61,7 +77,7 @@
         },
         coordinates_(){     
             if( this.set_coordinates == ""  || this.set_coordinates == null ){
-                return [0,0];
+                return [121.02430283862415,14.554636747570202];
             }   
             const set_coordinates_ = this.set_coordinates.split(',');
             return set_coordinates_;
@@ -69,3 +85,8 @@
       }
   }
   </script>
+  <style>
+.mapboxgl-ctrl-geocoder {
+    width:360px !important;
+}
+</style>

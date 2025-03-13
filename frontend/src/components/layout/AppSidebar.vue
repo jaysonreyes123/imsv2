@@ -16,7 +16,7 @@
     <div
       :class="[
         'py-2 mt-4 flex',
-        !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start',
+        !isExpanded && !isHovered ? 'lg:justify-center' : 'justify-start dark:justify-center',
       ]"
     >
       <router-link to="/">
@@ -286,6 +286,12 @@ const menuGroups = [
         subItems: [
           {id:"admin", name: "Users", path: "/list/users"},
         ],
+      },
+      {
+        id:8,
+        icon: "heroicons:chart-pie",
+        name: "Wallboard",
+        path:"/wallboard"
       },
     ]
   }

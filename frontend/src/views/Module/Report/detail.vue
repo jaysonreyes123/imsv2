@@ -1,7 +1,7 @@
 <template lang="">
     <div>
-        <Loading v-model:active="report_store.loading"/>
-        <Card :title="report_store.form.report_name" class="shadow-lg">
+        <Loading v-model:active="report_store.loading" v-if="report_store.loading"/>
+        <Card v-else :title="report_store.form.report_name" class="shadow-lg">
             <template #header>
                 <router-link :to="`/reports/save/${report_store.form.option}/${this.$route.params.id}`">
                     <Button 

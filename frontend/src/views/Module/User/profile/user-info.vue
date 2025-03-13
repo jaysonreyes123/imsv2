@@ -4,7 +4,8 @@
         <div class="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
             <div class="flex flex-col items-center w-full gap-6 xl:flex-row">
                 <div class="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-                <img :src="avatar" alt="user" />
+                <img class="dark:hidden" :src="avatar" alt="user" />
+                <img class="dark:block hidden" :src="avatarDark" alt="user" />
                 </div>
                 <div class="order-3 xl:order-2">
                 <h4 class="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
@@ -22,6 +23,7 @@
     </template>
 <script setup>
 import avatar from "@/assets/images/avatar/user.png";
+import avatarDark from "@/assets/images/avatar/user-dark.png";
 import { useAuthStore } from "@/stores/auth";
 import { useUserStore } from "@/stores/user";
 const user_store = useUserStore();

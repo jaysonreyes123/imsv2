@@ -84,8 +84,18 @@
                     <v-select 
                         :loading="dropdown_store.dropdownloading['user_roles']" 
                         placeholder="Select an option"  
+                        @option:selected="set_role"
                         :reduce="(option) => option.id" :options="dropdown_store.dropdownlist['user_roles']"
                         v-model="user_store.form['user_roles']"/>   
+                </div>
+
+                <div class="fromGroup relative mb-4" v-if="auth_store.user_details.user_roles.id == 1">
+                    <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">Role <span class="text-red-500">*</span></label>
+                    <v-select 
+                        :loading="dropdown_store.dropdownloading['roles']" 
+                        placeholder="Select an option"  
+                        :reduce="(option) => option.id" :options="dropdown_store.set_dropdownlist['roles']"
+                        v-model="user_store.form['roles']"/>   
                 </div>
             </div>
         </div>
@@ -230,7 +240,12 @@ function emailvalidation(event,field,label){
     }
     
 }
+function set_role(event){
+    user_store.form.roles = "";
+    dropdown_store.set_dropdownlist['roles'] = dropdown_store.dropdownlist['roles'].filter(option => option.parent_id == event.id);
+}
 onMounted(()=>{
     dropdown_store.get_dropdown('user_roles');
+    dropdown_store.get_dropdown('roles');
 })
 </script>

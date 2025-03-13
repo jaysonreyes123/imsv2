@@ -47,7 +47,6 @@
       this.$watch(
         ()=>this.$route.params.auth_action,
         (action)=>{
-          console.log("test");
           document.title = "IMS | "+action.toUpperCase()
         }
       );

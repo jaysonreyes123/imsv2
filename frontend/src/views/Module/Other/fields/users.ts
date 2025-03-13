@@ -24,7 +24,16 @@ export const user_fields = [
                 label:"Role",
                 name:"user_roles",
                 type:"dropdown",
-                required:1
+                required:1,
+                option:"set",
+                target:"roles"
+            },
+            {
+                label:"Role.",
+                name:"roles",
+                type:"dropdown",
+                required:1,
+                option:"get"
             },
             {
                 label:"Password",

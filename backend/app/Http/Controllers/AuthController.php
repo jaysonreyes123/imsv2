@@ -36,18 +36,18 @@ class AuthController extends Controller
         $this->login_history($user->id,1);
         return $this->response($success,AuthConstants::LOGIN);
     }
-    public function send_otp($email){
+    public function send_otp($user){
         try {
-            OtpToken::where("email",$email)->delete();
+            OtpToken::where("email",$user->email)->delete();
             $token = strtoupper(Str::random(6));
-            Mail::to($email)->send(new AuthOtp($token,$email));
+            Mail::to($user->email)->send(new AuthOtp($token,$user));
             $model = new OtpToken;
-            $model->email = $email;
+            $model->email = $user->email;
             $model->token = $token;
             $model->save();
             return $this->response([
                 "type" => "otp",
-                "email" => $email
+                "email" => $user->email
             ]);
         } catch (\Throwable $th) {
             return $th->getMessage();
@@ -69,7 +69,7 @@ class AuthController extends Controller
         $new_ipaddress = LoginHistory::select('ipaddress')->where('ipaddress',$ipaddress)->where('user_id',$user_details->id)->get();
         //check if first login
         if($new_ipaddress->count() == 0){
-            return $this->send_otp($user_details->email);
+            return $this->send_otp($user_details);
         }
         else{
             return $this->verified($user_details->email);
@@ -86,7 +86,7 @@ class AuthController extends Controller
                 $attempts->save();
             }
             else{
-                return $this->send_otp($request->email);
+                return $this->send_otp(auth()->user());
             }
         }   
         return $this->response([],AuthConstants::VALIDATION,422);

@@ -4,14 +4,14 @@
         <div  v-else>
             <Card v-for="(block,blockindex) in detailForm" :key="blockindex" :title="block.title" class="mt-6 shadow">
                 <div v-if="block.title == 'Location Details'">
-                    <div class="lg:grid lg:grid-cols-2 gap-12 mt-6">
+                    <div class="lg:grid lg:grid-cols-3 gap-12 mt-6">
                         <div>
                             <div class="fromGroup relative" v-for="(field,i) in block.fields" :key="i">
                             <label for="">{{field.label}}</label>
                                 <span>{{ store.form[field.name] }}</span>
                             </div>
                         </div>
-                        <div>
+                        <div class="col-span-2">
                             <EditMap :set_coordinates="store.form.coordinates" />
                         </div>
                     </div>

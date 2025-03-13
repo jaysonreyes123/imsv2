@@ -3,7 +3,7 @@
         <Loading v-model:active="store.loading"/>
         <Card v-for="(block,blockindex) in saveFields" :key="blockindex" :title="block.title" class="mt-6 shadow">
                 <div v-if="block.title == 'Location Details'">
-                    <div class="lg:grid lg:grid-cols-2 gap-12"> 
+                    <div class="lg:grid lg:grid-cols-3 gap-12"> 
                         <div>
                             <div v-for="(field,i) in block.fields" :key="i" class="mt-4">
                                 <div class="fromGroup relative">
@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div class="col-span-2 py-5">
                             <editMap :set_coordinates="store.form.coordinates"  @updateCoordinate="updateCoordinates"  />
                         </div>
                     </div>

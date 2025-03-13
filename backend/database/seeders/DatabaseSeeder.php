@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ModuleSeeder::class,
             userRoleSeeder::class,
+            RoleSeeder::class,
             userSeeder::class,
             IncidentTypeSeeder::class,
             IncidentStatusSeeder::class,
@@ -35,7 +36,7 @@ class DatabaseSeeder extends Seeder
             IncidentSeeder::class,
             ResourcesSeeder::class,
             CallerTypeSeeder::class,
-            StatusSeeder::class
+            StatusSeeder::class,
         ]);
     }
 }

@@ -31,7 +31,6 @@ export const useAuthStore = defineStore('auth',{
     },
     actions: {
         verified(token:string){
-            console.log(token)
             localStorage.setItem("token",token);
             this.userDetails();
             const module_store = useModuleStore();
@@ -76,7 +75,7 @@ export const useAuthStore = defineStore('auth',{
                 this.user_details = {};
                 router.push({name:'auth',params:{auth_action:'login'}});
             } catch (error) {
-                
+                router.push({name:'auth',params:{auth_action:'login'}});
             }
         },
         async resetPassword(){
@@ -134,6 +133,13 @@ export const useAuthStore = defineStore('auth',{
                 
             } catch (error) {
                 
+            }
+        },
+        async session(){
+            try {
+                const response = await axiosIns.get("session");
+            } catch (error) {
+                router.push("/auth/login");
             }
         }
     },

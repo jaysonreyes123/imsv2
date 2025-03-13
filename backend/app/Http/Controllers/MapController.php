@@ -29,7 +29,7 @@ class MapController extends Controller
         return $map_data;
     }
     public function incident(){
-        $model =   Incident::where('deleted',0)->whereNotNull('coordinates')->get();
+        $model =   Incident::where('deleted',0)->whereNotNull('coordinates')->whereIn('incident_statuses',[1,2])->get();
         $result = [];
         $result["type"] = "FeatureCollection";
         $result["features"] = array();

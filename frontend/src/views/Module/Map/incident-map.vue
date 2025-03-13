@@ -52,10 +52,10 @@
             </div>
             <div class="bg-white dark:bg-slate-800 p-5 h-screen overflow-x-auto" v-if="legend">
                 <div>
-                    <p class="text-sm font-bold">Current incidents</p>
+                    <p class="text-sm font-bold">Active Incidents</p>
                     <ul class="list-item mt-1">
                         <li @click="flyto(item.geometry.coordinates)" v-for="(item,index) in incident_map_.features" :key="index"
-                        class="hover:bg-slate-100 p-2 cursor-pointer flex items-center border-b border-slate-100 dark:border-slate-700 last:border-b-0">
+                        class=" hover:bg-slate-200 dark:hover:bg-slate-600 p-2 cursor-pointer flex items-center border-b border-slate-100 dark:border-slate-700 last:border-b-0">
                         <span class="block h-[15px] w-[15px] bg-red-500 rounded-full bg-[#FF0000] mr-2 " ></span>
                             <div class="text-start overflow-hidden text-ellipsis whitespace-nowrap max-w-[63%]">
                                 <div class="text-xs text-slate-600 dark:text-slate-300 overflow-hidden text-ellipsis whitespace-nowrap flex">
@@ -70,7 +70,7 @@
                     <p class="text-sm font-bold">Current Resources</p>
                     <ul class="list-item mt-1">
                         <li v-if="resources_map_ !== undefined" @click="flyto(item.geometry.coordinates)" v-for="(item,index) in resources_map_.features" :key="index"
-                        class="hover:bg-slate-100 p-2 cursor-pointer flex items-center border-b border-slate-100 dark:border-slate-700 last:border-b-0">
+                        class="hover:bg-slate-200 dark:hover:bg-slate-600 p-2 cursor-pointer flex items-center border-b border-slate-100 dark:border-slate-700 last:border-b-0">
                         <span class="block h-[15px] w-[15px] rounded-full bg-[#000000] mr-2 " ></span>
                             <div class="text-start overflow-hidden text-ellipsis whitespace-nowrap max-w-[63%]">
                                 <div class="text-xs text-slate-600 dark:text-slate-300 overflow-hidden text-ellipsis whitespace-nowrap flex">

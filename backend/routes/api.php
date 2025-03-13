@@ -29,6 +29,10 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::middleware(['auth:sanctum'])->group(function(){
 
+    Route::get("session",function(){
+        return "true";
+    });
+
     Route::get('users/user_details',[UserController::class,'user_details']); 
     Route::post("users/profile/edit/{action}/{id}",[UserController::class,'edit_profile']);
     Route::get("users/edit/{id}",[UserController::class,'edit']);

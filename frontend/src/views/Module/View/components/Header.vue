@@ -11,6 +11,9 @@
             <div class="mt-1">
                 <span class="font-bold">Status</span> : {{get_dropdown_label(module_store.form.incident_statuses)}}
             </div>
+            <div class="mt-1">
+                <span class="font-bold">Location</span> : {{module_store.form.location}}
+            </div>
         </Card>
     </div>
 </template>

@@ -1,20 +1,21 @@
 <x-mail::message>
-# Hello {{$user}},
+# Hello {{$user->firstname}},
 
 <br>
 
-Your verification code is: <span style="color:black">**{{$token}}**</span>
+For added security, we require a verification code to complete your login. Please use the code below to proceed:
+
+<br>
+
+Your 2FA Code: <span style="color:black"> **{{$token}}** </span>
 
 
 <br>
 
-* Use this one-time code to continue logging into your account.
-* Contact our support team immediately if you notice any suspicious activity.
+This code will expire in 10 minutes. If you did not attempt to log in, please ignore this email or contact our support team immediately.
 
 <br>
 
-Thanks,
-
-<br>
+Stay secure,
 {{ config('app.name') }}
 </x-mail::message>

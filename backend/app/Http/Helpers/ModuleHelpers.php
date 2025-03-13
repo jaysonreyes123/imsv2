@@ -143,7 +143,7 @@ class ModuleHelpers{
                 $model = Task::with('tasks_statuses');
                 break;
             case 'users':
-                $model = User::with('user_roles','user_privileges');
+                $model = User::with('user_roles','user_privileges','roles');
                 break;
             case 'reports':
                 $model = Report::query();

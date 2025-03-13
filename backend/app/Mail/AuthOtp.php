@@ -31,7 +31,7 @@ class AuthOtp extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Please verify your account',
+            subject: 'Your Two-Factor Authentication (2FA) Code',
         );
     }
 

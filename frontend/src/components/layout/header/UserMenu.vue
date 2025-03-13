@@ -5,7 +5,8 @@
       @click.prevent="toggleDropdown"
     >
       <span class="mr-3 overflow-hidden rounded-full h-8 w-8">
-        <img :src="avatar" alt="User" />
+        <img class="dark:hidden" :src="avatar" alt="User" />
+        <img class="dark:block hidden" :src="avatarDark" alt="User" />
       </span>
 
       <span class="block mr-1 font-medium text-theme-sm">{{ auth_store.user_details.firstname }} </span>
@@ -58,6 +59,7 @@
 <script setup>
 import Icon from "@/components/Icon/index.vue";
 import avatar from "@/assets/images/avatar/user.png";
+import avatarDark from "@/assets/images/avatar/user-dark.png";
 import { UserCircleIcon, ChevronDownIcon, LogoutIcon, SettingsIcon, InfoCircleIcon } from '@/icons'
 import { RouterLink } from 'vue-router'
 import { ref, onMounted, onUnmounted } from 'vue'

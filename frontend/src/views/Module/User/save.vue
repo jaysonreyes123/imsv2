@@ -17,13 +17,35 @@
                         </div>
                         <div class="fromGroup relative" v-else-if="field.type == 'dropdown' ">
                             <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">{{ field.label }} <span class="text-red-500" v-if="field.required">*</span></label>
+                            
                             <v-select 
-                                :loading="dropdown_store.dropdownloading[field.name]" 
-                                :class="user_store.errors[field.name] ? '!border !border-red-500':''" 
-                                :disabled="field.readonly == 1 ? true :false" 
-                                placeholder="Select an option"  
-                                :reduce="(option) => option.id" :options="dropdown_store.dropdownlist[field.name]"
-                                v-model="user_store.form[field.name]"/>   
+                                    v-if="field.option == 'set'"
+                                    :loading="dropdown_store.dropdownloading[field.name]" 
+                                    :class="user_store.errors[field.name] ? '!border !border-red-500':''" 
+                                    :disabled="field.readonly == 1 ? true :false" 
+                                    placeholder="Select an option"  
+                                    @option:selected="set_dropdown_value($event,field.target)"
+                                    :reduce="(option) => option.id" :options="dropdown_store.dropdownlist[field.name]"
+                                    v-model="user_store.form[field.name]"
+                                />  
+                                <v-select 
+                                    v-else-if="field.option == 'get'"
+                                    :loading="dropdown_store.dropdownloading[field.name]" 
+                                    :class="user_store.errors[field.name] ? '!border !border-red-500':''" 
+                                    :disabled="field.readonly == 1 ? true :false" 
+                                    placeholder="Select an option"  
+                                    :reduce="(option) => option.id" :options="dropdown_store.set_dropdownlist[field.name]"
+                                    v-model="user_store.form[field.name]"
+                                />  
+                                <v-select 
+                                    v-else
+                                    :loading="dropdown_store.dropdownloading[field.name]" 
+                                    :class="user_store.errors[field.name] ? '!border !border-red-500':''" 
+                                    :disabled="field.readonly == 1 ? true :false" 
+                                    placeholder="Select an option"  
+                                    :reduce="(option) => option.id" :options="dropdown_store.dropdownlist[field.name]"
+                                    v-model="user_store.form[field.name]"
+                                />   
                                 <label class="validation-label" v-if="user_store.errors[field.name] !=''" >{{user_store.errors[field.name]}}</label>
                         </div>
                         <div v-else-if="field.type == 'email'">
@@ -106,6 +128,12 @@ export default {
                 user_store.errors[field] = message;
             }
             
+        },
+        set_dropdown_value(event,target){
+           const id = event.id;
+           user_store.form[target] = "";
+           const set_dropdown_item =  dropdown_store.dropdownlist[target].filter(option => option.parent_id == id);
+           dropdown_store.set_dropdownlist[target] = set_dropdown_item;
         },
         save(){
             const {required} = setForm(this.saveFields);

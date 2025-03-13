@@ -19,6 +19,14 @@ const routes = [
     },
   },
   {
+    path: '/wallboard',
+    name: 'wallboard',
+    component: () => import('../views/Module/Wallboard/index.vue'),
+    meta: {
+      title: 'Wall Board',
+    },
+  },
+  {
     path: '/print/:module/:id',
     name: 'print',
     component: () => import('@/views/Module/View/components/print.vue'),
@@ -138,7 +146,10 @@ export default router
 
 router.beforeEach((to, from, next) => {
   document.title = `IMS | ${to.meta.title}`
-  if(!to.meta.middleware){
+  if(to.name == 'home'){
+    return next({name:"dashboard"});
+  }
+  else if(!to.meta.middleware){
     return next();
   }
   const middleware:any = to.meta.middleware;

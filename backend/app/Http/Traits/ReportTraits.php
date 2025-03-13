@@ -11,7 +11,7 @@ trait ReportTraits
     //
     protected $relation = [
     "incident_types","incident_statuses","incident_priorities","resources_statuses","resources_types","resources_categories",
-    "risk_levels","response_levels","responder_types","tasks_statuses","caller_types","statuses"
+    "risk_levels","response_levels","responder_types","tasks_statuses","caller_types","statuses","roles"
     ];
     protected function report_column_chart($report_columns){
         $columns = [];

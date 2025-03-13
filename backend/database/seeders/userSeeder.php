@@ -24,6 +24,7 @@ class userSeeder extends Seeder
                 'email' => 'admin@test.com',
                 'password' => bcrypt('admin'),
                 'user_roles' => 1,
+                "roles" => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -32,6 +33,7 @@ class userSeeder extends Seeder
                 'email' => 'jayson.reyes@microbizone.com',
                 'password' => bcrypt('admin'),
                 'user_roles' => 2,
+                "roles" => 2,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -40,6 +42,7 @@ class userSeeder extends Seeder
                 'email' => 'andrea@microbizone.com',
                 'password' => bcrypt('password'),
                 'user_roles' => 1,
+                "roles" => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -48,6 +51,7 @@ class userSeeder extends Seeder
                 'email' => 'chloe.microbizintern@gmail.com',
                 'password' => bcrypt('chloeintern#1'),
                 'user_roles' => 1,
+                "roles" => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]

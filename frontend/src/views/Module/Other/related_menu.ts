@@ -31,7 +31,7 @@ export default function related_menu(module:string){
                 },
                 {
                     label:"Pre Plan",
-                    name:"responders",
+                    name:"preplans",
                     related:true,
                     action:['select']
                 },
