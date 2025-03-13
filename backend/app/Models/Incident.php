@@ -24,4 +24,10 @@ class Incident extends Model
     public function incident_priorities(){
         return $this->hasOne(IncidentPriority::class,'id','incident_priorities');
     }
+    public function caller_types(){
+        return $this->hasOne(CallerType::class,'id','caller_types');
+    }
+    public function contact_statuses(){
+        return $this->hasOne(ContactStatus::class,'id','contact_statuses');
+    }
 }

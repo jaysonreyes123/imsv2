@@ -7,6 +7,7 @@ use App\Http\Helpers\ModuleHelpers;
 use App\Http\Resources\ModuleResource;
 use App\Http\Traits\HttpResponse;
 use App\Http\Traits\SaveForm;
+use App\Models\Contact;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -122,5 +123,13 @@ class ModuleController extends Controller
             $model->save();
         }
         return $this->response($model);
+    }
+    public function checknumber(string $phone){
+        $model = Contact::where('mobile',$phone)->first();
+        $status = 1;
+        if($model){
+            $status = 2;
+        }
+        return $this->response($status);
     }
 }

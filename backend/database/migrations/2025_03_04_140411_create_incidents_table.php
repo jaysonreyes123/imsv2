@@ -26,6 +26,9 @@ return new class extends Migration
             $table->unsignedBigInteger('incident_priorities')->nullable();
             $table->foreign('incident_priorities')->references('id')->on('incident_priorities')->onDelete('cascade');
 
+            $table->unsignedBigInteger('contact_statuses')->nullable();
+            $table->foreign('contact_statuses')->references('id')->on('contact_statuses')->onDelete('cascade');
+
             $table->time('time_of_incident')->nullable();
             $table->date('date_of_incident')->nullable();
             
@@ -39,12 +42,13 @@ return new class extends Migration
             $table->string('caller_firstname')->nullable();
             $table->string('caller_lastname')->nullable();
             $table->string('caller_contact')->nullable();
+            $table->unsignedBigInteger('caller_types')->nullable();
+            $table->foreign('caller_types')->references('id')->on('caller_types')->onDelete('cascade');
 
             $table->string('incident_resolution')->nullable();
 
-            $table->json('responder_types')->default('[]');
+            $table->json('responder_types');
             $table->string('assigned_by')->nullable();
-            $table->string('assigned_team')->nullable();
 
 
             $table->unsignedBigInteger('created_by')->nullable();

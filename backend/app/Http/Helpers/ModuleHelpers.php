@@ -113,7 +113,7 @@ class ModuleHelpers{
         $model = null;
         switch ($module) {
             case 'incidents':
-                $model = Incident::with('incident_types','incident_priorities','incident_statuses');
+                $model = Incident::with('incident_types','incident_priorities','incident_statuses','caller_types','contact_statuses');
                 break;
             case 'resources':
                 $model = Resource::with('resources_statuses','resources_types','resources_categories');

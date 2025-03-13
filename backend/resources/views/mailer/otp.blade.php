@@ -17,5 +17,6 @@ This code will expire in 10 minutes. If you did not attempt to log in, please ig
 <br>
 
 Stay secure,
+<br>
 {{ config('app.name') }}
 </x-mail::message>

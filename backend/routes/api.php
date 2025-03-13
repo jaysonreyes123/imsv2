@@ -45,6 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::get("systemlogs",[DashboardController::class,'get_systemlogs']);
     });
 
+    Route::get("module/checknumber/{phone}",[ModuleController::class,'checknumber']);
     Route::get('module/get_modules',[ModuleController::class,'get_modules']);
     Route::get("module/edit/{module}/{id}",[ModuleController::class,'edit']);
     Route::get("module/{module}/{id}",[ModuleController::class,'show']);

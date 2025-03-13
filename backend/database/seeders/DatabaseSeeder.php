@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             ResourcesCategorySeeder::class,
             RiskLevelSeeder::class,
             ResponseLevelSeeder::class,
+            ContactStatusSeeder::class,
             IncidentSeeder::class,
             ResourcesSeeder::class,
             CallerTypeSeeder::class,
