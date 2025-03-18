@@ -58,7 +58,7 @@ class ActivityLogsHelpers{
                     $logs_details = new ActivityDetail();
                     $logs_details->activity_log_id = $logsid;
                     $logs_details->field = $field;
-                    $logs_details->newvalue = $value;
+                    $logs_details->newvalue = gettype($value) == 'array' ? json_encode($value) : $value ;
                     $logs_details->save();   
                 }
             }

@@ -1,7 +1,6 @@
 <template lang="">
     <div>
         <Card :title="moduleDetails.label" class="mt-8">
-            {{related_store.related_module}}
             <template #header>
                 <div class="flex justify-end">
                     <div v-for="item in action_button" :key="item">
