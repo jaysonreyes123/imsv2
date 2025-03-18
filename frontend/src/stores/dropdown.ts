@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axiosIns from "@/library/axios";
 import { GetFields } from "@/views/Module/Other/fields";
+import local_dropdownlist from "@/views/Module/Other/Dropdown";
 interface dropdownState{
     [index:string] : any
 }
@@ -18,7 +19,7 @@ export const useDropdownStore = defineStore('dropdown',{
             fields.map((block:any) => {
                 block.fields.map((field:any)=>{
                         if(field.type == 'dropdown' || field.type == 'multiselect'){
-                            this.get_dropdown(field.name);
+                            this.get_local_dropdown(field.name);
                             if(field.option == "get"){
                                 this.set_dropdownlist[field.name] = [];
                             }
@@ -34,6 +35,25 @@ export const useDropdownStore = defineStore('dropdown',{
                 this.dropdownloading[field] = false;
             } catch (error) {
                 
+            }
+        },
+
+        async get_local_dropdown(field:string){
+            const not_sorted = ['incident_types'];
+            const dropdown:any =  local_dropdownlist(field);
+            if(dropdown == null){
+                this.get_dropdown(field);
+            }
+            else{
+                let sort_dropdown = [];
+                if(!not_sorted.includes(field)){
+                     sort_dropdown = dropdown.sort();
+                }   
+                else{
+                     sort_dropdown = dropdown.sort((a:any,b:any) => a.label > b.label ? 1 : -1 );
+                }
+
+                this.dropdownlist[field] = sort_dropdown
             }
         },
     },

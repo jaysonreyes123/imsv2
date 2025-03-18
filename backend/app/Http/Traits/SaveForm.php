@@ -8,18 +8,19 @@ use App\Models\Contact;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 trait SaveForm
 {
     //
+    use Encryption;
     protected function save_contact($request){
         $contact_model = new Contact();
         $field_array = [
-            "caller_types" => "caller_types",
-            "caller_firstname" => "firstname",
-            "caller_lastname","lastname",
-            "caller_contact" => "mobile",
- 
+            "caller_types"      => "caller_types",
+            "caller_firstname"  => "firstname",
+            "caller_lastname"   => "lastname",
+            "caller_contact"    => "mobile",
         ];
         $field_keys = array_keys($field_array);
         foreach($request as $fields => $value){
@@ -29,11 +30,9 @@ trait SaveForm
             }
         }
         $contact_model->save();
+        return $contact_model->id;
     }
     protected function save($request,$model,$module,$id = ""){
-        if($module == 'incidents'){
-            $this->save_contact($request);
-        }
         foreach($request as $field => $value){
             if($field == 'responder_types' && $module == 'incidents'){
                 $model->$field = $value == null ? "[]" : json_encode($value) ;
@@ -43,8 +42,13 @@ trait SaveForm
                 $model->$field = $prefix.$current_count;
             }
             else{
+                // $model->$field = $this->encrypt($field,$value);
                 $model->$field = $value;
             }
+        }
+        if($module == 'incidents'){
+            $contact_id = $this->save_contact($request);
+            $model->contacts = $contact_id;
         }
         if($id == ""){
             $model->created_at = Carbon::now();

@@ -66,7 +66,7 @@ export const useRelatedStore = defineStore('related',{
                 this.form = setFormWithData(this.getFieldsSave,response.data.data,'detail');
                 this.loading = false;
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async edit(){
@@ -81,7 +81,7 @@ export const useRelatedStore = defineStore('related',{
                 console.log(this.form)
                 this.loading = false;
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async save(){
@@ -98,7 +98,7 @@ export const useRelatedStore = defineStore('related',{
                 this.load();
                 this.modal = false;
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async load(option:number = 0){
@@ -129,7 +129,7 @@ export const useRelatedStore = defineStore('related',{
                 }
                 option == 0 ? this.loading = false : this.modal_list.loading = false;
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async load_single(module:string,related_module:string,option:number = 0){
@@ -152,7 +152,7 @@ export const useRelatedStore = defineStore('related',{
                     this.modal = false;
                 }
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async save_selected_row(form:object){
@@ -162,7 +162,7 @@ export const useRelatedStore = defineStore('related',{
                 this.load();
 
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async delete(related_id:number,index:number){
@@ -174,6 +174,16 @@ export const useRelatedStore = defineStore('related',{
                     // this.related_list..splice(index,1);
                 }
               
+            } catch (error) {
+                this.loading = false;
+            }
+        },
+        async checknumber(phone:number){
+            try {
+                this.loading = true;
+                const response = await axiosIns.get("module/checknumber/"+phone);
+                this.loading = false;
+                return response.data.data;
             } catch (error) {
                 this.loading = false;
             }

@@ -3,8 +3,8 @@
         <Breadcrum :title="module_store.moduleDetails.label" subtitle="All">
             <template #button>
                 <div class="flex gap-x-2">
-                    <div>
-                        <router-link v-if="this.$route.params.module !='reports'" :to="`/save/${this.$route.params.module}`">
+                    <div v-if="this.$route.params.module !='insight_reports'">
+                        <router-link v-if="this.$route.params.module !='reports' " :to="`/save/${this.$route.params.module}`">
                             <Button 
                                 icon="heroicons-outline:plus" 
                                 btnClass="btn-primary shadow-md" 
@@ -21,7 +21,14 @@
                                 />
                         </Dropdown>
                     </div>
-                    <div v-if="this.$route.params.module != 'users' && this.$route.params.module != 'reports' ">
+                    <div v-else>
+                        <v-select class="shadow w-[200px] bg-white rounded-lg" 
+                        :options="insight_report_dropdown"
+                        @option:selected="insight_report_filter"
+                        placeholder="Select an option"
+                        />
+                    </div>
+                    <div v-if="this.$route.params.module != 'users' && this.$route.params.module != 'reports' && this.$route.params.module != 'insight_reports'  ">
                         <Button 
                             icon="heroicons-outline:arrow-down-tray"
                             btnClass="btn-outline-primary shadow-md" 
@@ -50,6 +57,7 @@
                         <Icon icon="heroicons:eye" />
                     </div>
                 </router-link>
+                <div v-if="this.$route.params.module != 'insight_reports'">
                 <router-link v-if="this.$route.params.module !='reports'" :to="`/save/${this.$route.params.module}/${id}`">
                     <div class="action-btn text-yellow-500">
                         <Icon icon="heroicons:pencil-square" />
@@ -60,7 +68,9 @@
                         <Icon icon="heroicons:pencil-square" />
                     </div>
                 </router-link>
+                </div>
                 <div 
+                    v-if="this.$route.params.module != 'insight_reports'"
                     class="action-btn text-red-500 cursor-pointer" 
                     @click="del(id,rowIndex)">
                     <Icon icon="heroicons:trash" 
@@ -95,13 +105,27 @@ const dropdown_item = [
         link:"/reports/save/chart"
     }
 ]
+const insight_report_dropdown = [
+    {
+        label:"Daily",
+        id:1
+    },
+    {
+        label:"Weekly",
+        id:2
+    },
+    {
+        label:"Montly",
+        id:3
+    },
+];
 export default {
     components:{
         Table,Icon,Button,Breadcrum,ImportModal,Dropdown
     },
     data(){
         return{
-            list_store,module_store,dropdown_item
+            list_store,module_store,dropdown_item,insight_report_dropdown
         }
     },
     beforeMount(){
@@ -130,6 +154,16 @@ export default {
                     return item.field
                 }
             }).filter(filter => filter !== undefined)
+            list_store.load();
+        },
+        insight_report_filter(event){
+            list_store.form.filter = [
+                {
+                    field:"type",
+                    type:"text",
+                    value:event.id
+                }
+            ];
             list_store.load();
         },
         desearch(value){

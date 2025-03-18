@@ -1,6 +1,7 @@
 <template lang="">
     <div>
         <Card :title="moduleDetails.label" class="mt-8">
+            {{related_store.related_module}}
             <template #header>
                 <div class="flex justify-end">
                     <div v-for="item in action_button" :key="item">
@@ -35,24 +36,24 @@
                 @desearch="desearch"
             >
             <template v-slot:action={id,rowIndex,path}>
-                    <div v-if="related_module == 'media'">
+                    <div v-if="related_store.related_module == 'media'">
                         <a @click="preview(path)">
                             <div class="action-btn">
                                 <Icon icon="heroicons:photo" />
                             </div>
                         </a>
                     </div>
-                    <div v-if="related_module == 'media'">
+                    <!-- <div v-if="related_module == 'media'">
                         <a @click="download(path)">
                             <div class="action-btn">
                                 <Icon icon="heroicons:document-arrow-down" />
                             </div>
                         </a>
-                    </div>
-                    <div v-if="related_module != 'media'" @click="view(id)" class="action-btn">
+                    </div> -->
+                    <div v-if="related_store.related_module != 'media'" @click="view(id)" class="action-btn">
                         <Icon icon="heroicons:eye" />
                     </div>
-                    <div v-if="related_module != 'media'" @click="edit(id)" class="action-btn text-yellow-500">
+                    <div v-if="related_store.related_module != 'media'" @click="edit(id)" class="action-btn text-yellow-500">
                         <Icon icon="heroicons:pencil-square" />
                     </div>
                     <div 
@@ -147,6 +148,11 @@ export default {
         openSelectRelatedModal(){
             action.value = "select";
             related_store.modal = true;
+        },
+        preview(path){
+            media_store.preview = path;
+            media_store.modal = true;
+            action.value = 'preview';
         },
         view(related_id){
             related_store.related_id = related_id;

@@ -15,6 +15,9 @@ class Incident extends Model
     public function incident_types(){
         return $this->hasOne(IncidentType::class,'id','incident_types');
     }
+    public function incident_types_(){
+        return $this->hasOne(IncidentType::class,'id','incident_types');
+    }
     public function incident_statuses(){
         return $this->hasOne(IncidentStatus::class,'id','incident_statuses');
     }
@@ -24,10 +27,16 @@ class Incident extends Model
     public function incident_priorities(){
         return $this->hasOne(IncidentPriority::class,'id','incident_priorities');
     }
+    public function incident_priorities_(){
+        return $this->hasOne(IncidentPriority::class,'id','incident_priorities');
+    }
     public function caller_types(){
         return $this->hasOne(CallerType::class,'id','caller_types');
     }
     public function contact_statuses(){
         return $this->hasOne(ContactStatus::class,'id','contact_statuses');
+    }
+    public function contacts(){
+        return $this->hasOne(Contact::class,'id','contacts');
     }
 }

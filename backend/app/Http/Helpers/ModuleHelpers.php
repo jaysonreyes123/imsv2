@@ -6,6 +6,7 @@ use App\Models\CallLog;
 use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\Incident;
+use App\Models\InsightReport;
 use App\Models\Media;
 use App\Models\Module;
 use App\Models\Preplan;
@@ -125,7 +126,7 @@ class ModuleHelpers{
                 $model = Comment::query();
                 break;
             case 'preplans':
-                $model = Preplan::with('risk_levels','response_levels');
+                $model = Preplan::with('risk_levels','response_levels','incident_types');
                 break;
             case 'contacts':
                 $model = Contact::with('caller_types');
@@ -147,6 +148,9 @@ class ModuleHelpers{
                 break;
             case 'reports':
                 $model = Report::query();
+                break;
+            case 'insight_reports':
+                $model = InsightReport::query();
                 break;
             default:
                 # code...

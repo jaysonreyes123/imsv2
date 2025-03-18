@@ -17,16 +17,16 @@ export default{
   },
   mounted(){
   const auth_store = useAuthStore();
-  const remember_token = localStorage.getItem('remember_token');
-  if(remember_token){
-    if(remember_token != auth_store.user_details.remember_token){
-      this.logout();
-    }
-  }
+  // const remember_token = localStorage.getItem('remember_token');
+  // if(remember_token){
+  //   if(remember_token != auth_store.user_details.remember_token){
+  //     this.logout();
+  //   }
+  // }
     this.user_logout.listen('.user-logout',(e)=>{
       setTimeout(()=>{
         if(e.user_id == auth_store.user_details.id && e.remember_token != auth_store.user_details.remember_token){
-        localStorage.setItem("remember_token",e.remember_token)
+        // localStorage.setItem("remember_token",e.remember_token)
         this.logout();
       }
       },3000)
@@ -42,7 +42,7 @@ export default{
             allowOutsideClick: false
         })
         .then(()=>{
-            localStorage.removeItem('remember_token')
+            // localStorage.removeItem('remember_token')
             location.href="/auth/login";
         })
     }

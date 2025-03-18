@@ -58,7 +58,7 @@ export const useListStore = defineStore('list',{
                 this.page.total_page = load_data.total;
                 this.loading = false;
             } catch (error) {
-                
+                this.loading  = false;
             }
         },
         async delete(id:any){
@@ -78,7 +78,7 @@ export const useListStore = defineStore('list',{
                 const response = await axiosIns.post("module/delete",delete_form);
                 this.load();
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async save_selected_row(form:object){
@@ -88,7 +88,7 @@ export const useListStore = defineStore('list',{
                 this.load();
 
             } catch (error) {
-                
+                this.loading = false;
             }
         },
     },

@@ -7,8 +7,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\InsightReportController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\Mobile\AcceptIncidentController;
+use App\Http\Controllers\Mobile\IncidentController as MobileIncidentController;
+use App\Http\Controllers\Mobile\LoginController;
+use App\Http\Controllers\Mobile\UpdateController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\RelatedController;
 use App\Http\Controllers\ReportController;
@@ -17,7 +22,25 @@ use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+
+
+Route::prefix("mobile/account")->group(function(){
+    Route::post("login.php",[LoginController::class,'login']);
+    Route::post("logout.php",[LoginController::class,'logout']);
+
+});
+Route::group(["prefix" => "mobile/incident","middleware" => ['mobile.token']],function(){
+        Route::post("list.php",[MobileIncidentController::class,'list']);
+        Route::get("dropdown.php",[MobileIncidentController::class,'dropdown']);
+        Route::post("accept.php",[AcceptIncidentController::class,'accept']);
+        Route::post("update.php",[UpdateController::class,'update']);
+        Route::post("upload-file.php",[UpdateController::class,'upload']);
+});
+// Route::prefix("mobile/incident")->group(function(){
+
+// })->middleware('mobile.token');
 
 Route::controller(AuthController::class)->group(function(){
     Route::post("auth/login",'login');
@@ -26,7 +49,6 @@ Route::controller(AuthController::class)->group(function(){
     Route::get("auth/logout",'logout')->middleware('auth:sanctum');
     route::post("auth/verify",'verify');
 });
-
 Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::get("session",function(){
@@ -89,5 +111,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
      Route::get("reports/edit/{id}",[ReportController::class,'edit']);
      Route::get("reports/generate/export/{type}/{id}",[ReportController::class,'generate']);
      Route::apiResource('reports',ReportController::class);
+
+     Route::get("insight-reports/{id}",[InsightReportController::class,'get']);
+     Route::get("insight-reports/{id}/{option}",[InsightReportController::class,'report']);
 
 });

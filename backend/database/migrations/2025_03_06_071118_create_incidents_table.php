@@ -45,9 +45,12 @@ return new class extends Migration
             $table->unsignedBigInteger('caller_types')->nullable();
             $table->foreign('caller_types')->references('id')->on('caller_types')->onDelete('cascade');
 
+            $table->unsignedBigInteger('contacts')->nullable();
+            $table->foreign('contacts')->references('id')->on('contacts')->onDelete('cascade');
+
             $table->string('incident_resolution')->nullable();
 
-            $table->json('responder_types')->nullable();
+            $table->json('responder_types')->default("[]");
             $table->string('assigned_by')->nullable();
 
 

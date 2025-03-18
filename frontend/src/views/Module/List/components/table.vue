@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <Card title="" class="shadow-sm">
-        <div class="flex justify-end">
+        <div class="flex justify-end" v-if="this.$route.params.module !='insight_reports'">
             <div class="relative w-[400px] mr-2">
                 <span
                     @click="search_function"
@@ -114,7 +114,7 @@ const list_store = useListStore();
 const isFilter = ref(false);
 const isSearch = ref(false);
 const search = ref("");
-const incident_status_color = ['#20c997','#fd7e14','#28a745','#6c757d','#ffc107']
+const incident_status_color = ['#007bff','#ffc107','#28a745','#6c757d','#dc3545']
 export default {
     emits:['changePage','checkbox:selected','row:selected','search',"desearch"],
     props:{

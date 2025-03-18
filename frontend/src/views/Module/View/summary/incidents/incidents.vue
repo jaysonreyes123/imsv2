@@ -66,7 +66,6 @@ export default {
         this.summary_field = get_fields(module_fields).filter(field => field.summary);
     },
     mounted(){
-
         if(module_store.isLoad){
             module_store.get_detail()
         }

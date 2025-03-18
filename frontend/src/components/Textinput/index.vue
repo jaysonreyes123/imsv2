@@ -17,7 +17,8 @@
       <div class="relative" :class="horizontal ? 'flex-1' : ''">
         <input
           :maxlength="maxlength"
-          step=".1"
+          step="1"
+          min="1"
           :type="types"
           :name="name"
           :placeholder="placeholder"

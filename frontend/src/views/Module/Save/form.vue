@@ -3,24 +3,24 @@
         <Loading v-model:active="store.loading"/>
         <Card v-for="(block,blockindex) in saveFields" :key="blockindex" :title="block.title" class="mt-6 shadow">
                 <div v-if="block.title == 'Location Details'">
-                    <div class="lg:grid lg:grid-cols-3 gap-12"> 
                         <div>
+                            <div class="mt-4">
+                                <editMap :set_coordinates="store.form.coordinates"  @updateCoordinate="updateCoordinates"  />
+                            </div>
+                            <div class="lg:grid gap-x-12 mt-8" style="grid-template-columns: 1fr 1fr;"> 
                             <div v-for="(field,i) in block.fields" :key="i" class="mt-4">
                                 <div class="fromGroup relative">
                                     <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">{{field.label}} <span class="text-red-500" v-if="field.required">*</span></label>
                                     <Textinput 
-                                    :classInput="store.errors[field.name] ? '!border !border-red-500':''" 
+                                        :classInput="store.errors[field.name] ? '!border !border-red-500':''" 
                                         v-model="store.form[field.name]"
                                         :isReadonly="field.readonly == 1 ? true : false" 
                                         :placeholder="`Enter ${field.label}`" />
-                                        <label class="validation-label" v-if="store.errors[field.name] !=''" >{{store.errors[field.name]}}</label>
+                                    <label class="validation-label" v-if="store.errors[field.name] !=''" >{{store.errors[field.name]}}</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-2 py-5">
-                            <editMap :set_coordinates="store.form.coordinates"  @updateCoordinate="updateCoordinates"  />
                         </div>
-                    </div>
                 </div>
                 <div v-else>
                     <div class="lg:grid gap-x-12" style="grid-template-columns: 1fr 1fr;"> 
@@ -57,6 +57,7 @@
                                     <Textinput  
                                         :classInput="store.errors[field.name] ? '!border !border-red-500':''" 
                                         @input="phonevalidation($event,field.name,field.label)" 
+                                        @focusout="checknumber($event,field.name)"
                                         :isReadonly="field.readonly == 1 ? true :false " 
                                         v-model="store.form[field.name]"
                                         :placeholder="`Enter ${field.label}`" />
@@ -104,10 +105,14 @@
                                     :loading="dropdown_store.dropdownloading[field.name]" 
                                     :class="store.errors[field.name] ? '!border !border-red-500':''" 
                                     :disabled="field.readonly == 1 ? true :false" 
+                                    :clearable="field.readonly == 1 ? false :true"
                                     placeholder="Select an option"  
                                     :reduce="(option) => option.id" :options="dropdown_store.dropdownlist[field.name]"
-                                    v-model="store.form[field.name]"
-                                /> 
+                                    v-model="store.form[field.name]">
+                                    <template v-if="field.readonly" #open-indicator="{ attributes }">
+                                        <span v-bind="attributes"></span>
+                                    </template>
+                                </v-select> 
                                     <label class="validation-label" v-if="store.errors[field.name] !=''" >{{store.errors[field.name]}}</label>
                             </div>
 
@@ -129,8 +134,10 @@
                                     <label class="flex-0 mr-6 break-words ltr:inline-block rtl:block input-label">{{field.label}} <span class="text-red-500" v-if="field.required">*</span></label>
                                     <Textinput 
                                         type="number"
-                                    :classInput="store.errors[field.name] ? '!border !border-red-500':''" 
-                                        @input="numbervalidation(field.name,field.label)" 
+                                        step="1"
+                                        min="1"
+                                        :classInput="store.errors[field.name] ? '!border !border-red-500':''" 
+                                        @input="numbervalidation($event,field.name,field.label)" 
                                         :isReadonly="field.readonly == 1 ? true :false " 
                                         v-model="store.form[field.name]"
                                         :placeholder="`Enter ${field.label}`" />
@@ -182,7 +189,7 @@ import Textinput from "@/components/Textinput/index.vue";
 import Textarea from "@/components/Textarea/index.vue";
 import editMap from "../Map/edit-map.vue";
 import { useDropdownStore } from "@/stores/dropdown";
-import { phoneValidation,emailValidation } from "./validation";
+import { phoneValidation,emailValidation,numberValidation } from "./validation";
 const dropdown_store = useDropdownStore();
 import Breadcrum from "../Other/Breadcrum.vue";
 export default {
@@ -199,6 +206,12 @@ export default {
         this.store.loading = false;
     },
     methods:{
+        async checknumber($event,field){
+            if(this.store.errors[field] === undefined && this.$route.params.module == 'incidents'){
+                const data = await this.store.checknumber(this.store.form[field]); 
+                this.store.form.contact_statuses = data;
+            }
+        },
         updateCoordinates(event){
             const {lng,lat} = event;
             this.store.form.coordinates = lng+","+lat;
@@ -209,7 +222,12 @@ export default {
             this.store.errors[field] = message;
             if(message == ""){
                 delete this.store.errors[field];
+                console.log(this.store.errors[field]);
             }
+        },
+        numbervalidation(event,field,label){
+            const value = numberValidation(event.target.value)
+            this.store.form[field] = value;
         },
         emailvalidation(event,field,label){
             const {email,message} = emailValidation(label,event.target.value)

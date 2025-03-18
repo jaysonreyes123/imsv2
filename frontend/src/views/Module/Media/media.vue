@@ -9,7 +9,7 @@
                 <dropzone/>
             </div>
             <div v-else>
-                <iframe  :src="media_store.preview" style="width:100%;min-height:500px" frameborder=0 ></iframe>
+                <iframe :src="media_store.preview" style="width:100%;min-height:500px" frameborder=0 ></iframe>
             </div>
             <template #footer>
                 <div class="w-full flex justify-between">
@@ -79,6 +79,8 @@ export default {
     }
 }
 </script>
-<style lang="">
-    
+<style scoped>
+    img{
+        @apply m-auto;
+    }
 </style>

@@ -93,7 +93,7 @@ export default {
        get_dropdown(field,value){
         let label = "";
         if(dropdown_store.dropdownlist[field] === undefined){
-           dropdown_store.get_dropdown(field);
+           dropdown_store.get_local_dropdown(field);
         }
         else{
           const find_value = dropdown_store.dropdownlist[field].find(f => f.id == value);
@@ -107,7 +107,7 @@ export default {
       multiselect(field,value){
         let label = [];
         if(dropdown_store.dropdownlist[field] === undefined){
-           dropdown_store.get_dropdown(field);
+           dropdown_store.get_local_dropdown(field);
         }
         else{
           const id = JSON.parse(value);

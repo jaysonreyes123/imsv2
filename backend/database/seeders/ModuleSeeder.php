@@ -123,6 +123,15 @@ class ModuleSeeder extends Seeder
                 "presence" => 2,
                 "prefix" => "",
             ],
+            [
+                'id' => 13,
+                'name' => 'insight_reports',
+                'entityname' => 'start',
+                "label" => "Insight Report",
+                "icon" => "heroicons:chart-pie",
+                "presence" => 3,
+                "prefix" => "",
+            ],
         ]);
     }
 }

@@ -43,7 +43,7 @@ export const useModuleStore = defineStore('module',{
                 const response = await axiosIns.get('module/get_modules');
                 this.modules = response.data.data;
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async save(){
@@ -61,19 +61,19 @@ export const useModuleStore = defineStore('module',{
                 this.id = response.data.data;
                 router.push("/view/"+this.module+"/"+response.data.data);
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async edit(){
             try {
                 this.loading = true;
-                const response = await axiosIns.get("module/edit/"+this.module+"/"+this.id);
+                const response = await axiosIns.get("module/edit/"+this.module+"/"+this.id)
                 this.form = setFormWithData(this.getFieldsSave,response.data.data);
                 this.form.module = this.module;
                 this.form.id = this.id;
                 this.loading = false;
             } catch (error) {
-                
+                this.loading = false;
             }
         },
         async get_detail(){
@@ -84,9 +84,23 @@ export const useModuleStore = defineStore('module',{
                 system_generated.map((item:any)=>{
                     this.form[item.name] = response.data.data[item.name];
                 })
+                if(this.module == 'incidents'){
+                    this.form.contacts = response.data.data.contacts;
+                }
+                console.log(this.form)
                 this.loading = false;
             } catch (error) {
-                
+                this.loading = false;
+            }
+        },
+        async checknumber(phone:number){
+            try {
+                this.loading = true;
+                const response = await axiosIns.get("module/checknumber/"+phone);
+                this.loading = false;
+                return response.data.data;
+            } catch (error) {
+                this.loading = false;
             }
         }
     },

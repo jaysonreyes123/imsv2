@@ -17,4 +17,11 @@ class Resource extends Model
     public function resources_categories(){
         return $this->hasOne(ResourcesCategory::class,'id','resources_categories');
     }
+
+    public function resources_types_(){
+        return $this->hasOne(ResourcesType::class,'id','resources_types');
+    }
+    public function resources_categories_(){
+        return $this->hasOne(ResourcesCategory::class,'id','resources_categories');
+    }
 }

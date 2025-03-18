@@ -9,6 +9,8 @@ use App\Http\Traits\RelatedEntries;
 use App\Http\Traits\SaveForm;
 use App\Http\Traits\Table;
 use App\Models\RelatedEntry;
+use App\Models\Resource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RelatedController extends Controller
@@ -90,6 +92,12 @@ class RelatedController extends Controller
     }
     public function save_selected_row(Request $request){
         foreach($request->selected_row as $related_id){
+            if($request->related_module == 'resources'){
+                $resources_model = Resource::find($related_id);
+                $resources_model->last_assigned = Carbon::now();
+                $resources_model->resources_statuses = 2;
+                $resources_model->save();
+            }
             $this->save_related_entries($request->id,$request->module,$related_id,$request->related_module);
             ActivityLogsHelpers::log($request->id,$request->module,$status = 4,related_module:$request->related_module,related_item_id:$related_id);
         }

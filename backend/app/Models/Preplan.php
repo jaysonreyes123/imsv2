@@ -13,4 +13,7 @@ class Preplan extends Model
     public function response_levels(){
         return $this->hasOne(ResponseLevel::class,'id','response_levels');
     }
+    public function incident_types(){
+        return $this->hasOne(IncidentType::class,'id','incident_types');
+    }
 }

@@ -17,7 +17,7 @@
                 v-if="auth_store.errors.status == 'error' "
                 class="mb-4"
                 variant="error"
-                title="Invalid Credential"
+                title="Invalid Credentials"
                 :message="auth_store.errors.message"
                 :showLink="false"
               />

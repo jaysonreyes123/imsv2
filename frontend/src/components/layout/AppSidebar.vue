@@ -108,6 +108,7 @@
                   />
                 </button>
                 <router-link
+                  :target="item.name == 'Wallboard' ? '_blank' : '_self' "
                   v-else-if="item.path"
                   :to="item.path"
                   :class="[
@@ -278,7 +279,11 @@ const menuGroups = [
         id:8,
         icon: "heroicons:chart-pie",
         name: "Reports",
-        path:"/list/reports"
+        // path:"/list/reports"
+        subItems: [
+          {id:8, name: "Reports", path: "/list/reports"},
+          {id:0, name: "Insight Report", path: "/list/insight_reports"},
+        ],
       },
       {
         name: "Settings",

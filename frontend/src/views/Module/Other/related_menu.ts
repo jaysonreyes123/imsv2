@@ -27,7 +27,7 @@ export default function related_menu(module:string){
                     label:"Responder",
                     name:"responders",
                     related:true,
-                    action:[]
+                    action:['select']
                 },
                 {
                     label:"Pre Plan",

@@ -9,7 +9,7 @@ use App\Models\Module;
 use Illuminate\Support\Facades\Auth;
 
 class ActivityLogsHelpers{
-    protected static $not_allow = ['id','module','created_at','updated_at','created_by','updated_by','source','deleted','email_verified_at','remember_token','password','user_id'];
+    protected static $not_allow = ['id','module','created_at','updated_at','created_by','updated_by','source','deleted','email_verified_at','remember_token','password','user_id','contacts'];
     public static function log($itemid,$module,$status,$fields = [],$old_field = [],$related_module = 0,$related_item_id = 0){
         $logs = new ActivityMain();
         $logs->itemid = $itemid;

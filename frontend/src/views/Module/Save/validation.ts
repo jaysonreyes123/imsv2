@@ -24,7 +24,7 @@ const phoneValidation = (label:string,value:string) => {
             message = label+" must be valid phone";
         }   
     }
-    return {phone:phonenumber,message:message};
+    return {phone:phonenumber,message:message,maxlength:maxlength};
 }
 
 const emailValidation = (label:string,value:string)  => {
@@ -38,4 +38,8 @@ const emailValidation = (label:string,value:string)  => {
     }
     return {email:email,message:message};
 }
-export {phoneValidation,emailValidation};
+
+const numberValidation = (value:any) => {
+    return value.replace(/\D/g,"");
+}
+export {phoneValidation,emailValidation,numberValidation};

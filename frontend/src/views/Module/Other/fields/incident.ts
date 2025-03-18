@@ -48,6 +48,13 @@ export const incident_field = [
         title:"Location Details",
         fields:[
             {
+                label:"Coordinates",
+                name:"coordinates",
+                type:"coordinates",
+                required:1,
+                readonly:1
+            },
+            {
                 label:"location",
                 name:"location",
                 type:"text",
@@ -62,25 +69,18 @@ export const incident_field = [
                 name:"nearest_landmark",
                 type:"text",
             },
-            {
-                label:"Coordinates",
-                name:"coordinates",
-                type:"coordinates",
-                required:1,
-                readonly:1
-            }
         ]
     },
     {
-        title:"Report Details",
+        title:"Caller Details",
         fields:[
             {
-                label:"Firstname",
+                label:"First Name",
                 name:"caller_firstname",
                 type:"text",
             },
             {
-                label:"Lastname",
+                label:"Last Name",
                 name:"caller_lastname",
                 type:"text",
             },
@@ -88,6 +88,19 @@ export const incident_field = [
                 label:"Contact",
                 name:"caller_contact",
                 type:"phone",
+                link:1,
+                module:"contacts"
+            },
+            {
+                label:"Caller Type",
+                name:"caller_types",
+                type:"dropdown",
+            },
+            {
+                label:"Contact Status",
+                name:"contact_statuses",
+                type:"dropdown",
+                readonly:1
             },
         ]
     },
@@ -102,11 +115,6 @@ export const incident_field = [
             {
                 label:"Assigned By",
                 name:"assigned_by",
-                type:"text",
-            },
-            {
-                label:"Assigned Team",
-                name:"assigned_team",
                 type:"text",
             },
         ]

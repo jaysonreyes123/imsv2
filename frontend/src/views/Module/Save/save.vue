@@ -26,14 +26,16 @@ export default {
     },
     created(){
         module_store.clear();
-        dropdown_store.set_dropdown(this.$route.params.module);
         module_store.id = this.$route.params.id === undefined ? "" : this.$route.params.id;
         module_store.form.id = this.$route.params.id === undefined ? "" : this.$route.params.id;
         module_store.module = this.$route.params.module;
         module_store.form.module = this.$route.params.module;
        
     },
+    beforeMount(){
+    },
     mounted(){
+        dropdown_store.set_dropdown(this.$route.params.module);
         if(module_store.id != ""){
             module_store.edit();
         }

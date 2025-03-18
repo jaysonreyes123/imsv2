@@ -28,13 +28,21 @@
                                     </a>
                                 </div>
                             </div> -->
-                            <div class="fromGroup relative" v-if="field.type == 'multiselect' ">
+                            <div class="fromGroup relative" v-if="field.link">
+                                <label>{{ field.label }}</label>
+                                <router-link v-if="store.form[field.module]" class="text-blue-500" :to="`/view/${field.module}/${store.form[field.module]}`">{{ store.form[field.name] }}</router-link>
+                            </div>
+                            <div class="fromGroup relative" v-else-if="field.type == 'multiselect' ">
                                 <label>{{ field.label }}</label>
                                 <span>{{ store.form[field.name] }}</span>
                             </div>
                             <div class="fromGroup relative" v-else-if="field.type == 'dropdown' ">
                                 <label>{{ field.label }}</label>
                                 <span>{{ get_dropdown_label(store.form[field.name]) }}</span>
+                            </div>
+                            <div class="fromGroup relative" v-else-if="field.type == 'textarea' ">
+                                <label>{{ field.label }}</label>
+                                <span style="white-space: pre-line">{{ store.form[field.name] }}</span>
                             </div>
                             <div class="fromGroup relative" v-else>
                                 <label>{{ field.label }}</label>

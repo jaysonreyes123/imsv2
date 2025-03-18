@@ -35,6 +35,7 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
 
+            $table->string('token')->nullable();
             $table->string('source')->default('crm');
             $table->integer('deleted')->default(0);
             $table->timestamps();

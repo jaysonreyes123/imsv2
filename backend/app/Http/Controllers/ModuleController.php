@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Helpers\ActivityLogsHelpers;
 use App\Http\Helpers\ModuleHelpers;
 use App\Http\Resources\ModuleResource;
+use App\Http\Traits\Encryption;
 use App\Http\Traits\HttpResponse;
 use App\Http\Traits\SaveForm;
 use App\Models\Contact;
@@ -17,7 +18,7 @@ class ModuleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    use HttpResponse,SaveForm;
+    use HttpResponse,SaveForm,Encryption;
     public function get_modules(){
         $modules = Module::all();
         return $this->response($modules);
@@ -31,6 +32,7 @@ class ModuleController extends Controller
             foreach($request->search['search_field'] as $search_field){
                 $parse = explode(".",$search_field);
                 $search = $request->search['value'];
+                //dropdown table
                 if(count($parse) == 2){
                     $col = $parse[0];
                     $relation_model = DB::table($parse[0])->select('id')->where('label','like',"$search%");
@@ -48,9 +50,14 @@ class ModuleController extends Controller
                 }
             }
         }
-        $model = $model->where('deleted',0);
+        if($request->module != 'insight_reports'){
+            $model = $model->where('deleted',0);
+        }
         $model = $model->orderByDesc('updated_at');
         $model = $model->paginate(15);
+        // return $model->filter(function($record){
+        //     return false !== stripos($this->decrypt_single('firstname',$record['firstname']), "t");
+        // });
         return $this->response($model);
     }
 
@@ -96,6 +103,7 @@ class ModuleController extends Controller
     }
     public function edit(string $module,string $id){
         $model = ModuleHelpers::find($id,$module);
+        // $model = $this->decrypt($model);
         return $this->response($model);
     }
     /**

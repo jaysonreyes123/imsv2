@@ -46,6 +46,7 @@ export const responder_fields = [
                 label:"Status",
                 name:"statuses",
                 type:"dropdown",
+                default_value:1
             },
         ]
     },

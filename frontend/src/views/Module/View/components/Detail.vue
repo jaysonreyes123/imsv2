@@ -31,7 +31,6 @@ export default {
         }
     },
     mounted(){
-
         if(module_store.isLoad){
             module_store.get_detail()
         }

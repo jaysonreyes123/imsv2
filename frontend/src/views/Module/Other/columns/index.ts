@@ -2,6 +2,7 @@ import { agency_column } from "./agency";
 import { call_logs_column } from "./call_logs";
 import { contact_column } from "./contacts";
 import { incident_column } from "./incident";
+import { insight_report_column } from "./insight-report";
 import { media_column } from "./media";
 import { preplan_column } from "./preplan";
 import { report_column } from "./report";
@@ -45,6 +46,9 @@ export function GetColumn(module:string){
                 break;
             case 'reports':
                 column = report_column;
+                break;
+            case 'insight_reports':
+                column = insight_report_column;
                 break;
             default:
                 break;

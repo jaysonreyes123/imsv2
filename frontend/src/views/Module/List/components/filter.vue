@@ -101,7 +101,7 @@ export default {
             list_store.form.filter[position].value = "";
             list_store.form.filter[position].type = event.type;
             if(event.type == 'dropdown') {
-                dropdown_store.get_dropdown(event.name);
+                dropdown_store.get_local_dropdown(event.name);
             }
         },
         removeCondition(index){

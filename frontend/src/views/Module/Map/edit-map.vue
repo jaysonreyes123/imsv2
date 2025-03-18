@@ -1,7 +1,7 @@
 <template>
     <div class="shadow-lg">
         <MapboxMap
-                style="height:600px"
+                style="height:400px"
                 access-token="pk.eyJ1IjoiamF5c29ucmV5ZXMyNiIsImEiOiJjbGd1aDViYXUwZzM2M3BsamlpdWtjbzBsIn0.DmYf96Yhwg7vip5Qpzghnw"
                 map-style="mapbox://styles/mapbox/streets-v11"
                 :center="center"
