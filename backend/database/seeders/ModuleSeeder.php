@@ -63,7 +63,7 @@ class ModuleSeeder extends Seeder
             [
                 'id' => 6,
                 'name' => 'responders',
-                'entityname' => 'responder_types',
+                'entityname' => 'firstname,lastname',
                 "label" => "Responder",
                 "icon" => "carbon:dashboard",
                 "presence" => 1,
