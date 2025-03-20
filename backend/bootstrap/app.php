@@ -25,9 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
         // $schedule->command(InsightReportDaily::class)->dailyAt('08:00')->withoutOverlapping();
         $schedule->command(InsightReportDaily::class)->dailyAt('08:00')->withoutOverlapping();
         //every 1st of week at 8 am
-        $schedule->command(InsightReportWeekly::class)->weeklyOn(1,'08:00');
+        $schedule->command(InsightReportWeekly::class)->weeklyOn(1,'08:00')->withoutOverlapping();
         //every 1st of month at 8am
-        $schedule->command(InsightReportMontly::class)->monthlyOn(1,'08:00');
+        $schedule->command(InsightReportMontly::class)->monthlyOn(1,'08:00')->withoutOverlapping();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

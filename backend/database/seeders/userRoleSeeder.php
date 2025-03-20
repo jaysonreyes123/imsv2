@@ -17,12 +17,20 @@ class userRoleSeeder extends Seeder
         DB::table("user_roles")->insert([
             [
                 "id"    => 1,
-                "label" => "Admin"
+                "label" => "Administrator"
             ],
 
             [
                 "id"    => 2,
-                "label" => "Non Admin"
+                "label" => "Supervisor"
+            ],
+            [
+                "id"    => 3,
+                "label" => "Calltaker"
+            ],
+            [
+                "id"    => 4,
+                "label" => "Dispatcher"
             ],
         ]);
     }

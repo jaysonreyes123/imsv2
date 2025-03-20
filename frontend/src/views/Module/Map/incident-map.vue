@@ -5,7 +5,7 @@
                 <MapboxMap
                 :class="classHeight"
                 @mb-created="(mapInstance) => map = mapInstance"
-                access-token="pk.eyJ1IjoiamF5c29ucmV5ZXMyNiIsImEiOiJjbGd1aDViYXUwZzM2M3BsamlpdWtjbzBsIn0.DmYf96Yhwg7vip5Qpzghnw"
+                access-token="pk.eyJ1IjoiaW1zYmF5YW45MTEiLCJhIjoiY204Zmhyc3Q1MGRhaTJyb3RkenQ3MmVraSJ9.3X2VHHuxYjG9dC03Y8crqg"
                 map-style="mapbox://styles/mapbox/streets-v11"
                 :center="[121.02430283862415,14.554636747570202]"
                 :zoom="12"
@@ -189,12 +189,12 @@
   @keyframes pulse_red {
     0% {
         transform: scale(0.80);
-        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.8);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, .8);
     }
   
     70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 15px rgba(255, 0, 0, 0);
+        transform: scale(1.1);
+        box-shadow: 0 0 0 23px rgba(255, 0, 0, 0);
     }
   
     100% {

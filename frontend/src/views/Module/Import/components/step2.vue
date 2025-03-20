@@ -58,7 +58,7 @@ export default {
         fields(){
             const blocks = GetFields(list_store.module);
             const fields = get_fields(blocks);
-            return fields;
+            return fields.filter(field => field.type != 'hidden');
         }
     },
 }

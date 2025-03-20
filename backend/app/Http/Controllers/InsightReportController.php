@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Traits\HttpResponse;
 use App\Models\Incident;
+use App\Models\IncidentPriority;
+use App\Models\IncidentStatus;
 use App\Models\InsightReport;
 use App\Models\RelatedEntry;
 use App\Models\Resource;
@@ -57,31 +59,44 @@ class InsightReportController extends Controller
         return $this->response($response);
     }
     public function incident_overview($start,$end){
-        $incident_model = Incident::whereBetween('created_at',[$start,$end])->get();
+        $incident_model = Incident::whereBetween('created_at',[$start,$end])->where('deleted',0)->get();
         $incident_resolve = $incident_model->filter(function($item){
             return $item->incident_statuses == 3;
         });
         $incident_ongoing = $incident_model->filter(function($item){
             return $item->incident_statuses == 1 || $item->incident_statuses == 2;
         });
+        $incident_closed = $incident_model->filter(function($item){
+            return $item->incident_statuses == 4;
+        });
         return [
             ["name" => "Total Incidents Reported","count" => $incident_model->count()],
-            ["name" => "Total Resolved Incidents","count" => $incident_resolve->count()],
             ["name" => "Total Ongoing Incidents","count" => $incident_ongoing->count()],
+            ["name" => "Total Resolved Incidents","count" => $incident_resolve->count()],
+            ["name" => "Total Closed Incidents","count" => $incident_closed->count()],
         ];
     }
     public function incident_breakdown_priorities($start,$end){
         $output = [];
-        $incident_model = Incident::with('incident_priorities_')->select('incident_priorities',DB::raw('count(incident_priorities) as count'))
-        ->whereBetween('created_at',[$start,$end])
-        ->groupBy('incident_priorities')
+        // $incident_model = Incident::with('incident_priorities_')
+        // ->select('incident_priorities',DB::raw('count(incident_priorities) as count'))
+        // ->whereBetween('created_at',[$start,$end])
+        // ->groupBy('incident_priorities')
+        // ->get();
+        $incident_model = IncidentPriority::leftJoin("incidents",'incidents.incident_priorities','=','incident_priorities.id')
+        ->select('incident_priorities.label as label',DB::raw('count(incidents.incident_priorities) as count'))
+        ->where('incidents.deleted',0)
+        ->orWhereNull('incidents.deleted')
+        ->where('incident_priorities.id','<>',5)
+        ->groupBy('incident_priorities.label')
+        ->orderBy('incident_priorities.sequence')
         ->get();
-        $incident_model_total = Incident::whereBetween('created_at',[$start,$end]);
+        $incident_model_total = Incident::whereBetween('created_at',[$start,$end])->where('deleted',0);
         foreach($incident_model as $item){
             array_push(
                 $output,
                 array(
-                    "name"      => $item->incident_priorities_->label,
+                    "name"      => $item->label,
                     "count"     => $item->count,
                     "total"     => number_format(((int)$item->count/$incident_model_total->count()) * 100,2)."%"
                 )
@@ -93,6 +108,7 @@ class InsightReportController extends Controller
         $output = [];
         $incident_model = Incident::with('incident_types_')->select('incident_types',DB::raw('count(incident_types) as count'))
         ->whereBetween('created_at',[$start,$end])
+        ->where('deleted',0)
         ->groupBy('incident_types')
         ->get();
         $incident_model_total = Incident::whereBetween('created_at',[$start,$end]);
@@ -110,7 +126,7 @@ class InsightReportController extends Controller
     }
     public function resource_breakdown_types($start,$end){
         $output = [];
-        $incident_model = Incident::whereBetween('created_at',[$start,$end])->pluck("id");
+        $incident_model = Incident::whereBetween('created_at',[$start,$end])->where('delted',0)->pluck("id");
         $resource_model = Resource::with('resources_types_','resources_categories_')
         ->join('related_entries','resources.id','=','related_entries.related_id')
         ->where('related_entries.module',1)
@@ -138,6 +154,7 @@ class InsightReportController extends Controller
         ->where('related_entries.module',1)
         ->where('related_entries.related_module',6)
         ->whereBetween('incidents.created_at',[$start,$end])
+        ->where('incidents.deleted',0)
         ->get();
         foreach($model as $item){
             array_push(

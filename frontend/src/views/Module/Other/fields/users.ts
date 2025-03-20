@@ -3,13 +3,13 @@ export const user_fields = [
         title:"Basic information",
         fields:[
             {
-                label:"Firstname",
+                label:"First Name",
                 name:"firstname",
                 type:"text",
                 required:1
             },
             {
-                label:"Lastname",
+                label:"Last Name",
                 name:"lastname",
                 type:"text",
                 required:1
@@ -25,15 +25,6 @@ export const user_fields = [
                 name:"user_roles",
                 type:"dropdown",
                 required:1,
-                option:"set",
-                target:"roles"
-            },
-            {
-                label:"Role.",
-                name:"roles",
-                type:"dropdown",
-                required:1,
-                option:"get"
             },
             {
                 label:"Password",

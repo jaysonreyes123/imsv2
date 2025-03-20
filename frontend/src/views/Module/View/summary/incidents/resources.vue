@@ -24,7 +24,7 @@ const columns = [
     },
     {
         label:"Status",
-        field:"resources_statuses"
+        field:"resources_statuses.label"
     },
 ];
 const data = ref([]);

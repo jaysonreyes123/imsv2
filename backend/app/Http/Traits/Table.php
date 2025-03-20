@@ -19,7 +19,6 @@ trait Table
             ->where("module",$module_details)
             ->where("related_module",$related_module_details)
             ->pluck('related_id');
-
         if($request->option == 1){
             $model = $model->whereNotIn('id',$related_entries_id);
         }   

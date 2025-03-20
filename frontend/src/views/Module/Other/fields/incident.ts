@@ -55,7 +55,7 @@ export const incident_field = [
                 readonly:1
             },
             {
-                label:"location",
+                label:"Location",
                 name:"location",
                 type:"text",
             },

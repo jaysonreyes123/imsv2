@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->unsignedBigInteger('user_roles');
             $table->foreign('user_roles')->references('id')->on('user_roles')->onDelete('cascade');
-            $table->unsignedBigInteger('roles');
-            $table->foreign('roles')->references('id')->on('roles')->onDelete('cascade');
+            // $table->unsignedBigInteger('roles');
+            // $table->foreign('roles')->references('id')->on('roles')->onDelete('cascade');
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

@@ -2,7 +2,7 @@
     <div class="shadow-lg">
         <MapboxMap
                 style="height:400px"
-                access-token="pk.eyJ1IjoiamF5c29ucmV5ZXMyNiIsImEiOiJjbGd1aDViYXUwZzM2M3BsamlpdWtjbzBsIn0.DmYf96Yhwg7vip5Qpzghnw"
+                access-token="pk.eyJ1IjoiaW1zYmF5YW45MTEiLCJhIjoiY204Zmhyc3Q1MGRhaTJyb3RkenQ3MmVraSJ9.3X2VHHuxYjG9dC03Y8crqg"
                 map-style="mapbox://styles/mapbox/streets-v11"
                 :center="center"
                 :zoom="12"

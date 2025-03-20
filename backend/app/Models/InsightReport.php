@@ -15,7 +15,7 @@ class InsightReport extends Model
             return "Weekly";
         }
         else if($this->attributes['type'] == 3){
-            return "Montly";
+            return "Monthly";
         }
     }
 }

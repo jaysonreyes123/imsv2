@@ -108,6 +108,7 @@ export default {
         user_store.method = this.method;
         dropdown_store.set_dropdown('users');
         const {form} = setForm(this.saveFields);
+        user_store.errors = [];
         user_store.form = form;
         user_store.id = this.$route.params.id === undefined ? "" : this.$route.params.id;
         user_store.loading = false;
@@ -137,7 +138,8 @@ export default {
         },
         save(){
             const {required} = setForm(this.saveFields);
-            required.map(required => {
+            const reqs = user_store.id != "" ? required.filter(req => req.field != 'password') : required;
+            reqs.map(required => {
                 if(user_store.form[required.field] == "" || user_store.form[required.field] === null){
                     user_store.errors[required.field] = `${required.label} is required`;
                 }

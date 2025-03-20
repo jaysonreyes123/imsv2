@@ -25,6 +25,8 @@
                         <v-select class="shadow w-[200px] bg-white rounded-lg" 
                         :options="insight_report_dropdown"
                         @option:selected="insight_report_filter"
+                        v-model="selected_option"
+                        :reduce="option => option.id"
                         placeholder="Select an option"
                         />
                     </div>
@@ -92,9 +94,11 @@ import { useModuleStore } from "@/stores/module";
 import ImportModal from "@/views/Module/Import/index.vue";
 import { useImportStore } from "@/stores/import";
 import { GetColumn } from "../Other/columns";
+import { ref } from "vue";
 const module_store = useModuleStore();
 const list_store = useListStore();
 const import_store = useImportStore();
+const selected_option = ref(0);
 const dropdown_item = [
     {
         label:"List",
@@ -106,6 +110,10 @@ const dropdown_item = [
     }
 ]
 const insight_report_dropdown = [
+{
+        label:"All",
+        id:0
+    },
     {
         label:"Daily",
         id:1
@@ -115,7 +123,7 @@ const insight_report_dropdown = [
         id:2
     },
     {
-        label:"Montly",
+        label:"Monthly",
         id:3
     },
 ];
@@ -125,7 +133,7 @@ export default {
     },
     data(){
         return{
-            list_store,module_store,dropdown_item,insight_report_dropdown
+            list_store,module_store,dropdown_item,insight_report_dropdown,selected_option
         }
     },
     beforeMount(){
@@ -157,13 +165,17 @@ export default {
             list_store.load();
         },
         insight_report_filter(event){
-            list_store.form.filter = [
-                {
-                    field:"type",
-                    type:"text",
-                    value:event.id
-                }
-            ];
+            list_store.form.filter = [];
+            if(event.id > 0){
+                list_store.form.filter =
+                [
+                    {
+                        field:"type",
+                        type:"text",
+                        value:event.id
+                    }
+                ];
+            }
             list_store.load();
         },
         desearch(value){

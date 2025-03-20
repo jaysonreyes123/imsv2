@@ -95,7 +95,13 @@ class UserController extends Controller
         foreach($request->all() as $field => $value){
             $parse_field = explode(".",$field);
             if(count($parse_field) == 1){
-                $model->$field = $value;
+                if($field == "password"){
+                    $model->$field = $value != "" ? $value : $model->password;
+                }
+                else{
+                    $model->$field = $value;
+                }
+
             }
         }
         if($id == ""){
@@ -139,11 +145,11 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
-        $model = User::with('user_roles','user_privileges','roles')->find($id);
+        $model = User::with('user_roles','user_privileges')->find($id);
         return $this->response(new ModuleResource($model));
     }
     public function edit(string $id){
-        $model = User::with('user_roles','user_privileges','roles')->find($id);
+        $model = User::with('user_roles','user_privileges')->find($id);
         return $this->response($model);
     }
 

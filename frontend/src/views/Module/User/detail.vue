@@ -5,7 +5,7 @@
             <Card v-for="(block,blockindex) in detailForm" :key="blockindex" :title="block.title" class="mt-6 shadow">
                 <div>
                     <div class="lg:grid gap-x-12 mt-2" style="grid-template-columns: 1fr 1fr;"> 
-                        <div v-for="(field,i) in block.fields" :key="i" :class="`custom-grid-${i%2}`" class="mt-4">
+                        <div v-for="(field,i) in block.fields.filter(field => field.name != 'password')" :key="i" :class="`custom-grid-${i%2}`" class="mt-4">
                             <!-- <div class="fromGroup relative" v-if="field.type == 'relation' ">
                                 <label>{{ field.label }}</label>
                                 <div v-if="field.related_fields">

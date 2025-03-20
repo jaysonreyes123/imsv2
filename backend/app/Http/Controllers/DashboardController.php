@@ -14,14 +14,17 @@ class DashboardController extends Controller
 {
     //
      use HttpResponse;
-    public function get_widget($module,$field = null,$operator = null,$value = null){
+     public function get_widget($module,$field = null,$operator = null,$value = null){
         $model = DB::table($module)->where("deleted",0);
         if($field != null && $operator != null && $value != null){
             $parse_value = explode(":",$value);
             $model->select($field);
+            $where_data = [];
             foreach($parse_value as $v){
-                $model->where($field,$operator,$v);
+                // $model->where($field,$operator,$v);
+                $where_data[] = $v;
             }
+            $model = $operator == '<>' ? $model->whereNotIn($field,$where_data) : $model->whereIn($field,$where_data);
         }
         return $this->response($model->count());
     }

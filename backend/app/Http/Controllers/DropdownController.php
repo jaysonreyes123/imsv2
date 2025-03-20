@@ -71,28 +71,27 @@ class DropdownController extends Controller
     }
     public function get_dropdown($field)
     {
-        return 1;
-        // try {
-        //     return Cache::remember($field, now()->addMinutes(60), function () use ($field) {
-        //         $query = DB::table($field);
+        try {
+            return Cache::remember($field, now()->addMinutes(60), function () use ($field) {
+                $query = DB::table($field);
 
-        //         if ($field === 'users') {
-        //             $query->where('deleted', 0)->orderBy('firstname');
-        //         } elseif (in_array($field, [
-        //             'task_statuses', 'incident_statuses', 'incident_priorities', 
-        //             'risk_levels', 'response_levels'
-        //         ])) {
-        //             $query->orderBy('sequence');
-        //         } else {
-        //             $query->orderBy('label');
-        //         }
+                if ($field === 'users') {
+                    $query->where('deleted', 0)->orderBy('firstname');
+                } elseif (in_array($field, [
+                    'task_statuses', 'incident_statuses', 'incident_priorities', 
+                    'risk_levels', 'response_levels'
+                ])) {
+                    $query->orderBy('sequence');
+                } else {
+                    $query->orderBy('label');
+                }
 
-        //         $model = $query->get();
+                $model = $query->get();
 
-        //         return DropdownResource::collection($model)->additional(['field' => $field]);
-        //     });
-        // } catch (\Throwable $th) {
-        //     return $this->response([]);
-        // }
+                return DropdownResource::collection($model)->additional(['field' => $field]);
+            });
+        } catch (\Throwable $th) {
+            return $this->response([]);
+        }
     }
 }

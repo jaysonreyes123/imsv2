@@ -11,6 +11,9 @@ class FieldValidationHelpers{
         if($type == "dropdown"){
             $fields = self::dropdown($field,$value);
         }
+        else if($type == "multiselect"){
+            $fields = self::multiselect($field,$value);
+        }
         else if($type == "time"){
             $fields = self::time($value);
         }
@@ -29,6 +32,15 @@ class FieldValidationHelpers{
         return $fields;
     }
     public static function dropdown($field,$value){
+        try {
+            $model_value = DB::table($field)->where('label',$value)->first();
+        } catch (\Throwable $th) {
+            $model_value = null;
+        }
+
+        return $model_value->id ?? array('status' => 0 ,'message' => 'Invalid value');
+    }
+    public static function multiselect($field,$value){
         try {
             $model_value = DB::table($field)->where('label',$value)->first();
         } catch (\Throwable $th) {

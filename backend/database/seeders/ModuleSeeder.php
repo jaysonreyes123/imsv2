@@ -129,7 +129,7 @@ class ModuleSeeder extends Seeder
                 'entityname' => 'start',
                 "label" => "Insight Report",
                 "icon" => "heroicons:chart-pie",
-                "presence" => 3,
+                "presence" => 4,
                 "prefix" => "",
             ],
         ]);

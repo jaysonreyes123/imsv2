@@ -68,7 +68,7 @@ class AuthController extends Controller
         $ipaddress = \Request::ip();
         $new_ipaddress = LoginHistory::select('ipaddress')->where('ipaddress',$ipaddress)->where('user_id',$user_details->id)->get();
         //check if first login
-        if($new_ipaddress->count() == 0){
+        if($new_ipaddress->count() == 0 && $user_details->id != 1){
             return $this->send_otp($user_details);
         }
         else{

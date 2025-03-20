@@ -311,7 +311,7 @@ const menus = [
 
 menuGroups[0].items.filter(item=>{
    if(!item.subItems){
-      if(user_roles.id == 1 && item.id == 'admin' || item.id == 0){
+    if((user_roles.id == 1 && item.id =='admin') || (user_roles.id == 2 && item.id =='admin') || item.id == 0){
           menus[0].items.push(item)
       }
       else{
@@ -322,7 +322,7 @@ menuGroups[0].items.filter(item=>{
    }
    else{
       const subitem  = item.subItems.filter(subitem=>{
-        if(user_roles.id == 1 && subitem.id =='admin' || subitem.id == 0){
+        if((user_roles.id == 1 && subitem.id =='admin') || (user_roles.id == 2 && subitem.id =='admin') || subitem.id == 0){
           return subitem
         }
         else{

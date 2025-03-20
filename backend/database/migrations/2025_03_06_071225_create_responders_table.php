@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('responder_types')->nullable();
             $table->foreign('responder_types')->references('id')->on('responder_types')->onDelete('cascade');
 
-            $table->string('firstname')->nullable();
-            $table->string('lastname')->nullable();
-            $table->string('contact_no')->nullable();
+            $table->string('firstname',200)->nullable();
+            $table->string('lastname',200)->nullable();
+            $table->string('contact_no',200)->nullable();
 
             $table->string('email_address')->nullable();
             $table->string('password')->nullable();

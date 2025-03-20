@@ -16,38 +16,33 @@
                 </div>
             </div>
         </div>
-        <div class="md:flex gap-4 mt-4">
-            <div class="w-full md:w-3/4">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <SkeletonTable v-if="barchart_loading"/>
-                    <Card title="# of Incidents, Trend over the 6 months" v-else>
-                        <apexchart
-                        ref="chart_vertical"
-                        type="bar"
-                        height="200px"
-                        :options="BarChartConfiguration.chartOptions"
-                        :series="BarChartConfiguration.series"
-                        />
-                    </Card>
-                    <SkeletonTable v-if="piechart_loading"/>
-                    <Card v-else title="Incident Status">
-                        <apexchart
-                        ref="chart_pie"
-                        type="pie"
-                        height="200px"
-                        :options="PieChartConfiguration.chartOptions"
-                        :series="PieChartConfiguration.series"
-                        />
-                    </Card>
-                </div>
-                <div class="grid mt-4">
-                    <Card title="Incident Map">
-                        <incidentMap :legend="false" classHeight='h-[500px]' />
-                    </Card>  
-                </div>
-            </div>
-            <div class="w-full md:w-1/4 mt-4 md:mt-0 ">
-                <Card title="Activity logs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <SkeletonTable v-if="barchart_loading"/>
+                <Card title="# of Incidents, Trend over the 6 months" v-else>
+                    <apexchart
+                    ref="chart_vertical"
+                    type="bar"
+                    height="200px"
+                    :options="BarChartConfiguration.chartOptions"
+                    :series="BarChartConfiguration.series"
+                    />
+                </Card>
+                <SkeletonTable v-if="piechart_loading"/>
+                <Card v-else title="Incident Status">
+                    <apexchart
+                    ref="chart_pie"
+                    type="pie"
+                    height="200px"
+                    :options="PieChartConfiguration.chartOptions"
+                    :series="PieChartConfiguration.series"
+                    />
+            </Card>
+        </div>
+        <div class="grid grid-cols-1  md:grid-cols-4 gap-4 mt-4">
+            <Card class="md:col-span-3 h-[600px]" title="Incident Map">
+                <incidentMap :legend="false" classHeight='h-[500px]' />
+            </Card> 
+            <Card title="Activity logs">
                     <ul class="relative ltr:pl-2 rtl:pr-2 overflow-y-auto max-h-[700px] h-[700px]">
                         <li
                             v-for="(item, i) in dashboard_store.logs"
@@ -79,7 +74,6 @@
                         />
                     </div>
                 </Card>
-            </div>
         </div>
     </div>
     </template>
@@ -109,7 +103,7 @@
             dashboard_store.get_widget("incidents",'Total Incidents',0)
             // dashboard_store.get_widget("incidents",'Active Incidents',1,'incident_statuses','<>','Closed:Cancelled')
             dashboard_store.get_widget("incidents",'Active Incidents',1,'incident_statuses','<>',4)
-            dashboard_store.get_widget("incidents",'Closed Incidents',2,'incident_statuses','=',4)
+            dashboard_store.get_widget("incidents",'Critical Incidents',2,'incident_statuses','=',"1:2")
             dashboard_store.system_logs();
             this.incident_trend_month();
             this.incident_status();

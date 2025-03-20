@@ -47,7 +47,8 @@
             :row-style-class="rowStyleClassFn"
             v-on:cell-click="onRowClick"
             v-on:selected-rows-change="checkBoxChange"  
-            :rows="rows"
+            :disable-row-select="true"
+            :rows="rows_"
             :select-options="{
                 enabled:onSelect,
                 selectOnCheckboxOnly:hasAction,
@@ -158,6 +159,17 @@ export default {
                 return [...this.columns,...action_header];
             }
             return this.columns;
+        },
+        rows_(){
+            const custom_rows = [];
+            this.rows.map(item=>{
+                if(item.resources_statuses){
+                    Object.assign(item,{disabled:true});
+                }
+                Object.assign(item,{vgtSelected:false})
+                custom_rows.push(item);
+            })
+            return custom_rows;
         }
     },
     beforeMount() {
@@ -171,9 +183,18 @@ export default {
     },
     methods: {
         rowStyleClassFn(row){
-            return 'VGT-row';
+            let disabled = row.disabled ? 'disabled-row' : ''
+            return `VGT-row ${disabled}`;
         },
         checkBoxChange(event){
+            event.selectedRows.map(item => {
+                if(item.resources_statuses){
+                    // assigned status 
+                    if(item.resources_statuses.id == 2){
+                        item.vgtSelected=false;
+                    }
+                }
+            })
             this.$emit("checkbox:selected",event.selectedRows);
         },
         onRowClick(row){
@@ -212,7 +233,6 @@ export default {
             isFilter.value = false;
         },
         search_function(){
-            console.log("123");
             this.$emit("search",search.value);
             isSearch.value = true;
         },
@@ -227,5 +247,8 @@ export default {
 <style>
   .VGT-row:hover{
     @apply cursor-pointer dark:bg-gray-900 bg-gray-100
+  }
+  .disabled-row{
+    pointer-events: none;
   }
 </style>

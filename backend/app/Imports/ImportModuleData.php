@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Http\Helpers\ActivityLogsHelpers;
 use App\Http\Helpers\FieldValidationHelpers;
+use App\Http\Helpers\GenerateHelpers;
 use App\Http\Helpers\ModuleHelpers;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -56,20 +57,25 @@ class ImportModuleData implements ToModel,WithStartRow
                     $model = $model->where($field,$value);
                 }
             }
-            $form[$field] = $validate;
+            if($type == 'multiselect'){
+                $form[$field] = json_encode([$validate],JSON_NUMERIC_CHECK);
+            }
+            else{
+                $form[$field] = $validate;
+            }
         }
 
         //end field and value mapping
         if($status != 0){
             if($duplicate_option == 1){
-                $form_submit = $this->system_generated(1,$form);
+                $form_submit = $this->system_generated(1,$form,$request->module);
                 $id = $model->insert($form_submit);
                 ActivityLogsHelpers::log($id,$request->module,6,$form);
             }
             //skip
             else if($duplicate_option == 2){
                 if($model->count() == 0){
-                    $form_submit = $this->system_generated(1,$form);
+                    $form_submit = $this->system_generated(1,$form,$request->module);
                     $model->insert($form_submit);
                 }
                 else{
@@ -79,7 +85,7 @@ class ImportModuleData implements ToModel,WithStartRow
             //update
             else if($duplicate_option == 3){
                 $status = 3;
-                $form_submit = $this->system_generated(2,$form);
+                $form_submit = $this->system_generated(2,$form,$request->module);
                 $model->update($form_submit);
             }
         }
@@ -93,12 +99,16 @@ class ImportModuleData implements ToModel,WithStartRow
         return $this->request->hasheader == 'false' ? 1 : 2;
     }
 
-    public function system_generated($status,$form){
+    public function system_generated($status,$form,$module){
         if($status == 1){
             $form['created_at'] = Carbon::now();
             $form['updated_at'] = Carbon::now();
             $form['created_by'] = Auth::id();
             $form['updated_by'] = Auth::id();
+            if($module == 'incidents'){
+                list($prefix,$current_count) = GenerateHelpers::get('incidents');
+                $form['incident_no'] = $prefix.$current_count;
+            }
         }
         else{
             $form['updated_at'] = Carbon::now();

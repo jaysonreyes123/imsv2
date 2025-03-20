@@ -24,7 +24,7 @@
   import mapboxgl from 'mapbox-gl';
   import { ref } from 'vue';
   import VueTailwindDatePicker from "vue-tailwind-datepicker";
-  mapboxgl.accessToken ="pk.eyJ1IjoiamF5c29ucmV5ZXMyNiIsImEiOiJjbGd1aDViYXUwZzM2M3BsamlpdWtjbzBsIn0.DmYf96Yhwg7vip5Qpzghnw";
+  mapboxgl.accessToken ="pk.eyJ1IjoiaW1zYmF5YW45MTEiLCJhIjoiY204Zmhyc3Q1MGRhaTJyb3RkenQ3MmVraSJ9.3X2VHHuxYjG9dC03Y8crqg";
   const heat_map_data = ref([]);
   const dateValue = ref({
     startDate: "",

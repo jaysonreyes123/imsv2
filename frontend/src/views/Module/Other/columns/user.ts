@@ -1,11 +1,11 @@
 export const user_column = [
     {
-        label:"Firstname",
+        label:"First Name",
         field:"firstname",
         search:1
     },
     {
-        label:"Lastname",
+        label:"Last Name",
         field:"lastname",
         search:1
     },
