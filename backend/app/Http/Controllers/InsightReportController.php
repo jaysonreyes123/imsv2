@@ -126,7 +126,7 @@ class InsightReportController extends Controller
     }
     public function resource_breakdown_types($start,$end){
         $output = [];
-        $incident_model = Incident::whereBetween('created_at',[$start,$end])->where('delted',0)->pluck("id");
+        $incident_model = Incident::whereBetween('created_at',[$start,$end])->where('deleted',0)->pluck("id");
         $resource_model = Resource::with('resources_types_','resources_categories_')
         ->join('related_entries','resources.id','=','related_entries.related_id')
         ->where('related_entries.module',1)
