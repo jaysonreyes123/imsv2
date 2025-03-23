@@ -26,7 +26,7 @@ trait SaveForm
         foreach($request as $fields => $value){
             if(in_array($fields,$field_keys)){
                 $field = $field_array[$fields];
-                $contact_model->$field = $value;
+                $contact_model->$field = $this->encrypt($field,$value);
             }
         }
         $contact_model->save();
@@ -42,8 +42,10 @@ trait SaveForm
                 $model->$field = $prefix.$current_count;
             }
             else{
-                // $model->$field = $this->encrypt($field,$value);
-                $model->$field = $value;
+                if($value != ""){
+                    $model->$field = $this->encrypt($field,$value);
+                }
+                // $model->$field = $value;
             }
         }
         if($module == 'incidents'){

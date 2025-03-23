@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Traits\Encryption;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class ActivityMain extends Model
 {
     //
+    use Encryption;
     public function getCreatedAtAttribute($date)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s',$this->attributes['created_at'])->format('F d Y H:i:s');

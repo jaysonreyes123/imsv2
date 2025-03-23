@@ -11,6 +11,7 @@ use App\Http\Traits\SaveForm;
 use App\Models\Contact;
 use App\Models\Module;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class ModuleController extends Controller
@@ -25,7 +26,6 @@ class ModuleController extends Controller
     }
     public function index(Request $request)
     {
-        //
         // $model = Incident::with('incident_types','incident_priorities','incident_statuses');
         $model = ModuleHelpers::list($request->module);
         if($request->search['value'] != ""){
@@ -39,14 +39,14 @@ class ModuleController extends Controller
                     $model = $model->orWhereIn("$col",$relation_model);
                 }   
                 else{
-                    $model = $model->orWhere($search_field,"like","$search%");
+                    $model = $model->orWhere($search_field,"like",$this->encrypt($search_field,$search)."%");
                 }
             }
         }
         if(!empty($request->filter)){
             foreach($request->filter as $filter){
                 if($filter['field'] != ""){
-                    $model = $model->where($filter['field'],"like",$filter['value']."%");
+                    $model = $model->where($filter['field'],"like",$this->encrypt($filter['field'],$filter['value'])."%");
                 }
             }
         }
@@ -55,9 +55,6 @@ class ModuleController extends Controller
         }
         $model = $model->orderByDesc('updated_at');
         $model = $model->paginate(15);
-        // return $model->filter(function($record){
-        //     return false !== stripos($this->decrypt_single('firstname',$record['firstname']), "t");
-        // });
         return $this->response($model);
     }
 

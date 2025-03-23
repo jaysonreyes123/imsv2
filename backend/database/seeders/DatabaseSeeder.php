@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             ResourcesSeeder::class,
             CallerTypeSeeder::class,
             StatusSeeder::class,
+            ResponderStatusSeeder::class
         ]);
     }
 }

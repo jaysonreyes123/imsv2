@@ -18,12 +18,12 @@ class ForgotPassword extends Mailable
      */
     public $token,$user;
     public $ims_domain;
-    public function __construct($token,$user)
+    public function __construct($token,$user,$option)
     {
         //
         $this->token = $token;
         $this->user = $user;
-        $this->ims_domain = env('IMS_URL')."/auth/reset-password/";
+        $this->ims_domain = env('IMS_URL')."/auth/reset-password/".$option."/";
     }
 
     /**

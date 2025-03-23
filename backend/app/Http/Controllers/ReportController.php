@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\ExportReport;
 use App\Http\Helpers\ModuleHelpers;
 use App\Http\Resources\ReportResource;
+use App\Http\Traits\Encryption;
 use App\Http\Traits\HttpResponse;
 use App\Http\Traits\ReportTraits;
 use App\Models\Incident;
@@ -22,7 +23,7 @@ class ReportController extends Controller
     /**
      * Display a listing of the resource.
      */
-    use ReportTraits,HttpResponse;
+    use ReportTraits,HttpResponse,Encryption;
     public function index()
     {
         //
@@ -130,6 +131,19 @@ class ReportController extends Controller
            }
            $results = $model->get();
         }
+        $columns_ = [];
+        foreach($report_column as $report_col){
+            $columns_[] = $report_col->column;
+        }
+        $encrypted_fields = array_intersect($columns_,$this->encrypted_field);
+        $results = $results->filter(function($item) use ($encrypted_fields,$report_model){
+            foreach($encrypted_fields as $encrypted_field){
+                $report_field = $report_model->type == 'chart' ? 'label' : $encrypted_field;
+                $data = $this->decrypt_single($encrypted_field,$item->$report_field);
+                $item->$report_field = $data;
+            }
+            return $item;
+        });
         return $this->response([
             "details" => $report_model,
             "column" => $column_for_table,

@@ -11,6 +11,7 @@ use App\Http\Controllers\InsightReportController;
 use App\Http\Controllers\MapController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Mobile\AcceptIncidentController;
+use App\Http\Controllers\Mobile\AccountController;
 use App\Http\Controllers\Mobile\IncidentController as MobileIncidentController;
 use App\Http\Controllers\Mobile\LoginController;
 use App\Http\Controllers\Mobile\UpdateController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +31,12 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("mobile/account")->group(function(){
     Route::post("login.php",[LoginController::class,'login']);
     Route::post("logout.php",[LoginController::class,'logout']);
-
+    Route::post("ondutystatus.php",[AccountController::class,'ondutystatus']);
+    Route::post("location.php",[AccountController::class,'location']);
+    Route::post("updateprofile.php",[AccountController::class,'updateprofile']);
+    Route::get("messages.php",[AccountController::class,'message']);
+    Route::get("forgotpassword.php",[AccountController::class,'forgotpassword']);
+    Route::post("register.php",[AccountController::class,'register']);
 });
 Route::group(["prefix" => "mobile/incident","middleware" => ['mobile.token']],function(){
         Route::post("list.php",[MobileIncidentController::class,'list']);
@@ -51,10 +58,14 @@ Route::controller(AuthController::class)->group(function(){
 });
 Route::middleware(['auth:sanctum'])->group(function(){
 
-    Route::get("session",function(){
-        return "true";
+    Route::get("session",function(Request $request){
+        if($request->session()->has('last_activity')){
+            
+            return 'true';
+        }
+        return 'false';
     });
-
+    Route::get('users/change_status/{status}/{id}',[UserController::class,'changes_status']); 
     Route::get('users/user_details',[UserController::class,'user_details']); 
     Route::post("users/profile/edit/{action}/{id}",[UserController::class,'edit_profile']);
     Route::get("users/edit/{id}",[UserController::class,'edit']);

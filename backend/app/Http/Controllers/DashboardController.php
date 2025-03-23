@@ -6,6 +6,7 @@ use App\Http\Resources\DashboardActivityLogsResource;
 use App\Http\Traits\HttpResponse;
 use App\Models\ActivityMain;
 use App\Models\Incident;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,21 +16,28 @@ class DashboardController extends Controller
     //
      use HttpResponse;
      public function get_widget($module,$field = null,$operator = null,$value = null){
-        $model = DB::table($module)->where("deleted",0);
-        if($field != null && $operator != null && $value != null){
-            $parse_value = explode(":",$value);
-            $model->select($field);
-            $where_data = [];
-            foreach($parse_value as $v){
-                // $model->where($field,$operator,$v);
-                $where_data[] = $v;
+        $model = null;
+        if($module == 'call_takers'){
+            $model = User::where('status',$value)->where('user_roles',3)->get();
+        }
+        else{
+            $model = DB::table($module)->where("deleted",0);
+            if($field != null && $operator != null && $value != null){
+                $parse_value = explode(":",$value);
+                $model->select($field);
+                $where_data = [];
+                foreach($parse_value as $v){
+                    // $model->where($field,$operator,$v);
+                    $where_data[] = $v;
+                }
+                $model = $operator == '<>' ? $model->whereNotIn($field,$where_data) : $model->whereIn($field,$where_data);
             }
-            $model = $operator == '<>' ? $model->whereNotIn($field,$where_data) : $model->whereIn($field,$where_data);
         }
         return $this->response($model->count());
     }
     public function incident_status(){
-        $model = Incident::with('incident_statuses_')->where("deleted",0)
+        $model = Incident::with('incident_statuses_')
+        ->where("deleted",0)
         ->whereNotNull('incident_statuses')
         ->select("incident_statuses",DB::raw("count(id) as count"))
         ->groupBy('incident_statuses')

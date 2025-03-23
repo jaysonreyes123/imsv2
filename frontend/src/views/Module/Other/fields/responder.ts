@@ -22,6 +22,12 @@ export const responder_fields = [
                 name:"contact_no",
                 type:"phone",
             },
+            {
+                label:"Responder Status",
+                name:"responder_statuses",
+                type:"dropdown",
+                default_value:1
+            },
         ]
     },
     {
@@ -43,7 +49,7 @@ export const responder_fields = [
                 type:"text",
             },
             {
-                label:"Status",
+                label:"Account Status",
                 name:"statuses",
                 type:"dropdown",
                 default_value:1

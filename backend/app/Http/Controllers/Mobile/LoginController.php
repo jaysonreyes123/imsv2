@@ -48,6 +48,7 @@ class LoginController extends Controller
             $token = Str::random();
             $responder->token = $token;
             $responder->save(); 
+            Log::info("LOGIN: ",["responder id" => $responder->id]);
             return response()->json([
                 "status" => "Success" , 
                 "result" =>  $this->data($responder),
@@ -67,6 +68,7 @@ class LoginController extends Controller
         }
         $token_data->token = null;
         $token_data->save();
+        Log::info("LOGOUT: ",["responder id" => $token_data->id]);
         return response()->json([
             "status" => "Success",
             "result" => "Succesfully logout."   

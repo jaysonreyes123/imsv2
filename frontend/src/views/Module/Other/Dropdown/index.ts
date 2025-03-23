@@ -6,6 +6,7 @@ import { incident_types } from "./incident_types";
 import { resources_categories } from "./resources_categories";
 import { resources_statuses } from "./resources_statuses";
 import { resources_types } from "./resources_types";
+import { responder_statuses } from "./responder_status";
 import { responder_types } from "./responder_types";
 import { response_levels } from "./response_levels";
 import { risk_levels } from "./risk_levels";
@@ -52,6 +53,9 @@ export default function local_dropdownlist(dropdown:string){
             break;
         case 'statuses':
             dropdown_data = statuses;
+            break;
+        case 'responder_statuses':
+            dropdown_data = responder_statuses;
             break;
         case 'user_roles':
             dropdown_data = user_roles;

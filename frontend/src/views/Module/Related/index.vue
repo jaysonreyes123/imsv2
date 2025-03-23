@@ -31,6 +31,7 @@
                 :total_page="related_store.related_list.total_page"
                 :filter="false"
                 :onClick="false"
+                :isRelation="true"
                 @search="search"
                 @desearch="desearch"
             >

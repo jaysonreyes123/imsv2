@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\Helpers\GenerateHelpers;
 use App\Models\Incident;
 use App\Models\IncidentPriority;
 use App\Models\IncidentStatus;
@@ -133,7 +134,8 @@ class IncidentSeeder extends Seeder
 
         foreach($datas as $key => $data){
             $model = new Incident();
-            $model->incident_no = "INCIDENT".$key+1;
+            list($prefix,$current_count) = GenerateHelpers::get('incidents');
+            $model->incident_no = $prefix.$current_count;
             foreach($data as $field => $value){
                 if($field == "incident_types"){
                     $d = IncidentType::where("label",$value)->first();

@@ -10,6 +10,7 @@
             :hasAction="false"
             :filter="false"
             :onClick="false"
+            :isRelation="true"
             @changePage="changePage"
             @checkbox:selected="checkboxChange"
             @search="search"

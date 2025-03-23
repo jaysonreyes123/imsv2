@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
+            $table->tinyInteger('status')->default(1);
             $table->tinyInteger('attempts')->default(0);
             $table->string('source')->default('crm');
             $table->tinyInteger('deleted')->default(0);
@@ -38,6 +39,7 @@ return new class extends Migration
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
+            $table->string('target');
             $table->timestamp('created_at')->nullable();
         });
 

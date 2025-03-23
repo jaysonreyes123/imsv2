@@ -10,6 +10,7 @@ use App\Mail\ForgotPassword;
 use App\Models\LoginHistory;
 use App\Models\OtpToken;
 use App\Models\PasswordResetToken;
+use App\Models\Responder;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -68,7 +69,7 @@ class AuthController extends Controller
         $ipaddress = \Request::ip();
         $new_ipaddress = LoginHistory::select('ipaddress')->where('ipaddress',$ipaddress)->where('user_id',$user_details->id)->get();
         //check if first login
-        if($new_ipaddress->count() == 0 && $user_details->id != 1){
+        if($new_ipaddress->count() == 0 && $user_details->id != 1 && $user_details->id != 2){
             return $this->send_otp($user_details);
         }
         else{
@@ -106,10 +107,11 @@ class AuthController extends Controller
             }
             else{  
                 $token = Str::random(64);
-                Mail::to($email)->send(new ForgotPassword($token,$email));
+                Mail::to($email)->send(new ForgotPassword($token,$email,'user'));
                 $model = PasswordResetToken::firstOrNew(['email' => $email]);
                 $model->email = $email;
                 $model->token = $token;
+                $model->target = 'user';
                 $model->created_at = Carbon::now();
                 $model->save();
                 $message = "success";
@@ -131,12 +133,17 @@ class AuthController extends Controller
         ]);
         $message = "";
         $status = 200;
-        $model = PasswordResetToken::where('token', $request->token)->first();
+        $model = PasswordResetToken::where('token', $request->token)->where('target',$request->option)->first();
         if ($model == null) {
             $message = "Invalid Token! Please try again";
             $status = 422;
         } else {
-            User::where('email', $model->email)->update(['password' => Hash::make($request->password)]);
+            if($request->option == 'user'){
+                User::where('email', $model->email)->update(['password' => Hash::make($request->password)]);
+            }
+            else{
+                Responder::where('email_address',$model->email)->update(["password" => $request->password]);
+            }
             $model->delete();
             $message = "success";
         }

@@ -40,7 +40,7 @@ class AcceptIncidentController extends Controller
             $responder_logs->save();
             $this->save_related_entries($incidentid,'incidents',$token_data->id,'responders');
         }
-
+        Log::info("Incident Accepted: ",["responder id" => $token_data->id,"incident id" => $incidentid]);
         return response()->json([
             "status"    => "Success",
             "message"   => "Accepted Incident",

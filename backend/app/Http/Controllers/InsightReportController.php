@@ -78,19 +78,24 @@ class InsightReportController extends Controller
     }
     public function incident_breakdown_priorities($start,$end){
         $output = [];
-        // $incident_model = Incident::with('incident_priorities_')
-        // ->select('incident_priorities',DB::raw('count(incident_priorities) as count'))
-        // ->whereBetween('created_at',[$start,$end])
-        // ->groupBy('incident_priorities')
-        // ->get();
-        $incident_model = IncidentPriority::leftJoin("incidents",'incidents.incident_priorities','=','incident_priorities.id')
-        ->select('incident_priorities.label as label',DB::raw('count(incidents.incident_priorities) as count'))
-        ->where('incidents.deleted',0)
-        ->orWhereNull('incidents.deleted')
-        ->where('incident_priorities.id','<>',5)
-        ->groupBy('incident_priorities.label')
-        ->orderBy('incident_priorities.sequence')
-        ->get();
+        
+        $low = Incident::select(
+            DB::raw('count(incidents.incident_priorities) as count'),
+            DB::raw('"Low" as label')
+        )->where('incident_priorities',1);
+        $medium = Incident::select(
+            DB::raw('count(incidents.incident_priorities) as count'),
+            DB::raw('"Medium" as label')
+        )->where('incident_priorities',2);
+        $high = Incident::select(
+            DB::raw('count(incidents.incident_priorities) as count'),
+            DB::raw('"High" as label')
+        )->where('incident_priorities',3);
+        $critical = Incident::select(
+            DB::raw('count(incidents.incident_priorities) as count'),
+            DB::raw('"Critical" as label')
+        )->where('incident_priorities',4);
+        $incident_model = $low->union($medium)->union($high)->union($critical)->whereBetween('created_at',[$start,$end])->where('deleted',0)->get();
         $incident_model_total = Incident::whereBetween('created_at',[$start,$end])->where('deleted',0);
         foreach($incident_model as $item){
             array_push(
@@ -98,7 +103,7 @@ class InsightReportController extends Controller
                 array(
                     "name"      => $item->label,
                     "count"     => $item->count,
-                    "total"     => number_format(((int)$item->count/$incident_model_total->count()) * 100,2)."%"
+                    "total"     => $item->count == 0 ? "0%" : number_format(((int)$item->count/$incident_model_total->count()) * 100,2)."%"
                 )
             ); 
         }
@@ -185,6 +190,7 @@ class InsightReportController extends Controller
         ->join('incident_statuses','incident_statuses.id','=','incidents.incident_statuses')
         ->where('related_entries.module',1)
         ->where('related_entries.related_module',6)
+        ->where('incidents.deleted',0)
         ->whereBetween('incidents.created_at',[$start,$end])
         ->get();
         foreach($model as $item){

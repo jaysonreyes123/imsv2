@@ -135,7 +135,7 @@ class ModuleHelpers{
                 $model = Agency::query();
                 break;
             case 'responders':
-                $model = Responder::with('responder_types','statuses');
+                $model = Responder::with('responder_types','statuses','responder_statuses');
                 break;
             case 'call_logs':
                 $model = CallLog::query();

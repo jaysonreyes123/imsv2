@@ -5,7 +5,7 @@
                 <div class="flex gap-x-2">
                     <div v-if="this.$route.params.module !='insight_reports'">
                         <router-link v-if="this.$route.params.module !='reports' " :to="`/save/${this.$route.params.module}`">
-                            <Button 
+                            <Button
                                 icon="heroicons-outline:plus" 
                                 btnClass="btn-primary shadow-md" 
                                 :text="`New ${module_store.moduleDetails.label}`" 
@@ -48,6 +48,8 @@
             :current_page="list_store.page.current_page"
             :per_page="list_store.page.per_page"
             :total_page="list_store.page.total_page"
+            :hasDeleteAll="true"
+            @delete_all="delete_all"
             @changePage="changePage"
             @search = "search"
             @desearch = "desearch"
@@ -206,6 +208,22 @@ export default {
                 }).then((result) => { 
                     if (result.isConfirmed) {
                         list_store.delete(id);
+                    } 
+            });
+        },
+        delete_all(value){
+           const ids = value.map(item => item.id);
+           this.$swal.fire({
+                title: "Delete "+module_store.moduleDetails.label+" ", 
+                text: "Are you sure you want to delete this "+module_store.moduleDetails.label+"? ",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                confirmButtonText: "Delete",
+                cancelButtonColor: "#3085d6",
+                reverseButtons: true, 
+                }).then((result) => { 
+                    if (result.isConfirmed) {
+                        list_store.delete(ids);
                     } 
             });
         },

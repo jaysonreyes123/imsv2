@@ -102,7 +102,7 @@
           },
           classHeight:{
               type:String,
-              default:'h-screen'
+              default:'md:h-screen h-[500px]'
           }
       },
       components:{

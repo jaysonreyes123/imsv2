@@ -3,7 +3,7 @@ import middlewarePipeline from '@/middleware';
 import auth from '@/middleware/auth';
 const routes = [
   {
-    path: '/auth/:auth_action/:token?',
+    path: '/auth/:auth_action/:option?/:token?',
     name: 'auth',
     component: () => import('../views/Auth/index.vue'),
     meta: {

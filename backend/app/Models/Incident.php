@@ -2,16 +2,28 @@
 
 namespace App\Models;
 
+use App\Http\Traits\Encryption;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Incident extends Model
 {
     //
+    use Encryption;
     public function getCreatedAtAttribute($date)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s',$this->attributes['created_at'])->format('Y-m-d H:i:s');
     }
+    public function getCallerFirstnameAttribute($value){
+        return $this->decrypt_single('caller_firstname',$this->attributes['caller_firstname']);
+    }
+    public function getCallerLastnameAttribute($value){
+        return $this->decrypt_single('caller_lastname',$this->attributes['caller_lastname']);
+    }
+    public function getCallerContactAttribute($value){
+        return $this->decrypt_single('caller_contact',$this->attributes['caller_contact']);
+    }
+
     public function incident_types(){
         return $this->hasOne(IncidentType::class,'id','incident_types');
     }

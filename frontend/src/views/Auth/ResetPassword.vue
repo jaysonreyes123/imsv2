@@ -21,6 +21,14 @@
                   :message="auth_store.errors.message"
                   :showLink="false"
                 />
+                <Alert
+                  v-else-if="auth_store.errors.status == 'success' "
+                  class="mb-4"
+                  variant="success"
+                  title=""
+                  :message="auth_store.errors.message"
+                  :showLink="false"
+                />
               <form @submit.prevent="auth_store.resetPassword()">
                 <div class="space-y-5">
                   <!-- Email -->
@@ -155,6 +163,7 @@
   const auth_store = useAuthStore();
   const router = useRouter();
   auth_store.resetform.token = router.currentRoute.value.params.token.toString();
+  auth_store.resetform.option = router.currentRoute.value.params.option.toString();
   auth_store.errors.message = '';
   auth_store.errors.status = '';
   auth_store.resetform.password = '';

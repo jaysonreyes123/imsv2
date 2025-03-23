@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Http\Traits\Encryption;
 use App\Http\Traits\ReportTraits;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -11,7 +12,7 @@ class ExportReport implements FromCollection,WithHeadings
     /**
     * @return \Illuminate\Support\Collection
     */
-    use ReportTraits;
+    use ReportTraits,Encryption;
     private $report_model;
     public function __construct($report_model)
     {
@@ -33,6 +34,19 @@ class ExportReport implements FromCollection,WithHeadings
         $model = $model->select($columns);
         $model = $this->report_condition($model,$report_condition);
         $results = $model->get();
+        $columns_ = [];
+        foreach($report_column as $report_col){
+            $columns_[] = $report_col->column;
+        }
+        $encrypted_fields = array_intersect($columns_,$this->encrypted_field);
+        $results = $results->filter(function($item) use ($encrypted_fields,$report_model){
+            foreach($encrypted_fields as $encrypted_field){
+                $report_field = $report_model->type == 'chart' ? 'label' : $encrypted_field;
+                $data = $this->decrypt_single($encrypted_field,$item->$report_field);
+                $item->$report_field = $data;
+            }
+            return $item;
+        });
         return $results;
     }
     public function headings():array

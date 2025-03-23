@@ -1,44 +1,56 @@
 <template lang="">
     <div>
         <Card title="" class="shadow-sm">
-        <div class="flex justify-end" v-if="this.$route.params.module !='insight_reports'">
-            <div class="relative w-[400px] mr-2">
-                <span
-                    @click="search_function"
-                    v-if="!isSearch"
-                    class="absolute right-0 top-1/2 inline-flex -translate-y-1/2 cursor-pointer items-center gap-1 border-l border-gray-200 py-3 pl-3.5 pr-3 text-sm font-medium text-gray-700 dark:border-gray-800 dark:text-gray-400"
-                >
-                    <Icon icon="heroicons:magnifying-glass" />
-                </span>
-                <span
-                    v-else
-                    @click="clearSearch"
-                    class="absolute right-0 top-1/2 inline-flex -translate-y-1/2 cursor-pointer items-center gap-1 border-l border-gray-200 py-3 pl-3.5 pr-3 text-lg font-medium text-gray-700 dark:border-gray-800 dark:text-gray-400"
-                >
-                <Icon class="text-red-800" icon="heroicons-outline:x" />
-                </span>
-                <input
-                type="search"
-                placeholder="Search..."
-                v-model="search"
-                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent py-3 pl-4 pr-[50px] text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
-                />
+            <div class="flex items-center"
+                :class="hasDeleteAll ? 'justify-between' : 'justify-end' "
+            >
+                <div :class="hasDeleteAll && this.$route.params.module !='insight_reports'  ? 'block' : 'hidden' ">
+                    <Button
+                        @click="delete_all_btn"
+                        :isDisabled="!isDeletedAll"
+                        btnClass="btn-outline-danger px-2 py-2 ml-3 mr-4"
+                        icon="heroicons-outline:trash"
+                    />
+                </div>
+                <div class="flex" v-if="this.$route.params.module !='insight_reports'">
+                    <div class="relative w-[220px] md:w-[400px] mr-2">
+                        <span
+                            @click="search_function"
+                            v-if="!isSearch"
+                            class="absolute right-0 top-1/2 inline-flex -translate-y-1/2 cursor-pointer items-center gap-1 border-l border-gray-200 py-3 pl-3.5 pr-3 text-sm font-medium text-gray-700 dark:border-gray-800 dark:text-gray-400"
+                        >
+                            <Icon icon="heroicons:magnifying-glass" />
+                        </span>
+                        <span
+                            v-else
+                            @click="clearSearch"
+                            class="absolute right-0 top-1/2 inline-flex -translate-y-1/2 cursor-pointer items-center gap-1 border-l border-gray-200 py-3 pl-3.5 pr-3 text-lg font-medium text-gray-700 dark:border-gray-800 dark:text-gray-400"
+                        >
+                        <Icon class="text-red-800" icon="heroicons-outline:x" />
+                        </span>
+                        <input
+                        type="search"
+                        placeholder="Search..."
+                        v-model="search"
+                        class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent py-3 pl-4 pr-[50px] text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-none focus:ring focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+                        />
+                    </div>
+                    <Button
+                        v-if="!isFilter && filter "
+                        @click="filterModal"
+                        text="Filter"
+                        btnClass="btn-outline-dark ml-2 py-1 disabled:bg-slate-300 disabled:cursor-not-allowed"
+                        icon="heroicons-outline:adjustments-horizontal"
+                    />
+                    <Button
+                        v-else-if="isFilter && filter"
+                        @click="clearFilter"
+                        text="Remove Filter"
+                        btnClass="btn-outline-danger ml-2 py-1 disabled:bg-slate-300 disabled:cursor-not-allowed"
+                        icon="heroicons-outline:x"
+                    />
+                </div>
             </div>
-            <Button
-                v-if="!isFilter && filter "
-                @click="filterModal"
-                text="Filter"
-                btnClass="btn-outline-dark ml-2 py-1 disabled:bg-slate-300 disabled:cursor-not-allowed"
-                icon="heroicons-outline:adjustments-horizontal"
-            />
-            <Button
-                v-else-if="isFilter && filter"
-                @click="clearFilter"
-                text="Remove Filter"
-                btnClass="btn-outline-danger ml-2 py-1 disabled:bg-slate-300 disabled:cursor-not-allowed"
-                icon="heroicons-outline:x"
-            />
-        </div>
         <vue-good-table 
             class="mt-4"
             styleClass="vgt-table"
@@ -114,10 +126,12 @@ import { GetColumn } from "../../Other/columns";
 const list_store = useListStore();
 const isFilter = ref(false);
 const isSearch = ref(false);
+const isDeletedAll = ref(false);
+const delete_all_data = ref([]);
 const search = ref("");
 const incident_status_color = ['#007bff','#ffc107','#28a745','#6c757d','#dc3545']
 export default {
-    emits:['changePage','checkbox:selected','row:selected','search',"desearch"],
+    emits:['changePage','checkbox:selected','row:selected','search',"desearch","delete_all"],
     props:{
         columns:{
             type:Array,
@@ -131,6 +145,10 @@ export default {
             type:Boolean,
             default:true
         },
+        hasDeleteAll:{
+            type:Boolean,
+            default:false
+        },
         filter:{
             type:Boolean,
             default: true
@@ -142,6 +160,10 @@ export default {
         onClick:{
             type:Boolean,
             default:true
+        },
+        isRelation:{
+            type:Boolean,
+            default:false
         },
         value:String,
         current_page:Number,
@@ -161,24 +183,37 @@ export default {
             return this.columns;
         },
         rows_(){
-            const custom_rows = [];
-            this.rows.map(item=>{
-                if(item.resources_statuses){
-                    Object.assign(item,{disabled:true});
-                }
-                Object.assign(item,{vgtSelected:false})
-                custom_rows.push(item);
-            })
+            let custom_rows = [];
+            if(!this.isRelation){
+                custom_rows = this.rows;
+            }
+            else{
+                this.rows.map(item=>{
+                    if(item.resources_statuses){
+                        Object.assign(item,{disabled:true});
+                    }
+                    Object.assign(item,{vgtSelected:false})
+                    custom_rows.push(item);
+                })
+            }
             return custom_rows;
         }
     },
     beforeMount() {
         list_store.module = this.$route.params.module;
         list_store.form.filter = [{field:"",type:"text",value:""}];
+        this.$watch(
+            ()=>this.$route.params.module,
+            (new_module) =>{
+                isFilter.value = false;
+                isSearch.value = false;
+                search.value = "";
+            }
+        )
     },
     data(){
         return{
-            list_store,incident_status_color,isSearch,isFilter,search
+            list_store,incident_status_color,isSearch,isFilter,search,isDeletedAll
         }
     },
     methods: {
@@ -187,15 +222,27 @@ export default {
             return `VGT-row ${disabled}`;
         },
         checkBoxChange(event){
-            event.selectedRows.map(item => {
-                if(item.resources_statuses){
-                    // assigned status 
-                    if(item.resources_statuses.id == 2){
-                        item.vgtSelected=false;
+            if(this.isRelation){
+                event.selectedRows.map(item => {
+                    if(item.resources_statuses){
+                        // assigned status 
+                        if(item.resources_statuses.id == 2){
+                            item.vgtSelected=false;
+                        }
                     }
-                }
-            })
+                })
+            }
+            if(event.selectedRows.length > 0){
+                isDeletedAll.value = true;
+            }
+            else{
+                isDeletedAll.value = false;
+            }
+            delete_all_data.value = event.selectedRows;
             this.$emit("checkbox:selected",event.selectedRows);
+        },
+        delete_all_btn(){
+            this.$emit("delete_all",delete_all_data.value);
         },
         onRowClick(row){
             if(row.column.field != 'action'){
@@ -233,8 +280,10 @@ export default {
             isFilter.value = false;
         },
         search_function(){
-            this.$emit("search",search.value);
-            isSearch.value = true;
+            if(search.value != ""){
+                this.$emit("search",search.value);
+                isSearch.value = true;
+            }
         },
         clearSearch(){
             this.$emit("desearch",isSearch.value);

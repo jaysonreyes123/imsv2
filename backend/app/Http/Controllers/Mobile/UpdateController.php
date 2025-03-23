@@ -49,7 +49,7 @@ class UpdateController extends Controller
             $responder_logs->incident_statuses = $status_id->id;
             $responder_logs->save();
         }
-
+        Log::info("Incident Status Updated: ",["responder id" => $token_data->id,"incident id" => $incidentid,"status" => $status]);
         return response()->json([
             "status"    => "Success",
             "result"    => "Successfully change status to " . $status
@@ -89,7 +89,7 @@ class UpdateController extends Controller
                 $model->save();
                 $this->save_related_entries($id,'incidents',$model->id,'media');
                 // ActivityLogsHelpers::log($id,'incidents',$status = 4,related_module:'media',related_item_id:$model->id);
-
+                Log::info("Uploaded File:",["incident id" => $request->incidentid,"filename" => $filename,"responder id" => $request->responder_id ]);
                 return response()->json([
                     "status"    => "Success",
                     "result"    => "The file was successfully uploaded.",

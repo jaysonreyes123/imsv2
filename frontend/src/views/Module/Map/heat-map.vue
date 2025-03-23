@@ -1,11 +1,11 @@
 <template>
     <div class="shadow-lg relative">
-      <div ref="mapContainer" class="map-container h-screen"></div>
+      <div ref="mapContainer" class="map-container h-dvh md:h-screen"></div>
       <div class="absolute top-[20px] left-[20px]">
           <div class="flex">
               <VueTailwindDatePicker 
                   v-model="dateValue" 
-                  input-classes="block text-xs form-control !bg-white dark:!bg-slate-700 !w-[400px]" 
+                  input-classes="block text-xs form-control !bg-white dark:!bg-slate-700 !w-[250px] md:!w-[400px]" 
                   :formatter="formatter"
               />
               <Button

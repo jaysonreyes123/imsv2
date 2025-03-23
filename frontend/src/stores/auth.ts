@@ -4,9 +4,13 @@ import { defineStore } from 'pinia';
 import { useModuleStore } from './module';
 import router from '@/router';
 import axiosIns from '@/library/axios';
+interface formState{
+    [index:string] : any;
+}
 export const useAuthStore = defineStore('auth',{
     state:()=>{
         return{
+            change_status_loading:false,
             loading:false,
             authenticated:false,
             errors:{
@@ -24,9 +28,10 @@ export const useAuthStore = defineStore('auth',{
             resetform:{
                 password:"",
                 repassword:"",
+                option:"",
                 token:""
             },
-            user_details:{}
+            user_details:{} as formState
         }
     },
     actions: {
@@ -35,6 +40,16 @@ export const useAuthStore = defineStore('auth',{
             this.userDetails();
             const module_store = useModuleStore();
             module_store.get_modules();
+        },
+        async change_status(status:any,user_id:string | number){
+            try {
+                this.change_status_loading = true;
+                const response = await axiosIns.get("users/change_status/"+status+"/"+user_id);
+                this.change_status_loading = false;
+            } catch (error) {
+                this.user_details.status = this.user_details.status == 1 ? 0 : 1;
+                this.change_status_loading = false;
+            }
         },
         async verify(){
             try {
@@ -90,7 +105,7 @@ export const useAuthStore = defineStore('auth',{
                 }
                 let response = await axiosIns.post('auth/reset-password', this.resetform);
                 this.errors.status = 'success';
-                this.errors.message = 'Reset password successfully. Redirect to login page';
+                this.errors.message = 'Reset password successfully';
                 setTimeout(()=>{
                     router.push({name:'auth',params:{auth_action:'login'}})
                 },2000)

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Helpers\ModuleHelpers;
+use App\Http\Traits\Encryption;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,6 +14,7 @@ class ActivityLogsResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    use Encryption;
     public function toArray(Request $request): array
     {
         $fields = [];
@@ -23,8 +25,8 @@ class ActivityLogsResource extends JsonResource
                     $newvalue = $field_->newvalue;
                     $sub_field = [];
                     $sub_field['label'] =   $field_->field;
-                    $sub_field['oldvalue'] = $oldvalue;
-                    $sub_field['newvalue'] = $newvalue;
+                    $sub_field['oldvalue'] = $this->decrypt_single($field_->field,$oldvalue);
+                    $sub_field['newvalue'] = $this->decrypt_single($field_->field,$newvalue);
                     $fields[] = $sub_field; 
                 }
             }

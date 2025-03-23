@@ -1,4 +1,5 @@
 <template>
+  <Loading v-model:active="auth_store.change_status_loading"/>
   <header
     class="sticky top-0 flex w-full bg-white border-gray-200 z-99999 dark:border-gray-800 dark:bg-gray-900 lg:border-b"
   >
@@ -69,12 +70,18 @@
         </button>
         <!-- <SearchBar /> -->
       </div>
-
       <div
         :class="[isApplicationMenuOpen ? 'flex' : 'hidden']"
         class="items-center justify-between w-full gap-4 px-5 py-4 shadow-theme-md lg:flex lg:justify-end lg:px-0 lg:shadow-none"
       >
         <div class="flex items-center gap-2 2xsm:gap-3">
+          <Switch v-if="auth_store.user_details.user_roles.id  == 3" @change="changeStatus" 
+              :active="user_status" 
+              :true-value="1" 
+              :false-value="0" 
+              v-model="auth_store.user_details.status" 
+              activeClass="bg-green-500" 
+          />
           <ThemeToggler />
           <NotificationMenu />
         </div>
@@ -85,6 +92,13 @@
 </template>
 
 <script setup lang="ts">
+const auth_store = useAuthStore();
+const user_status = !!auth_store.user_details.status;
+auth_store.change_status_loading = false;
+const changeStatus = ()=>{
+  auth_store.change_status(auth_store.user_details.status,auth_store.user_details.id);
+}
+import Switch from "@/components/Switch/index.vue";
 import { ref } from 'vue'
 import { useSidebar } from '@/composables/useSidebar'
 import ThemeToggler from '../common/ThemeToggler.vue'
@@ -92,6 +106,8 @@ import SearchBar from './header/SearchBar.vue'
 import HeaderLogo from './header/HeaderLogo.vue'
 import NotificationMenu from './header/NotificationMenu.vue'
 import UserMenu from './header/UserMenu.vue'
+import { useAuthStore } from "@/stores/auth";
+import { useUserStore } from "@/stores/user";
 
 const { toggleSidebar, toggleMobileSidebar, isMobileOpen } = useSidebar()
 

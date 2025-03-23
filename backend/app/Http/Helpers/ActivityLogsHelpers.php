@@ -2,6 +2,7 @@
 
 namespace App\Http\Helpers;
 
+use App\Http\Traits\Encryption;
 use App\Models\ActivityDetail;
 use App\Models\ActivityMain;
 use App\Models\ActivityRelated;
@@ -9,7 +10,8 @@ use App\Models\Module;
 use Illuminate\Support\Facades\Auth;
 
 class ActivityLogsHelpers{
-    protected static $not_allow = ['id','module','created_at','updated_at','created_by','updated_by','source','deleted','email_verified_at','remember_token','password','user_id','contacts'];
+
+    protected static $not_allow = ['id','module','created_at','updated_at','created_by','updated_by','source','deleted','email_verified_at','remember_token','password','user_id','contacts','contact_statuses'];
     public static function log($itemid,$module,$status,$fields = [],$old_field = [],$related_module = 0,$related_item_id = 0){
         $logs = new ActivityMain();
         $logs->itemid = $itemid;
@@ -37,14 +39,14 @@ class ActivityLogsHelpers{
         $link_model->related_item_id = $itemid;
         $link_model->save();
     }
-    public static function update($logsid,$fields,$oldfield){
+    public static function update($logsid,$fields,$oldfield){    
         if(!empty($fields)){
             foreach($fields as $field => $value){
                 if(!in_array($field,self::$not_allow)){
                     $logs_details = new ActivityDetail();
                     $logs_details->activity_log_id = $logsid;
                     $logs_details->field = $field;
-                    $logs_details->oldvalue = $oldfield[$field];
+                    $logs_details->oldvalue = ActivityMain::encrypt($field,$oldfield[$field]);
                     $logs_details->newvalue = $value;
                     $logs_details->save(); 
                 }

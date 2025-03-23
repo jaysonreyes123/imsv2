@@ -199,4 +199,12 @@ class UserController extends Controller
         }
         return $this->user_details();
     }
+    public function changes_status($status,$id){
+        $user = User::find($id);
+        $user->status = $status;
+        if($user->save()){
+            $this->response($status);
+        }
+
+    }
 }

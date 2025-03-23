@@ -60,10 +60,40 @@ class IncidentController extends Controller
         if($request->name == 'status'){
             return $this->status($request->name);
         }
+        else if($request->name == 'department'){
+            return $this->department($request->name);
+        }
+    }
+    public function department($name){
+        $model = ResponderType::get();
+        $result = [];
+        if($model->isEmpty()){
+            return response()->json([
+                "status"    => "Error",
+                "result"    => "Getting dropdown data failed. Please try again."
+            ]);
+        }
+        foreach($model as $item){
+            $result[] = 
+            [
+                "id" => $item->id,
+                "name" => $item->label
+            ];
+        }
+        return response()->json([
+            "status" => "Success",
+            "result" => $result
+        ]);
     }
     public function status($name){
         $model = IncidentStatus::get();
         $result = [];
+        if($model->isEmpty()){
+            return response()->json([
+                "status"    => "Error",
+                "result"    => "Getting dropdown data failed. Please try again."
+            ]);
+        }
         foreach($model as $item){
             $result[] = 
             [
