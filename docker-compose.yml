@@ -19,7 +19,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - .:/frontend:/var/www/html/ims/frontend
+      - ./frontend:/var/www/html/ims/frontend
     networks:
       - app-network
 
@@ -36,7 +36,7 @@ services:
   phpmyadmin:
     image: phpmyadmin:latest
     ports:
-      - 8082:80
+      - 8083:80
     environment:
       - PMA_ABITRARY=1
     networks:

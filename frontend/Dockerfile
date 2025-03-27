@@ -18,4 +18,4 @@ RUN npm run build
 EXPOSE 80
 
 # Serve the Vue.js app (optional: can use a simple static server for production)
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]
