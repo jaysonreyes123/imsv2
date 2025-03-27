@@ -6,6 +6,7 @@
                 map-style="mapbox://styles/mapbox/streets-v11"
                 :center="center"
                 :zoom="12"
+                :minZoom="11"
                 @mb-click="clickMap"
                 @mb-created="(mapInstance) => map = mapInstance"
                 >

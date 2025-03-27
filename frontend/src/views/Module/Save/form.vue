@@ -204,6 +204,15 @@ export default {
     },
     created(){
         this.store.loading = false;
+        const params = Object.keys(this.$route.query);
+        if(params.length > 0){
+            params.map(item => {
+                this.store.form[item] = this.$route.query[item];
+                if(item == 'caller_contact'){
+                    this.checknumber(null,item)
+                }
+            })
+        }
     },
     methods:{
         async checknumber($event,field){

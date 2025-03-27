@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Traits\HttpResponse;
 use App\Models\Incident;
+use App\Models\MapMarker;
 use App\Models\Resource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,6 +21,9 @@ class MapController extends Controller
         }
         else if($model == 'resources'){
             $map_data = $this->resources();
+        }
+        else if($model == 'markers'){
+            $map_data = $this->marker();
         }
         else if($model == 'heat_map'){
             $start = $start == null ? Carbon::now()->format('Y-m-d') : $start;
@@ -56,7 +60,34 @@ class MapController extends Controller
         }
         return $this->response($result);
     }
-
+    public function marker(){
+        $model = MapMarker::all();
+        $result = [];
+        $result["type"] = "FeatureCollection";
+        $result["features"] = array();
+        foreach($model as $item){   
+            $coordinates = explode(",",$item->coordinates);
+            array_push(
+                $result["features"],
+                array(
+                    "type" => "Feature",
+                    "properties" => array(
+                        "id"                => $item->id,
+                        "name"              => $item->name,
+                        "location"          => $item->location ?? "",
+                        "link"              => $item->link ?? "",
+                    ),
+                    "geometry" => array(
+                        "type" => "Point",
+                        "coordinates" => array(
+                            (float) $coordinates[0], (float) $coordinates[1]
+                        )
+                    ),
+                )
+            );
+        }
+        return $this->response($result);
+    }
     public function resources(){
         $model = Resource::where('deleted',0)->whereNotNull('coordinates')->get();
         $result = [];
@@ -121,5 +152,17 @@ class MapController extends Controller
             );
         }
         return $this->response($result);
+    }
+    public function save_marker(Request $request){
+
+       $request->validate([
+            "name"          => "required",
+            "location"      => "required",
+            "link"          => "required",
+            "coordinates"   => "required"
+       ]);
+       
+       $model = MapMarker::updateOrCreate($request->all(),["id" => $request->id]);
+       return $this->response($model);
     }
 }

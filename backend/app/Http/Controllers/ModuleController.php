@@ -130,6 +130,7 @@ class ModuleController extends Controller
         return $this->response($model);
     }
     public function checknumber(string $phone){
+        $phone = $this->encrypt('mobile',$phone);
         $model = Contact::where('mobile',$phone)->first();
         $status = 1;
         if($model){

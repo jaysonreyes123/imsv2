@@ -17,6 +17,10 @@ class Contact extends Model
     {
         return $this->decrypt_single('lastname',$this->attributes['lastname']);
     }
+    public function getMobileAttribute($data)
+    {
+        return $this->decrypt_single('mobile',$this->attributes['mobile']);
+    }
     public function caller_types(){
         return $this->hasOne(CallerType::class,'id','caller_types');
     }

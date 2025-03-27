@@ -49,8 +49,11 @@ trait SaveForm
             }
         }
         if($module == 'incidents'){
-            $contact_id = $this->save_contact($request);
-            $model->contacts = $contact_id;
+            //new 
+            if($request['contact_statuses'] == 1){
+                $contact_id = $this->save_contact($request);
+                $model->contacts = $contact_id;
+            }
         }
         if($id == ""){
             $model->created_at = Carbon::now();

@@ -11,6 +11,7 @@ use App\Models\LoginHistory;
 use App\Models\OtpToken;
 use App\Models\PasswordResetToken;
 use App\Models\Responder;
+use App\Models\Session;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -95,6 +96,7 @@ class AuthController extends Controller
     public function logout() : JsonResponse {
         $user = auth()->user();
         $user->tokens()->delete();
+        Session::where('user_id',$user->id)->delete();
         $this->login_history($user->id,2);
         return $this->response([],AuthConstants::LOGOUT);
     }

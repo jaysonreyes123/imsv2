@@ -52,6 +52,9 @@ class User extends Authenticatable
     public function user_privileges(){
         return $this->hasMany(UserPrivilege::class,'user_id','id');
     }
+    public function sessions(){
+        return $this->hasOne(Session::class,'user_id','id');
+    }
     // public function roles(){
     //     return $this->hasOne(Role::class,'id','roles');
     // }

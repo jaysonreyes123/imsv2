@@ -30,7 +30,7 @@ class InsightReportDaily extends Command
     {
         //
         $model = new InsightReport();
-        $model->name = Carbon::now()->format('mdY')."-IMSdailyreport";
+        $model->name = Carbon::now()->format('Ymd')."_IMS_DailyReport";
         $model->type = 1;
         $model->start_date = Carbon::now()->setTime(0,0,0);
         $model->end_date = Carbon::now()->endOfDay()->setTime(23,59,59);

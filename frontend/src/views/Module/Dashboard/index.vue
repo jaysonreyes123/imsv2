@@ -40,7 +40,7 @@
         </div>
         <div class="grid grid-cols-1  md:grid-cols-4 gap-4 mt-4">
             <Card class="md:col-span-3 h-[600px]" title="Incident Map">
-                <incidentMap :legend="false" classHeight='h-[500px]' />
+                <incidentMap :addMarker="false" :legend="false" classHeight='h-[500px]' />
             </Card> 
             <Card title="Activity logs">
                     <ul class="relative ltr:pl-2 rtl:pr-2 overflow-y-auto max-h-[700px] h-[700px]">

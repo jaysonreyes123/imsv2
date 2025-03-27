@@ -178,7 +178,7 @@ class AccountController extends Controller
         $model->lastname = $this->encrypt('lastname',$lastname);
         $model->contact_no = $this->encrypt('contact_no',$mobileno);
         $model->password = $password;
-        $model->email_address = $email;
+        $model->email_address = $this->encrypt('email_address',$email);
         $model->responder_statuses = 2;
         $model->responder_types = $responder_type->id;
         $model->statuses = 2;

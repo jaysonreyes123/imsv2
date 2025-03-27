@@ -6,7 +6,7 @@ trait Encryption
 {
     //
     
-    protected $encrypted_field = ['caller_firstname','caller_lastname','caller_contact','contact_no','firstname','lastname','mobile'];
+    protected $encrypted_field = ['caller_firstname','caller_lastname','caller_contact','contact_no','firstname','lastname','mobile','email_address'];
     protected $encryption_method = "AES-128-CBC"; // Define the encryption method and key // You can choose AES-128-CBC or other modes too
     protected $secret_key = "incident-management"; // The key to encrypt data
     protected $secret_iv = "ims"; // Initialization vector (IV)

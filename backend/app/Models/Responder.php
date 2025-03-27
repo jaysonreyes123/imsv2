@@ -22,6 +22,10 @@ class Responder extends Model
     {
         return $this->decrypt_single('contact_no',$this->attributes['contact_no']);
     }
+    public function getEmailAddressAttribute($data)
+    {
+        return $this->decrypt_single('email_address',$this->attributes['email_address']);
+    }
     public function responder_types(){
         return $this->hasOne(ResponderType::class,'id','responder_types');
     }

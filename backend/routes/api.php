@@ -2,6 +2,7 @@
 
 use App\Events\UserLogout;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Call\CallController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DropdownController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\RelatedController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -45,9 +47,11 @@ Route::group(["prefix" => "mobile/incident","middleware" => ['mobile.token']],fu
         Route::post("update.php",[UpdateController::class,'update']);
         Route::post("upload-file.php",[UpdateController::class,'upload']);
 });
-// Route::prefix("mobile/incident")->group(function(){
 
-// })->middleware('mobile.token');
+Route::group(["prefix" => "call"],function(){
+    Route::get("call.php",[CallController::class,'call']);
+    Route::get("index.php",[CallController::class,'index']);
+});
 
 Route::controller(AuthController::class)->group(function(){
     Route::post("auth/login",'login');
@@ -58,13 +62,7 @@ Route::controller(AuthController::class)->group(function(){
 });
 Route::middleware(['auth:sanctum'])->group(function(){
 
-    Route::get("session",function(Request $request){
-        if($request->session()->has('last_activity')){
-            
-            return 'true';
-        }
-        return 'false';
-    });
+    Route::get("session",[SessionController::class,'session']);
     Route::get('users/change_status/{status}/{id}',[UserController::class,'changes_status']); 
     Route::get('users/user_details',[UserController::class,'user_details']); 
     Route::post("users/profile/edit/{action}/{id}",[UserController::class,'edit_profile']);
@@ -113,6 +111,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //map api
     Route::get("map/{module}/{start?}/{end?}",[MapController::class,'index']);
+    Route::post("map/marker/save",[MapController::class,'save_marker']);
 
      //import 
      Route::post("import/import_data",[ImportController::class,'import_data']);

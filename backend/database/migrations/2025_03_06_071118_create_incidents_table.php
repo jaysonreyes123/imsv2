@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -50,7 +51,7 @@ return new class extends Migration
 
             $table->string('incident_resolution')->nullable();
 
-            $table->json('responder_types')->default("[]");
+            $table->json('responder_types')->default(new Expression('(JSON_ARRAY())'));
             $table->string('assigned_by')->nullable();
 
 

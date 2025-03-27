@@ -29,7 +29,7 @@ class InsightReportMontly extends Command
     {
         //
         $model = new InsightReport();
-        $model->name = Carbon::now()->format('mY')."-IMS-monthly-report";
+        $model->name = Carbon::now()->format('Ymd')."_IMS_MonthlyReport";
         $model->type = 3;
         $model->start_date = Carbon::now()->startOfMonth()->setTime(0,0,0);
         $model->end_date = Carbon::now()->endOfMonth()->setTime(23,59,59);

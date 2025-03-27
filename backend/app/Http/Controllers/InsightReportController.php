@@ -82,20 +82,28 @@ class InsightReportController extends Controller
         $low = Incident::select(
             DB::raw('count(incidents.incident_priorities) as count'),
             DB::raw('"Low" as label')
-        )->where('incident_priorities',1);
+        )->where('incident_priorities',1)
+        ->whereBetween('created_at',[$start,$end])
+        ->where('deleted',0);
         $medium = Incident::select(
             DB::raw('count(incidents.incident_priorities) as count'),
             DB::raw('"Medium" as label')
-        )->where('incident_priorities',2);
+        )->where('incident_priorities',2)
+        ->whereBetween('created_at',[$start,$end])
+        ->where('deleted',0);
         $high = Incident::select(
             DB::raw('count(incidents.incident_priorities) as count'),
             DB::raw('"High" as label')
-        )->where('incident_priorities',3);
+        )->where('incident_priorities',3)
+        ->whereBetween('created_at',[$start,$end])
+        ->where('deleted',0);
         $critical = Incident::select(
             DB::raw('count(incidents.incident_priorities) as count'),
             DB::raw('"Critical" as label')
-        )->where('incident_priorities',4);
-        $incident_model = $low->union($medium)->union($high)->union($critical)->whereBetween('created_at',[$start,$end])->where('deleted',0)->get();
+        )->where('incident_priorities',4)
+        ->whereBetween('created_at',[$start,$end])
+        ->where('deleted',0);
+        $incident_model = $low->union($medium)->union($high)->union($critical)->get();
         $incident_model_total = Incident::whereBetween('created_at',[$start,$end])->where('deleted',0);
         foreach($incident_model as $item){
             array_push(

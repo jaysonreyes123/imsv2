@@ -29,7 +29,7 @@ class InsightReportWeekly extends Command
     {
         //
         $model = new InsightReport();
-        $model->name = "Weekly";
+        $model->name = Carbon::now()->format('Ymd')."_IMS_WeeklyReport";
         $model->type = 2;
         $model->start_date = Carbon::now()->startOfWeek()->setTime(0,0,0);
         $model->end_date = Carbon::now()->endOfWeek()->setTime(23,59,59);
