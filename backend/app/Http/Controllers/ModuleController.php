@@ -7,6 +7,7 @@ use App\Http\Helpers\ModuleHelpers;
 use App\Http\Resources\ModuleResource;
 use App\Http\Traits\Encryption;
 use App\Http\Traits\HttpResponse;
+use App\Http\Traits\PbxTrait;
 use App\Http\Traits\SaveForm;
 use App\Models\Contact;
 use App\Models\Module;
@@ -19,7 +20,7 @@ class ModuleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    use HttpResponse,SaveForm,Encryption;
+    use HttpResponse,SaveForm,Encryption,PbxTrait;
     public function get_modules(){
         $modules = Module::all();
         return $this->response($modules);
@@ -27,6 +28,9 @@ class ModuleController extends Controller
     public function index(Request $request)
     {
         // $model = Incident::with('incident_types','incident_priorities','incident_statuses');
+        if($request->module == 'call_logs'){
+            $this->call_logs();
+        }
         $model = ModuleHelpers::list($request->module);
         if($request->search['value'] != ""){
             foreach($request->search['search_field'] as $search_field){
