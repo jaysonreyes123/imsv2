@@ -25,8 +25,10 @@ trait PbxTrait
                 $calllogs_dateandtime   = $call_log['time'];
                 $calllogs_fromno        = $call_log['call_from_number'];
                 $calllogs_tono          = $call_log['call_to_number'];
-                $calllogs_duration      = $call_log['duration'] ?? 0;
                 $calllogs_callid        = $call_log['id'];
+                $calllogs_duration      = isset($call_log['talk_duration']) ? $this->time_format($call_log['talk_duration']) : "Not Aswered";
+                $calllogs_time_answered = isset($call_log['talk_duration']) ? $calllogs_dateandtime : "00:00:00";
+                $calllogs_time_end      = isset($call_log['talk_duration']) ? Carbon::parse($calllogs_dateandtime)->addSeconds($call_log['talk_duration'])->format("m/d/Y H:i:s A") : "00:00:00";
                 $call_logs_model = CallLog::where('date_and_time',$calllogs_dateandtime)
                 ->where('from_no',$calllogs_fromno)
                 ->where('to_no',$calllogs_tono)
@@ -38,6 +40,8 @@ trait PbxTrait
                     $insert_model->to_no            = $calllogs_tono;
                     $insert_model->duration         = $calllogs_duration;
                     $insert_model->call_id          = $calllogs_callid;
+                    $insert_model->time_answered    = $calllogs_time_answered;
+                    $insert_model->time_end         = $calllogs_time_end;
                     $insert_model->source           = 'YEASTAR';
                     $insert_model->save();
                 }
@@ -97,5 +101,12 @@ trait PbxTrait
         ])
 		->withOptions(["verify"=>false]);
         return $request;
+    }
+    public function time_format($seconds){
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $seconds = $seconds % 60;
+        $time = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+        return $time;
     }
 }
