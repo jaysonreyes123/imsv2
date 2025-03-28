@@ -23,10 +23,10 @@ trait PbxTrait
         ]);
         if($request['errcode'] == 0 && $request['total_number'] > 0){
             foreach($request['data'] as $call_log){
-                $calllogs_tks_dateandtime   = $call_log->time;
-                $calllogs_tks_fromno        = $call_log->call_from_number;
-                $calllogs_tks_tono          = $call_log->call_to_number;
-                $calllogs_tks_duration      = $call_log->duration;
+                $calllogs_tks_dateandtime   = $call_log['time'];
+                $calllogs_tks_fromno        = $call_log['call_from_number'];
+                $calllogs_tks_tono          = $call_log['call_to_number'];
+                $calllogs_tks_duration      = $call_log['duration'];
                 $call_logs_model = CallLog::where('date_and_time',$calllogs_tks_dateandtime)
                 ->where('from_no',$calllogs_tks_fromno)
                 ->where('to_no',$calllogs_tks_tono)
