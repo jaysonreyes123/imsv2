@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Http;
 trait PbxTrait
 {
     //
+    public function call_logs(){
+        $access_token = $this->check_token_expiration();
+        $start_time = Carbon::now()->format("m/d/Y 12:00:00 AM");
+        $end_time = Carbon::now()->format("m/d/Y 11:59:59 PM");
+        $request = $this->http_request()->get(env('YEASTAR_API')."/cdr/search",[
+            "access_token" => $access_token,
+            "start_time"   => $start_time,
+            "end_time"     => $end_time
+        ]);
+        return $request;
+    }
     public function check_token_expiration(){
         $pbx_model = PbxToken::where('name','yeastar')->first();
         $access_token = "";
@@ -24,7 +35,7 @@ trait PbxTrait
         else{
             $current = Carbon::now();
             $expired_at = $pbx_model->expired_at;
-            $diff = $current->diff($expired_at);
+            $diff = $current->diffInMinutes($expired_at);
             if($diff < 0){
                 $token = $this->get_token();
                 $pbx_model->access_token = $token['aaccess_token'];
