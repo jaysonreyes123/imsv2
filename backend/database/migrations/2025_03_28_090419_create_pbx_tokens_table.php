@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('access_token');
             $table->timestamp('expired_at');
+            $table->string('last_scan')->nullable();
             $table->timestamps();
         });
     }

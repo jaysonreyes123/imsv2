@@ -16,10 +16,16 @@ trait PbxTrait
             return $output['data'];
         }
         $access_token = $output['data'];
-        $start_time = Carbon::now()->format("m/d/Y")."  12:00:00 AM";
-        $request = $this->http_request()->get(env('YEASTAR_API')."/cdr/search",[
-            "access_token" => $access_token,
-        ]);
+        $pbx_token = PbxToken::where('name','yeastar')->first();
+        $payload = [];
+        if($pbx_token->last_scan == null){
+            $payload['access_token'] = $access_token;
+        }
+        else{
+            $payload['access_token'] = $access_token;
+            $payload['start_time'] = $pbx_token->last_scan;
+        }
+        $request = $this->http_request()->get(env('YEASTAR_API')."/cdr/search",$payload);
         if($request['errcode'] == 0 && $request['total_number'] > 0){
             foreach($request['data'] as $call_log){
                 $calllogs_dateandtime   = $call_log['time'];
@@ -53,35 +59,47 @@ trait PbxTrait
             "status" => false,
             "data"   => ""
         ];
+        $expired_token = false;
         $pbx_model = PbxToken::where('name','yeastar')->first();
         if(!$pbx_model){
             $pbx_model = new PbxToken();
             $pbx_model->name = "yeastar";
+            $last_scan = null;
         }
         else{
             $current = Carbon::now();
+            $last_scan = $current->format('m/d/Y h:i:s A');
             $expired_at = $pbx_model->expired_at;
             $diff = $current->diffInMinutes($expired_at);
             //token not expired return access token
             if($diff > 0){
                 $result['status'] = true;
                 $result['data'] = $pbx_model->access_token;
-                return $result;
+            }
+            else{
+                $expired_token = true;
             }
         }
-        $token = $this->get_token();
-        if($token['errcode'] == 0){
-            $pbx_model->access_token = $token['access_token'];
-            $pbx_model->expired_at = Carbon::now()->addSecond($token['access_token_expire_time']);
-            $pbx_model->save();
+        if($expired_token){
+            $token = $this->get_token();
+            if($token['errcode'] == 0){
+                $pbx_model->access_token = $token['access_token'];
+                $pbx_model->expired_at = Carbon::now()->addSecond($token['access_token_expire_time']);
+                $pbx_model->last_scan = $last_scan;
+                $pbx_model->save();
 
-            $access_token = $token['access_token'];
-            $result['status'] = true;
-            $result['data'] = $access_token;
+                $access_token = $token['access_token'];
+                $result['status'] = true;
+                $result['data'] = $access_token;
+            }
+            else{
+                $result['status'] = false;
+                $result['data'] = $token['errmsg'];
+            }
         }
         else{
-            $result['status'] = false;
-            $result['data'] = $token['errmsg'];
+            $pbx_model->last_scan = $last_scan;
+            $pbx_model->save();
         }
         return $result;
     }

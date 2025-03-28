@@ -4,9 +4,8 @@ FROM php:8.2-apache
 # Install necessary PHP extensions
 RUN apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev libzip-dev  \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql zip
 
-RUN docker-php-ext-install zip
 # Enable mod_rewrite for Laravel
 RUN a2enmod rewrite
 
