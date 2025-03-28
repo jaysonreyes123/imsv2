@@ -32,6 +32,6 @@ class CallController extends Controller
     }
 
     public function index(Request $request){
-        return  $this->check_token_expiration();
+        return  $this->call_logs();
     }
 }
