@@ -25,7 +25,7 @@ trait PbxTrait
                 $calllogs_dateandtime   = $call_log['time'];
                 $calllogs_fromno        = $call_log['call_from_number'];
                 $calllogs_tono          = $call_log['call_to_number'];
-                $calllogs_duration      = $call_log['duration'];
+                $calllogs_duration      = $call_log['duration'] ?? 0;
                 $calllogs_callid        = $call_log['id'];
                 $call_logs_model = CallLog::where('date_and_time',$calllogs_dateandtime)
                 ->where('from_no',$calllogs_fromno)
