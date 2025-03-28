@@ -21,7 +21,7 @@ trait PbxTrait
             "access_token" => $access_token,
             "start_time"   => $start_time,
         ]);
-        if($request['errcode'] == 0){
+        if($request['errcode'] == 0 && $request['total_number'] > 0){
             foreach($request['data'] as $call_log){
                 $calllogs_tks_dateandtime   = $call_log->time;
                 $calllogs_tks_fromno        = $call_log->call_from_number;
