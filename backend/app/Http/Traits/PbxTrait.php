@@ -21,18 +21,20 @@ trait PbxTrait
             $model->save();
             $access_token = $token['access_token'];
         }
-        $current = Carbon::now();
-        $expired_at = $pbx_model->expired_at;
-        $diff = $current->diff($expired_at);
-        if($diff < 0){
-            $token = $this->get_token();
-            $pbx_model->access_token = $token['aaccess_token'];
-            $pbx_model->expired_at = Carbon::now()->addSecond($token['access_token_expire_time']);
-            $pbx_model->save();
-            $access_token = $token['access_token'];
-        }
         else{
-            $access_token = $pbx_model->access_token;
+            $current = Carbon::now();
+            $expired_at = $pbx_model->expired_at;
+            $diff = $current->diff($expired_at);
+            if($diff < 0){
+                $token = $this->get_token();
+                $pbx_model->access_token = $token['aaccess_token'];
+                $pbx_model->expired_at = Carbon::now()->addSecond($token['access_token_expire_time']);
+                $pbx_model->save();
+                $access_token = $token['access_token'];
+            }
+            else{
+                $access_token = $pbx_model->access_token;
+            }
         }
         return $access_token;
     }
