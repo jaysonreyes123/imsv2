@@ -15,6 +15,8 @@ WORKDIR /var/www/html/ims/backend
 # Copy the Laravel project into the container
 COPY . .
 
+RUN cp .env.example .env
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -22,8 +24,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --ignore-platform-reqs --no-dev --optimize-autoloader
 
 RUN chown -R www-data:www-data /var/www/html/ims
-RUN chmod -R 775 storage
-RUN chmod -R 775 bootstrap/cache
+RUN chmod -R 777 /var/www/html/ims/backend/storage
+RUN chmod -R 777 /var/www/html/ims/backend/bootstrap
 
 # Expose port 80 for the web server
 EXPOSE 80
