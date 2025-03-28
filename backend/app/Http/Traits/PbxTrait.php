@@ -62,10 +62,11 @@ trait PbxTrait
             if($diff > 0){
                 $result['status'] = true;
                 $result['data'] = $pbx_model->access_token;
+                return $result;
             }
         }
         $token = $this->get_token();
-        if($token){
+        if($token['errcode'] == 0){
             $pbx_model->access_token = $token['access_token'];
             $pbx_model->expired_at = Carbon::now()->addSecond($token['access_token_expire_time']);
             $pbx_model->save();
