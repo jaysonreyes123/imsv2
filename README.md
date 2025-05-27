@@ -1,2 +1,2 @@
 ### .env
-IMS_URL = Ims Domain
+IMS_URL = Frontend Domain
