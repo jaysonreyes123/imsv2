@@ -26,10 +26,10 @@ class UserLogoutFired
     {
         //
         $options = [
-            'cluster' => 'ap1',
+            'cluster' => env('PUSHER_APP_CLUSTER'),
             'useTLS' => true
         ];
-        $pusher = new Pusher('9e44dc07ce874ae1fd2a', '07768390c595398ed2f9', '1665256', $options);
+        $pusher = new Pusher(env('PUSHER_APP_KEY'),env('PUSHER_APP_SECRET'),env('PUSHER_APP_ID'), $options);
         $data = ["user_id" => $event->user->id, 'remember_token' => $event->user->remember_token];
         $pusher->trigger('user-logout', 'user-logout',$data);
     }

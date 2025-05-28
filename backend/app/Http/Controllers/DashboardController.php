@@ -18,27 +18,7 @@ class DashboardController extends Controller
      public function get_widget($module,$field = null,$operator = null,$value = null){
         $model = null;
         if($module == 'call_takers'){
-            $call_takers = User::with('sessions')->where('user_roles',3)->get();
-            $available = [];
-            $not_available = [];
-            foreach($call_takers as $call_taker){
-                if(is_null($call_taker->sessions)){
-                    $not_available[] = $call_taker;
-                }
-                else{
-                    $current_datetime = Carbon::now();
-                    $session_time = Carbon::parse($call_taker->sessions->last_activity)->addMinutes((int)env('SESSION_LIFETIME'));
-                    $diff = $current_datetime->diffInMinutes($session_time);
-                    if($diff > 0){
-                        $available[] = $call_taker;
-                    }
-                    //if negative 
-                    else{
-                        $not_available[] = $call_taker;
-                    }
-                }
-            }
-            $model = collect($value == 1 ? $available : $not_available);
+            $model = User::where('user_roles',3)->where($field,$value)->get();
         }
         else{
             $model = DB::table($module)->where("deleted",0);

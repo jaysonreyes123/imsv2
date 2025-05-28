@@ -2,7 +2,7 @@
     <div>
       <Skeleton class="mt-4" v-if="system_store.loading" :count="5"/>
       <div v-else>
-        <div v-if="system_store.activitylogs.logs.length > 0" class="h-[250px] overflow-y-auto">
+        <div v-if="system_store.activitylogs.logs.length > 0" class="h-full max-h-[450px] overflow-y-auto">
           <div 
               v-for="(item,i) in system_store.activitylogs.logs"
               :key="i" class="mt-4">

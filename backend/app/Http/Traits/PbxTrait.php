@@ -3,6 +3,7 @@
 namespace App\Http\Traits;
 
 use App\Models\CallLog;
+use App\Models\Pbx;
 use App\Models\PbxToken;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
@@ -10,22 +11,7 @@ use Illuminate\Support\Facades\Http;
 trait PbxTrait
 {
     //
-    public function call_logs(){
-        $output = $this->check_token_expiration();
-        if(!$output['status']){
-            return $output['data'];
-        }
-        $access_token = $output['data'];
-        $pbx_token = PbxToken::where('name','yeastar')->first();
-        $payload = [];
-        if($pbx_token->last_scan == null){
-            $payload['access_token'] = $access_token;
-        }
-        else{
-            $payload['access_token'] = $access_token;
-            $payload['start_time'] = $pbx_token->last_scan;
-        }
-        $request = $this->http_request()->get(env('YEASTAR_API')."/cdr/search",$payload);
+    public function yeastar_call_logs($request,$option){
         if($request['errcode'] == 0 && $request['total_number'] > 0){
             foreach($request['data'] as $call_log){
                 $calllogs_dateandtime   = $call_log['time'];
@@ -54,16 +40,44 @@ trait PbxTrait
             }
         }
     }
+    public function call_logs($option = 'multiple',$data = []){
+        $output = $this->check_token_expiration();
+        if(!$output['status']){
+            return $output['data'];
+        }
+        $current_pbx = $this->get_current_pbx();
+        $access_token = $output['data'];
+        $pbx_token = $current_pbx->pbx_tokens_;
+        $payload = [];
+        if($option == 'multiple'){
+            if($pbx_token->last_scan == null){
+                $payload['access_token'] = $access_token;
+            }
+            else{
+                $payload['access_token'] = $access_token;
+                $payload['start_time'] = $pbx_token->last_scan;
+            }
+        }
+        else{
+            $payload['access_token'] = $access_token;
+        }
+        $request = $this->http_request()->get($this->url($current_pbx->api,$current_pbx->name),$payload);
+        if($current_pbx->id == 1){
+            return $this->yeastar_call_logs($request,$option);
+        }
+    }
     public function check_token_expiration(){
         $result = [
             "status" => false,
             "data"   => ""
         ];
         $expired_token = false;
-        $pbx_model = PbxToken::where('name','yeastar')->first();
+        $current_pbx = $this->get_current_pbx();
+        $pbx_model = PbxToken::where('pbx_id',$current_pbx->id)->first();
         if(!$pbx_model){
+            $expired_token = true;
             $pbx_model = new PbxToken();
-            $pbx_model->name = "yeastar";
+            $pbx_model->pbx_id = $current_pbx->id;
             $last_scan = null;
         }
         else{
@@ -103,11 +117,13 @@ trait PbxTrait
         }
         return $result;
     }
+
     public function get_token(){
+        $current_pbx = $this->get_current_pbx();
         $request = $this->http_request()
-        ->post(env('YEASTAR_API')."/get_token",[
-            "username" => env('YEASTAR_USERNAME'),
-            "password" => env('YEASTAR_PASSWORD')
+        ->post($current_pbx->api."/get_token",[
+            "username" => $current_pbx->username,
+            "password" => $current_pbx->password
         ]);
         return $request;
     }
@@ -126,5 +142,23 @@ trait PbxTrait
         $seconds = $seconds % 60;
         $time = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
         return $time;
+    }
+    public function url($endpoint,$name){
+        $url = "";
+        switch ($name) {
+            case 'yeastar':
+                $url = $endpoint."/cdr/search";
+                break;
+            case '3cx':
+                $url = $endpoint."/cdr/search";
+                break;
+            default:
+                # code...
+                break;
+        }
+        return $url;
+    }
+    public function get_current_pbx(){
+        return Pbx::with('pbx_tokens_')->where('status',1)->first();
     }
 }

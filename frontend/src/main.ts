@@ -46,5 +46,7 @@ app.component('Loading',Loading);
 app.component('Skeleton',Skeleton);
 app.config.globalProperties.$axios = axiosIns;
 app.config.globalProperties.user_logout = echo.channel('user-logout');
+app.config.globalProperties.notification_event = echo.channel('notification-event');
+app.config.globalProperties.session_expired = echo.channel('session-expired-event');
 app.mount('#app')
 

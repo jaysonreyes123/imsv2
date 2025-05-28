@@ -9,6 +9,7 @@ import { report_field } from "./report";
 import { resouces_field } from "./resources";
 import { responder_fields } from "./responder";
 import { taks_fields } from "./task";
+import { transcript } from "./transcript";
 import { user_fields } from "./users";
 export function GetFields(module:string){
     let fields:any;
@@ -48,6 +49,9 @@ export function GetFields(module:string){
             break;
         case 'comments':
             fields = comment_field;
+            break;
+        case 'transcripts':
+            fields = transcript;
             break;
         default:
             break;

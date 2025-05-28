@@ -67,9 +67,9 @@ trait SaveForm
         }
 
         if($model->save()){
-            if($module=='incidents'){
-                $this->notification($model->id,$module);
-            }
+            // if($module=='incidents'){
+            //     $this->notification($model->id,$module);
+            // }
         }
 
         return $model;

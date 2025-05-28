@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\checkSession;
 use App\Console\Commands\InsightReportDaily;
 use App\Console\Commands\InsightReportMontly;
 use App\Console\Commands\InsightReportWeekly;
@@ -30,6 +31,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command(InsightReportWeekly::class)->weeklyOn(1,'08:00')->withoutOverlapping();
         //every 1st of month at 8am
         $schedule->command(InsightReportMontly::class)->monthlyOn(1,'08:00')->withoutOverlapping();
+
+        $schedule->command(checkSession::class)->everySecond();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

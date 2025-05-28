@@ -203,6 +203,9 @@ const notifications = ref([
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value
+  if(dropdownOpen.value){
+    system_store.notification();
+  }
   notifying.value = false
 }
 

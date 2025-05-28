@@ -70,7 +70,7 @@
                                 </h1>
                                 <p><b>Location: </b>{{ item.properties.location }}</p>
                                 <p><b >Link: </b><a class="text-blue-600" :href="item.properties.link" target="_blank">{{ item.properties.link }}</a></p>
-                                <iframe class="w-full h-[200px]"  src="http://localhost:5173/map/incident-map" />
+                                <iframe class="w-full h-[200px]" :src="item.properties.link" />
                             </div>
                         </div>
                     </template>

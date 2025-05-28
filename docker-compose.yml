@@ -7,6 +7,8 @@ services:
       - "8000:80"
     volumes:
       - .:/backend:/var/www/html/ims/backend
+    depends_on:
+      - mysql_db
     networks:
       - app-network
 
@@ -16,10 +18,8 @@ services:
     container_name: frontend
     ports:
       - "80:80"
-    # volumes:
-    #   - .:/app
-    #   - /app/frontend/node_modules
-    # command: "npm run dev -- --host --port 5173"
+    depends_on:
+      - backend
     networks:
       - app-network
 
@@ -30,15 +30,6 @@ services:
       MYSQL_DATABASE: imsv2
     ports:
       - "3306:3306"
-    networks:
-      - app-network
-
-  phpmyadmin:
-    image: phpmyadmin:latest
-    ports:
-      - 8083:80
-    environment:
-      - PMA_ABITRARY=1
     networks:
       - app-network
 

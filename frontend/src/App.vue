@@ -10,25 +10,31 @@
 import ThemeProvider from './components/layout/ThemeProvider.vue'
 import SidebarProvider from './components/layout/SidebarProvider.vue'
 import { useAuthStore } from './stores/auth';
-
+import { useSystemStore } from './stores/system';
+import { ref } from 'vue';
+const timer = 300; // 5mins
+var remaining_time_interval;
 export default{
   components:{
     ThemeProvider,SidebarProvider
   },
   mounted(){
   const auth_store = useAuthStore();
-  // const remember_token = localStorage.getItem('remember_token');
-  // if(remember_token){
-  //   if(remember_token != auth_store.user_details.remember_token){
-  //     this.logout();
-  //   }
-  // }
+  const system_store = useSystemStore();
+ 
     this.user_logout.listen('.user-logout',(e)=>{
       setTimeout(()=>{
         if(e.user_id == auth_store.user_details.id && e.remember_token != auth_store.user_details.remember_token){
-        // localStorage.setItem("remember_token",e.remember_token)
-        this.logout();
-      }
+          this.logout();
+        }
+      },3000)
+    });
+
+    this.session_expired.listen('.session-expired-event',(e)=>{
+      setTimeout(()=>{
+        if(e.user_id == auth_store.user_details.id){
+          this.session();
+        }
       },3000)
     });
   },
@@ -42,10 +48,42 @@ export default{
             allowOutsideClick: false
         })
         .then(()=>{
-            // localStorage.removeItem('remember_token')
             location.href="/auth/login";
         })
-    }
+    },
+    session(){
+      this.$swal.fire({
+            title: `You have been logged out in ${Math.floor(timer / 60)}  mins`,
+            html: 'Remaining time <br> <b>05:00</b>',
+            timerProgressBar: true,
+            width:600,
+            timer:1000*timer,
+            icon: 'error',
+            confirmButtonText: 'Okay',
+            allowOutsideClick: false,
+            didOpen: () => {
+              const timer_content = this.$swal.getPopup().querySelector("b");
+              var time_left = timer;
+              remaining_time_interval = setInterval(() => {
+                time_left-=1;
+                var minutes = Math.floor((time_left % 3600) / 60);
+                var seconds = time_left % 60;
+                timer_content.textContent = `${minutes >= 10 ? minutes : "0"+minutes}:${seconds >= 10 ? seconds : "0"+seconds}`;
+              }, 1000);
+            },
+            willClose: () => {
+              clearInterval(remaining_time_interval);
+              setTimeout(()=>{
+                location.href="/auth/login?action=session-expired";
+              },1000)
+            }
+        })
+        .then(()=>{
+            // localStorage.removeItem('remember_token')
+            const auth_store = useAuthStore();
+            auth_store.session();
+        })
+    },
   }
 }
 </script>
@@ -65,5 +103,8 @@ export default{
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
+}
+.swal2-timer-progress-bar{
+  @apply bg-blue-500
 }
 </style>

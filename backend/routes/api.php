@@ -3,6 +3,7 @@
 use App\Events\UserLogout;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Call\CallController;
+use App\Http\Controllers\Call\TranscriptController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DropdownController;
@@ -52,6 +53,7 @@ Route::group(["prefix" => "call"],function(){
     Route::get("call.php",[CallController::class,'call']);
     Route::get("index.php",[CallController::class,'index']);
 });
+Route::get("transcripts/index",[TranscriptController::class,'index']);
 
 Route::controller(AuthController::class)->group(function(){
     Route::post("auth/login",'login');
@@ -60,6 +62,7 @@ Route::controller(AuthController::class)->group(function(){
     Route::get("auth/logout",'logout')->middleware('auth:sanctum');
     route::post("auth/verify",'verify');
 });
+
 Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::get("session",[SessionController::class,'session']);
@@ -75,6 +78,10 @@ Route::middleware(['auth:sanctum'])->group(function(){
         Route::get("chart/incident_status",[DashboardController::class,'incident_status']);
         Route::get("systemlogs",[DashboardController::class,'get_systemlogs']);
     });
+
+    // transcript
+    Route::get("transcripts/get/{id}",[TranscriptController::class,'get']);
+    Route::get("transcripts/download/{id}",[TranscriptController::class,'index']);
 
     Route::get("module/checknumber/{phone}",[ModuleController::class,'checknumber']);
     Route::get('module/get_modules',[ModuleController::class,'get_modules']);

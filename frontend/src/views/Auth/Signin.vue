@@ -159,9 +159,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRoute } from 'vue-router';
 import Button from "@/components/Button/index.vue";
 import { useAuthStore } from "@/stores/auth.ts";
 import Alert from '@/components/ui/Alert.vue'
+import Swal from "sweetalert2"
 const auth_store = useAuthStore();
 const showPassword = ref(false)
 const keepLoggedIn = ref(false)
@@ -171,6 +173,13 @@ auth_store.errors.message = '';
 auth_store.errors.status = '';
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
+}
+const router = useRoute();
+if(router.query.action && router.query.action == 'session-expired' ){
+  Swal.fire({
+    text: "You have been logged out due to Inactive",
+    icon: "error"
+  });
 }
 
 </script>

@@ -64,7 +64,6 @@ export const useSystemStore = defineStore('system',{
                 if(data.meta.total >= data.meta.current_page){
                     this.login_history.last_page = true;
                 }
-                console.log(this.login_history)
                 this.loading = false;
                 
             } catch (error) {

@@ -3,8 +3,12 @@
 namespace App\Models;
 
 use App\Http\Traits\Encryption;
+use App\Observers\IncidentObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
+
+#[ObservedBy([IncidentObserver::class])]
 
 class Incident extends Model
 {

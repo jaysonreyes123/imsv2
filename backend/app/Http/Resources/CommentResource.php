@@ -23,7 +23,7 @@ class CommentResource extends JsonResource
             "comment_by" => $this->comment_by,
             "comment_by_name" => $this->users->firstname,
             "reply" => [],
-            "reply_count" => Comment::where("comment_id",$this->id)->count(),
+            "reply_count" => Comment::where("comment_id",$this->id)->where('deleted',0)->count(),
             "current_page" => 0,
             "timestamp" => $this->created_at->diffForHumans(),
             "created_at" => $this->created_at,

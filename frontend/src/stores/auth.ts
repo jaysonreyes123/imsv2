@@ -76,11 +76,11 @@ export const useAuthStore = defineStore('auth',{
                 }
                 this.loading = false;
             } catch (error:any) {
+                this.loading = false;
                 if(error.response.data.status == 422){
                     this.errors.status = 'error';
                     this.errors.message = error.response.data.message;
                 }
-                this.loading = false;
             }
         },
         async logout(){

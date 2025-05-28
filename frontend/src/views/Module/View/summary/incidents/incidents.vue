@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <div class="grid grid-cols-3 mt-6 gap-6">
+        <div class="grid grid-cols-4 mt-6 gap-6">
             <Card title="Incident Summary">
                 <Skeleton v-if="module_store.loading"/>
                 <div v-else class="grid grid-cols-2 mt-6 text-sm gap-4" v-for="(item,i) in summary_field">
@@ -9,12 +9,14 @@
                     <span v-else>{{module_store.form[item.name]}}</span>
                 </div>
             </Card>
-            <Card title="Media">
+            <Card  class="col-span-2" title="Media">
                 <Media/>
             </Card>
             <Card title="Activity">
                 <activitylogs/>
             </Card>
+        </div>
+        <div class="grid grid-cols-3 mt-6 gap-6">
             <Card title="Responder">
                 <br>
                 <Responder/>

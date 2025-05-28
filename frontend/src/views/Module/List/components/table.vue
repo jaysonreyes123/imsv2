@@ -190,9 +190,17 @@ export default {
             else{
                 this.rows.map(item=>{
                     if(item.resources_statuses){
-                        Object.assign(item,{disabled:true});
+                        if(item.resources_statuses.id == 2){
+                            Object.assign(item,{disabled:true});
+                        }
+                        else{
+                            Object.assign(item,{disabled:false});
+                        }
                     }
-                    Object.assign(item,{vgtSelected:false})
+                    else{
+                        Object.assign(item,{vgtSelected:false})
+                    }
+                    
                     custom_rows.push(item);
                 })
             }

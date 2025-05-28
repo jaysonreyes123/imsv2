@@ -9,7 +9,7 @@
                     {{ title }} 
                 </router-link>
                 <Icon icon="heroicons:chevron-right" />
-                    {{ subtitle }} 
+                    <span id="breadcrum-subtitle">{{ subtitle }}</span> 
             </div>
             <slot name="button"/>
         </div>

@@ -132,6 +132,15 @@ class ModuleSeeder extends Seeder
                 "presence" => 4,
                 "prefix" => "",
             ],
+            [
+                'id' => 14,
+                'name' => 'transcripts',
+                'entityname' => '',
+                "label" => "Call Transcripts",
+                "icon" => "carbon:dashboard",
+                "presence" => 2,
+                "prefix" => "",
+            ],
         ]);
     }
 }

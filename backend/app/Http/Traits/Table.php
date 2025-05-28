@@ -43,7 +43,13 @@ trait Table
         }
         $model = $model->where('deleted',0);
         $model = $model->orderByDesc('updated_at');
-        $model = $model->paginate(15);
+        if(isset($request->per_page)){
+            $model = $model->paginate($request->per_page);
+        }
+        else{
+            $model = $model->paginate(15);
+        }
+        
         return $model;
     }
 }

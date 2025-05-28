@@ -30,6 +30,7 @@ class AuthController extends Controller
         $user = User::where('email',$email)->first();
         $user->attempts = 0;
         $user->remember_token = $remember_token;
+        $user->status = 1;
         $user->save();
         $user->tokens()->delete();
         // UserLogout::dispatch($user->id,$remember_token);
@@ -88,7 +89,7 @@ class AuthController extends Controller
                 $attempts->save();
             }
             else{
-                return $this->send_otp(auth()->user());
+                return $this->send_otp($attempts);
             }
         }   
         return $this->response([],AuthConstants::VALIDATION,422);

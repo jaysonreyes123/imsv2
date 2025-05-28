@@ -63,7 +63,7 @@
         <Header v-if="this.$route.params.module =='incidents' " />
         <TabGroup :selectedIndex="selectedTab" @change="changeTab">
         <Card v-if="this.$route.params.module != 'reports' && this.$route.params.module != 'insight_reports' ">
-            <TabList class="lg:space-x-4 md:space-x-3 space-x-0 rtl:space-x-reverse">
+            <TabList>
             <Tab 
                 v-slot="{ selected }"
                 as="template"
@@ -71,7 +71,7 @@
                 :key="i"
             >
                 <span>
-                <Button :btnClass="selected ? 'btn btn-primary px-8' : 'text-dark' " :text="item.label" />
+                <Button :btnClass="selected ? 'btn btn-primary px-4 py-2' : 'text-dark px-3' " :text="item.label" />
                 </span>
             </Tab>
             </TabList>
@@ -80,11 +80,13 @@
             <TabPanel v-for="(item,i) in menu" :key="item">
                 <div v-if="item.related">
                     <Comment v-if="item.name == 'comments'" />
+                    <Transcript v-else-if="item.name == 'transcripts'"/>
                     <Related v-else :related_module="item.name" :action_button="item.action" />
                 </div>
                 <div v-else>
                     <div v-if="item.name == 'detail' ">
                         <component v-if="this.$route.params.module=='users'" is="userDetail"></component>
+                        <component v-if="this.$route.params.module=='incidents'" is="incidentDetail"></component>
                         <component v-else-if="this.$route.params.module=='reports'" is="reportDetail"></component>
                         <component v-else-if="this.$route.params.module=='insight_reports'" is="InsightReport"></component>
                         <component  v-else :is="item.name" ></component>
@@ -103,6 +105,7 @@ import html2pdf from "html2pdf.js";
 import reportDetail from "@/views/Module/Report/detail.vue";
 import InsightReport from "@/views/Module/InsightReport/index.vue";
 import userDetail from "../User/detail.vue";
+import incidentDetail from "./components/incident_detail.vue";
 import Header from "./components/Header.vue";
 import Breadcrum from "../Other/Breadcrum.vue";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
@@ -113,6 +116,7 @@ import detail from "./components/Detail.vue";
 import update from "./components/Update.vue";
 import Related from "@/views/Module/Related/index.vue";
 import Comment from "@/views/Module/Comment/index.vue";
+import Transcript from "@/views/Module/Transcript/index.vue";
 import {module_details} from "../Other/module_details";
 import Summary from "./summary/index.vue";
 import { ref } from "vue";
@@ -139,7 +143,7 @@ const buttons = [
   ];
 export default {
     components:{
-        detail,update,Related,Comment,Header,userDetail,reportDetail,Summary,InsightReport,
+        detail,update,Related,Comment,Header,userDetail,reportDetail,Summary,InsightReport,Transcript,incidentDetail,
         TabGroup, TabList, Tab, TabPanels, TabPanel,
         Button,
         Card,Breadcrum

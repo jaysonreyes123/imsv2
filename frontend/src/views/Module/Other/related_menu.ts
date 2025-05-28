@@ -41,6 +41,12 @@ export default function related_menu(module:string){
                     related:true,
                     action:['add']
                 },
+                {
+                    label:"Call Transcripts",
+                    name:"transcripts",
+                    related:true,
+                    action:[]
+                },
             ],
             resources:[
                 {
