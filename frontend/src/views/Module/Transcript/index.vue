@@ -19,9 +19,10 @@
                 </div>
                 <div class="md:w-1/2 mt-4" v-if="transcript_store.form.status == 1">
                     <div class="flex gap-4 md:justify-center ">
-                        <!-- <Button text="view" 
+                        <Button text="view" 
+                        @click="openModal"
                         icon="heroicons-outline:eye"
-                        btnClass="btn-outline-dark" /> -->
+                        btnClass="btn-outline-dark" />
                         <Button 
                             @click="download"
                             text="Download" 
@@ -36,8 +37,10 @@
             </div> -->
         </Card>
     </div>
+    <Modal/>
 </template>
 <script>
+import Modal from "./Modal.vue";
 import Icon from "@/components/Icon/index.vue";
 import Button from "@/components/Button/index.vue";
 import Card from "@/components/Card/index.vue";
@@ -45,7 +48,7 @@ import { useTranscriptStore } from "@/stores/transcript";
 const transcript_store = useTranscriptStore();
 export default {
     components:{
-        Card,Icon,Button
+        Card,Icon,Button,Modal
     },
     data(){
         return{
@@ -62,6 +65,9 @@ export default {
         download(){
             const title = document.getElementById("breadcrum-subtitle").innerText;
             transcript_store.download(title);
+        },
+        openModal(){
+            transcript_store.modal = true;
         }
     }
 }

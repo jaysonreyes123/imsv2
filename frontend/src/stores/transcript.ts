@@ -10,6 +10,7 @@ export const useTranscriptStore = defineStore('transcript',{
         return{
             loading_:false,
             loading:false,
+            modal:false,
             id:"",
             module:"",
             form:{}
