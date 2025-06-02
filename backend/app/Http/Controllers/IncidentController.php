@@ -38,7 +38,7 @@ class IncidentController extends Controller
     {
         //
         $model = ModuleHelpers::new($request->module);
-        $_ = $this->save($request->except('module','id'),$model);
+        $_ = $this->save($request->except('module','id'),$request->module,$model);
         ActivityLogsHelpers::log($_->id,$request->module,1,$request->all());
         return $this->response([$_->id]);
     }   
@@ -65,7 +65,7 @@ class IncidentController extends Controller
         //
         $model = ModuleHelpers::find($request->id,$request->module);
         $original = $model->getOriginal();
-        $_ = $this->save($request->except('module','id'),$model);
+        $_ = $this->save($request->except('module','id'),$request->module,$model);
         ActivityLogsHelpers::log($_->id,$request->module,2,$_->getChanges(),$original);
         
     }
