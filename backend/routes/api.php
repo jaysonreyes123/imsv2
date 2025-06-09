@@ -53,6 +53,8 @@ Route::group(["prefix" => "call"],function(){
     Route::get("call.php",[CallController::class,'call']);
     Route::get("index.php",[CallController::class,'index']);
 });
+
+Route::get("transcripts/test",[TranscriptController::class,'test']);
 Route::get("transcripts/index",[TranscriptController::class,'index']);
 Route::get("transcripts/view/{id}",[TranscriptController::class,'view']);
 
