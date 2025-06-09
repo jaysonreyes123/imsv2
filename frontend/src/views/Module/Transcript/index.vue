@@ -56,6 +56,8 @@ export default {
         }
     },
     created(){
+        transcript_store.loading_ = false;
+        transcript_store.modal = false;
         transcript_store.id = this.$route.params.id;
     },
     mounted(){
@@ -67,7 +69,8 @@ export default {
             transcript_store.download(title);
         },
         openModal(){
-            transcript_store.modal = true;
+            transcript_store.view();
+            // transcript_store.modal = true;
         }
     }
 }

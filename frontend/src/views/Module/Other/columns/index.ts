@@ -10,6 +10,7 @@ import { resources_column } from "./resources";
 import { responder_column } from "./responder";
 import { task_column } from "./task";
 import { user_column } from "./user";
+import { pbx_column } from "./pbx";
 export function GetColumn(module:string){
     incident_column
     let column:any;
@@ -49,6 +50,9 @@ export function GetColumn(module:string){
                 break;
             case 'insight_reports':
                 column = insight_report_column;
+                break;
+            case 'pbxes':
+                column = pbx_column;
                 break;
             default:
                 break;

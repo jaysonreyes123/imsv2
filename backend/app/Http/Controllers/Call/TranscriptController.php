@@ -28,21 +28,29 @@ class TranscriptController extends Controller
         }
         return $this->response(new TranscriptResource($model));
     }
-    public function index($id){
+    public function view($id){
+        return $this->index($id,'view');
+    }
+    public function download($id){
+        return $this->index($id,'download');
+    }
+    public function index($id,$action){
         ini_set('max_execution_time', '600');//10 minutes
-        // $url =  base_path('vosk-api/transcript.py');
-        // $url2 = "https://microbizone.com/imsapi/testwav.wav";
-        // $test = shell_exec("py $url $url2");
-        // return $test;
-        // $test2 = json_decode($test);
-        // return $test2;
         $final_filename = "incident_$id.txt";
         $path = Storage::disk('public')->path("transcript/$final_filename");
         if(File::exists($path)){
-            return response()->download($path);
+            if($action == 'view'){
+                $url = Storage::disk("public")->url("transcript/$final_filename");
+                return $this->response($url);
+            }
+            else{
+                return response()->download($path);
+            }
+            
         }
         $dir = 'storage/transcript';
-        $audio = "https://audio-samples.github.io/samples/mp3/blizzard_unconditional/sample-0.mp3";
+        // $audio = "https://audio-samples.github.io/samples/mp3/blizzard_unconditional/sample-0.mp3";
+        $audio = "https://voiceovers.asia/wp-content/uploads/2022/09/AYA_Tagalog_Voice_Sample.mp3";
         $filename_parse = explode("/",$audio);
         $filename = end($filename_parse);
         $filename = explode(".",$filename)[0];
@@ -58,11 +66,24 @@ class TranscriptController extends Controller
                     File::delete($temp_file);
                 }
            }
-           $path = Storage::disk("public")->path("transcript/$final_filename");
-           return response()->download($path);
+           if($action == "view"){
+                $url = Storage::disk("public")->url("transcript/$final_filename");
+                return $this->response($url);
+           }
+           else{
+                $path = Storage::disk("public")->path("transcript/$final_filename");
+                return response()->download($path);
+           }
         }
         else{
            return  $this->response("An unexpected error occurred. Please try again.",422);
         }
+    }
+    public function test(){
+        ini_set('max_execution_time', '600');//10 minutes
+        $audio = "https://voiceovers.asia/wp-content/uploads/2022/09/AYA_Tagalog_Voice_Sample.mp3";
+        $script = escapeshellcmd("whisper $audio --model tiny --fp16 False");
+        exec($script,$output,$status);
+        return $output;
     }
 }

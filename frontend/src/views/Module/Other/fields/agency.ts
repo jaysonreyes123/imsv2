@@ -9,12 +9,12 @@ export const agency_fields = [
             },
             {
                 label:"Contact No. 1",
-                name:"contact_no_1",
+                name:"contact_no_one",
                 type:"phone",
             },
             {
                 label:"Contact No. 2",
-                name:"contact_no_2",
+                name:"contact_no_two",
                 type:"phone",
             },
             {

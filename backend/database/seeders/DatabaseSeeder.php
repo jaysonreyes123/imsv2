@@ -39,7 +39,11 @@ class DatabaseSeeder extends Seeder
             CallerTypeSeeder::class,
             StatusSeeder::class,
             ResponderStatusSeeder::class,
-            PbxSeeder::class
+            PbxSeeder::class,
+            ResponderSeeder::class,
+            PrePlanSeeder::class,
+            ContactSeeder::class,
+            AgencySeeder::class
         ]);
     }
 }

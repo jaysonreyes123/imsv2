@@ -20,57 +20,68 @@ class ResourcesSeeder extends Seeder
             [
                 "resources_name" => "Firefighter Team Alpha",
                 "resources_types" => "Personnel",
-                "resources_categories" => "Firefighter"
+                "resources_categories" => "Firefighter",
+                "resources_statuses" => 1
             ],
             [
                 "resources_name" => "Paramedic Response 1",
                 "resources_types" => "Personnel",
-                "resources_categories" => "Paramedic"
+                "resources_categories" => "Paramedic",
+                "resources_statuses" => 2
             ],
             [
                 "resources_name" => "Police Officer Unit 3",
                 "resources_types" => "Personnel",
-                "resources_categories" => "Police Officer"
+                "resources_categories" => "Police Officer",
+                "resources_statuses" => 1
             ],
             [
                 "resources_name" => "Volunteer Support Team",
                 "resources_types" => "Personnel",
-                "resources_categories" => "Volunteer"
+                "resources_categories" => "Volunteer",
+                "resources_statuses" => 1
             ],
             [
                 "resources_name" => "Technical Repair Crew",
                 "resources_types" => "Personnel",
-                "resources_categories" => "Technician"
+                "resources_categories" => "Technician",
+                "resources_statuses" => 2
             ],
             [
                 "resources_name" => "Paramedic Response 1",
                 "resources_types" => "Personnel",
-                "resources_categories" => "Paramedic"
+                "resources_categories" => "Paramedic",
+                "resources_statuses" => 3
             ],
             [
                 "resources_name" => "Ambulance Unit 2",
                 "resources_types" => "Vehicles",
-                "resources_categories" => "Ambulance"
+                "resources_categories" => "Ambulance",
+                "resources_statuses" => 2
             ],
             [
                 "resources_name" => "Fire Truck Bravo",
                 "resources_types" => "Vehicles",
-                "resources_categories" => "Fire Truck"
+                "resources_categories" => "Fire Truck",
+                "resources_statuses" => 1
             ],
             [
                 "resources_name" => "Police Patrol Car 7",
                 "resources_types" => "Vehicles",
-                "resources_categories" => "Police Car"
+                "resources_categories" => "Police Car",
+                "resources_statuses" => 1
             ],
             [
                 "resources_name" => "Rescue Boat Delta",
                 "resources_types" => "Vehicles",
-                "resources_categories" => "Rescue Boat"
+                "resources_categories" => "Rescue Boat",
+                "resources_statuses" => 3
             ],
             [
                 "resources_name" => "Emergency Helicopter 1",
                 "resources_types" => "Vehicles",
-                "resources_categories" => "Helicopter"
+                "resources_categories" => "Helicopter",
+                "resources_statuses" => 1
             ],
         ];
 

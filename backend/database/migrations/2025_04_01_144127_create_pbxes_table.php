@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('api');
             $table->tinyInteger('status');
+            $table->tinyInteger('deleted')->default(0);
             $table->timestamps();
         });
     }

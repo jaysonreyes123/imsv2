@@ -102,6 +102,11 @@ export const incident_field = [
                 type:"dropdown",
                 readonly:1
             },
+            {
+                label:"Pbx",
+                name:"pbx",
+                type:"hidden",
+            },
         ]
     },
     {

@@ -54,6 +54,7 @@ Route::group(["prefix" => "call"],function(){
     Route::get("index.php",[CallController::class,'index']);
 });
 Route::get("transcripts/index",[TranscriptController::class,'index']);
+Route::get("transcripts/view/{id}",[TranscriptController::class,'view']);
 
 Route::controller(AuthController::class)->group(function(){
     Route::post("auth/login",'login');
@@ -81,7 +82,8 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     // transcript
     Route::get("transcripts/get/{id}",[TranscriptController::class,'get']);
-    Route::get("transcripts/download/{id}",[TranscriptController::class,'index']);
+    Route::get("transcripts/download/{id}",[TranscriptController::class,'download']);
+    Route::get("transcripts/view/{id}",[TranscriptController::class,'view']);
 
     Route::get("module/checknumber/{phone}",[ModuleController::class,'checknumber']);
     Route::get('module/get_modules',[ModuleController::class,'get_modules']);

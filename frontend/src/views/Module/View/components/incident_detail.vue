@@ -6,10 +6,10 @@
                 <Card class="mt-6 shadow">
                     <div v-for="(block,blockindex) in module_store.getFieldsSave" :key="blockindex">
                         <div class="mt-4" v-if="block.title != 'Location Details'">
-                            <span class="font-bold">{{block.title}}</span>
+                            <span class="title">{{block.title}}</span>
                             <br><br>
                             <div> 
-                                <div v-for="(field,i) in block.fields" :key="i" >
+                                <div v-for="(field,i) in block.fields.filter(x => x.name != 'pbx')" :key="i" >
                                     <div class="fromGroup relative" v-if="field.link">
                                         <label>{{ field.label }}</label>
                                         <router-link v-if="module_store.form[field.module]" class="text-blue-500" :to="`/view/${field.module}/${module_store.form[field.module]}`">{{ module_store.form[field.name] }}</router-link>
@@ -33,13 +33,15 @@
                                 </div>
                             </div>
                             <br>
+                            <hr v-if=" blockindex != module_store.getFieldsSave.length -1">
+                            <br>
                         </div>
                     </div>
                 </Card>
                 <Card class="mt-6 shadow">
                     <div v-for="(block,blockindex) in module_store.getFieldsSave" :key="blockindex">
                         <div class="mt-4" v-if="block.title == 'Location Details'">
-                            <span class="font-bold">{{block.title}}</span>
+                            <span class="title">{{block.title}}</span>
                             <br><br>
                             <div class="lg:grid gap-x-12 mt-2"> 
                                 <div v-for="(field,i) in block.fields">
@@ -110,6 +112,9 @@ export default {
 <style scoped>
 label{
   font-weight: bold;
+}
+.title{
+    @apply dark:text-slate-100 text-slate-700
 }
 .fromGroup{
   margin-bottom: 15px;

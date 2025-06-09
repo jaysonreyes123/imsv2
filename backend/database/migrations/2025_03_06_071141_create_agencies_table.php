@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->string('agency_name')->nullable();
-            $table->string('contact_no_1')->nullable();
-            $table->string('contact_no_2')->nullable();
+            $table->string('contact_no_one')->nullable();
+            $table->string('contact_no_two')->nullable();
             $table->string('primary_email')->nullable();
             $table->string('contact_person')->nullable();
             

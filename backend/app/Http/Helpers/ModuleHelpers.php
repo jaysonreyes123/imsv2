@@ -9,6 +9,7 @@ use App\Models\Incident;
 use App\Models\InsightReport;
 use App\Models\Media;
 use App\Models\Module;
+use App\Models\Pbx;
 use App\Models\Preplan;
 use App\Models\Report;
 use App\Models\Resource;
@@ -151,6 +152,9 @@ class ModuleHelpers{
                 break;
             case 'insight_reports':
                 $model = InsightReport::query();
+                break;
+            case 'pbxes':
+                $model = Pbx::query();
                 break;
             default:
                 # code...

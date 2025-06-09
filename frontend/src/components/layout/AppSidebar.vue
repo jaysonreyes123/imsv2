@@ -290,6 +290,7 @@ const menuGroups = [
         icon: "fluent:settings-32-regular",
         subItems: [
           {id:"admin", name: "Users", path: "/list/users"},
+          // {id:"admin", name: "Telephony API Configurations", path: "/list/pbxes"},
         ],
       },
       {

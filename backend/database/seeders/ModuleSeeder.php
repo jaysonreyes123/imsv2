@@ -141,6 +141,15 @@ class ModuleSeeder extends Seeder
                 "presence" => 2,
                 "prefix" => "",
             ],
+            [
+                'id' => 15,
+                'name' => 'pbxes',
+                'entityname' => '',
+                "label" => "Telephony API Configurations",
+                "icon" => "carbon:dashboard",
+                "presence" => 4,
+                "prefix" => "",
+            ],
         ]);
     }
 }

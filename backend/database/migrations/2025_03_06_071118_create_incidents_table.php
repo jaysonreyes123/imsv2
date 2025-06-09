@@ -59,7 +59,7 @@ return new class extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
-            
+            $table->tinyInteger('pbx')->default(0);
             $table->string('source')->default('crm');
             $table->tinyInteger('deleted')->default(0);
             $table->timestamps();

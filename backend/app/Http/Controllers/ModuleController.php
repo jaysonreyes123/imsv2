@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Class\Call;
 use App\Http\Helpers\ActivityLogsHelpers;
 use App\Http\Helpers\ModuleHelpers;
 use App\Http\Resources\ModuleResource;
@@ -20,7 +21,7 @@ class ModuleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    use HttpResponse,SaveForm,Encryption,PbxTrait;
+    use HttpResponse,SaveForm,Encryption;
     public function get_modules(){
         $modules = Module::all();
         return $this->response($modules);
@@ -29,7 +30,8 @@ class ModuleController extends Controller
     {
         // $model = Incident::with('incident_types','incident_priorities','incident_statuses');
         if($request->module == 'call_logs'){
-            $this->call_logs();
+            $call = new Call();
+            $call->call_logs();
         }
         $model = ModuleHelpers::list($request->module);
         if($request->search['value'] != ""){

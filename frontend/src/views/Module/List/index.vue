@@ -2,9 +2,9 @@
     <div>
         <Breadcrum :title="module_store.moduleDetails.label" subtitle="All">
             <template #button>
-                <div class="flex gap-x-2">
+                <div class="flex gap-x-2" v-if="this.$route.params.module !='pbxes' && this.$route.params.module !='call_logs' ">
                     <div v-if="this.$route.params.module !='insight_reports'">
-                        <router-link v-if="this.$route.params.module !='reports' " :to="`/save/${this.$route.params.module}`">
+                        <router-link v-if="this.$route.params.module !='reports'  " :to="`/save/${this.$route.params.module}`">
                             <Button
                                 icon="heroicons-outline:plus" 
                                 btnClass="btn-primary shadow-md" 
@@ -74,7 +74,7 @@
                 </router-link>
                 </div>
                 <div 
-                    v-if="this.$route.params.module != 'insight_reports'"
+                    v-if="this.$route.params.module != 'insight_reports'  && this.$route.params.module !='pbxes'  "
                     class="action-btn text-red-500 cursor-pointer" 
                     @click="del(id,rowIndex)">
                     <Icon icon="heroicons:trash" 

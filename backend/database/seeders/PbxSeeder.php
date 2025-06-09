@@ -16,11 +16,18 @@ class PbxSeeder extends Seeder
         //
         DB::table('pbxes')->insert([
             [
-                "name"      => "yeastar",
+                "name"      => "Yeastar",
+                "username"  => "IUQ0psJ7RmLQZquhm0AobRJAxrTUDPKP",
+                "password"  => "pWGF7pjTghGcrImRtIp8GgdxGIkapvDt",
+                "api"       => "https://localhost.sgycm.yeastarcloud.com/openapi/v1.0",
+                "status"    => 1
+            ],
+            [
+                "name"      => "3CX",
                 "username"  => "VSBi5AGKVu2Pry4jbfcHktuK6CdrGpUS",
                 "password"  => "2twdhKg7phju7ezIN3jSKBBhs5XrVO2F",
                 "api"       => "https://192.168.1.150:8088/openapi/v1.0",
-                "status"    => 1
+                "status"    => 0
             ]
         ]);
     }

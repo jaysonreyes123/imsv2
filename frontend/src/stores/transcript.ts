@@ -13,6 +13,7 @@ export const useTranscriptStore = defineStore('transcript',{
             modal:false,
             id:"",
             module:"",
+            url:"",
             form:{}
         }
     },
@@ -42,7 +43,18 @@ export const useTranscriptStore = defineStore('transcript',{
             } catch (error) {
                 this.loading_ = false;
             }
-        }
+        },
+        async view(){
+            try {
+                this.loading_ = true;
+                const response = await axiosIns.get("transcripts/view/"+this.id);
+                this.url = response.data.data;
+                this.modal = true;
+                this.loading_ = false;
+            } catch (error) {
+                this.loading_ = false;
+            }
+        },
     },
     persist:true
 })

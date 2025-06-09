@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pbx_id');
             $table->foreign('pbx_id')->references('id')->on('pbxes')->onDelete('cascade');
             $table->text('access_token');
-            $table->timestamp('expired_at');
+            $table->timestamp('expired_at')->nullable();
             $table->string('last_scan')->nullable();
             $table->timestamps();
         });

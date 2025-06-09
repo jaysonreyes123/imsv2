@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Call;
 
+use App\Http\Class\Call;
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Encryption;
 use App\Http\Traits\HttpResponse;
@@ -17,7 +18,7 @@ use stdClass;
 class CallController extends Controller
 {
     //
-    use HttpResponse,Encryption,PbxTrait;
+    use HttpResponse,Encryption;
     public function call(Request $request){
         $mobile = $request->number;
         $mobile_encrypt = $this->encrypt('mobile',$mobile);
@@ -28,10 +29,12 @@ class CallController extends Controller
         else{
             $params = "caller_contact=$mobile";
         }
+        $params.="&pbx=1";
         return Redirect()->to(env('IMS_URL')."/save/incidents?$params");
     }
 
     public function index(Request $request){
-        return  $this->call_logs();
+        $call = new Call();
+        return $call->call_logs();
     }
 }

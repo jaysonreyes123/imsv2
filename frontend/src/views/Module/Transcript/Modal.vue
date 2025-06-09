@@ -1,12 +1,12 @@
 <template lang="">
     <div>
         <Modal 
-            sizeClass="max-w-5xl" title="View"
+            sizeClass="max-w-5xl" title="View Transcript"
             :activeModal="transcript_store.modal"
             @close="closeModal"
             >
             <div>
-                test
+                <iframe :src="transcript_store.url" style="width:100%"></iframe>
             </div>
         </Modal>
     </div>
