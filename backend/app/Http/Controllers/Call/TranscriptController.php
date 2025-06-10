@@ -82,5 +82,44 @@ class TranscriptController extends Controller
         }
     }
     public function test(){
-    }
+        $yourApiKey = "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";
+        $headers = [
+            'Authorization: Bearer ' . $yourApiKey,
+        ];
+
+        $ch = curl_init();
+
+        // Set the URL
+        curl_setopt($ch, CURLOPT_URL, 'https://api.openai.com/v1/audio/transcriptions');
+
+        // Set the request method to POST
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+        // Set the headers
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        // Prepare the request body with the file and model
+        $data = [
+            'file' => "https://voiceovers.asia/wp-content/uploads/2022/09/AYA_Tagalog_Voice_Sample.mp3",
+            'model' => 'whisper-1',
+        ];
+
+        // Set the request body
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        // Set option to return the result instead of outputting it
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Execute the cURL request and get the response
+        $response = curl_exec($ch);
+
+        // Check if any error occurred during the request
+        if(curl_errno($ch)){
+            echo 'Request Error:' . curl_error($ch);
+        }
+
+        // Close the cURL session
+        curl_close($ch);
+        var_dump($response); 
+        }
 }
