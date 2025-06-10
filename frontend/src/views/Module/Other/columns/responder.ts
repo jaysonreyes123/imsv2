@@ -7,6 +7,7 @@ export const responder_column = [
     {
         label:"Firstname",
         field:"firstname",
+        search:1
     },
     {
         label:"Lastname",
