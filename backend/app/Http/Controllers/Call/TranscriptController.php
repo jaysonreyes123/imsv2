@@ -7,11 +7,9 @@ use App\Http\Resources\TranscriptResource;
 use App\Http\Traits\HttpResponse;
 use App\Models\RelatedEntry;
 use App\Models\Transcript;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use OpenAI;
 
 class TranscriptController extends Controller
 {
@@ -82,5 +80,10 @@ class TranscriptController extends Controller
         }
     }
     public function test(){
+        ini_set('max_execution_time', '600');//10 minutes
+        $audio = "https://voiceovers.asia/wp-content/uploads/2022/09/AYA_Tagalog_Voice_Sample.mp3";
+        $script = escapeshellcmd("whisper $audio --model tiny --fp16 False");
+        exec($script,$output,$status);
+        return $output;
     }
 }
